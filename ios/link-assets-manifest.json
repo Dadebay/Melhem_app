@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/IBMPlexSans/IBMPlexSans-Bold.ttf",
+      "sha1": "73ca244ec7b02bca9c7ac07bc27ff44da5b913a1"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSans/IBMPlexSans-Medium.ttf",
+      "sha1": "3ecdb89ad06afb5e3765fc2b24f7f72fbc70e847"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSans/IBMPlexSans-Regular.ttf",
+      "sha1": "6711c90aa2fb6ec2935d92d5183481290a430605"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf",
+      "sha1": "976602e2c2616e6783edeb597714a13478df9e83"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSans/IBMPlexSans-Thin.ttf",
+      "sha1": "259d7b71792fbabe0c4b80851e72a45eef21b922"
+    },
+    {
+      "path": "assets/fonts/InclusiveSans/InclusiveSans-Bold.ttf",
+      "sha1": "0b0bf0911a5fa73419a1d341887ab4c9384139e2"
+    },
+    {
+      "path": "assets/fonts/InclusiveSans/InclusiveSans-Light.ttf",
+      "sha1": "88a3ee8a1a46259fe9f4892f23d08014297f7611"
+    },
+    {
+      "path": "assets/fonts/InclusiveSans/InclusiveSans-Medium.ttf",
+      "sha1": "ebd6cd57605b1da2e00eb90a561d9a7ccfc24c96"
+    },
+    {
+      "path": "assets/fonts/InclusiveSans/InclusiveSans-Regular.ttf",
+      "sha1": "3e68828fc99e64491fdc884241da038f8bba3602"
+    },
+    {
+      "path": "assets/fonts/InclusiveSans/InclusiveSans-SemiBold.ttf",
+      "sha1": "c098c1bd5cae2acc52243233b02e713d1d146fc9"
+    }
+  ]
+}

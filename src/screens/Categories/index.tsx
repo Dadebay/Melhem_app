@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useCallback} from 'react';
+import {ChevronRight} from 'lucide-react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import categoryApi from '../../lib/api/categoryApi';
@@ -37,26 +38,25 @@ const CategoriesScreen = () => {
   );
 
   const renderItem: ListRenderItem<Category.Item> = useCallback(
-    ({item, index}) => {
+    ({item}) => {
       const Icon = getCategoryIcon(item.icon);
-      const isLeft = index % 2 === 0;
 
       return (
         <Pressable
           onPress={() => handlePress(item)}
-          style={{
-            flex: 1,
-            marginLeft: isLeft ? 0 : 5,
-            marginRight: isLeft ? 5 : 0,
+          style={({pressed}) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 12,
             marginBottom: 10,
             borderRadius: 14,
             backgroundColor: colors.$card,
             borderWidth: 1,
             borderColor: colors.$border,
-            padding: 14,
-            minHeight: 110,
-            justifyContent: 'space-between',
-          }}>
+            paddingVertical: 12,
+            paddingHorizontal: 14,
+            opacity: pressed ? 0.7 : 1,
+          })}>
           <View
             style={{
               width: 40,
@@ -68,18 +68,22 @@ const CategoriesScreen = () => {
             }}>
             <Icon size={20} color={colors.$textPrimary} strokeWidth={1.5} />
           </View>
-          <View style={{marginTop: 12, gap: 2}}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: '600',
-                color: colors.$textPrimary,
-                letterSpacing: -0.2,
-              }}
-              numberOfLines={2}>
-              {item.name}
-            </Text>
-          </View>
+          <Text
+            style={{
+              flex: 1,
+              fontSize: 15,
+              fontWeight: '600',
+              color: colors.$textPrimary,
+              letterSpacing: -0.2,
+            }}
+            numberOfLines={2}>
+            {item.name}
+          </Text>
+          <ChevronRight
+            size={18}
+            color={colors.$textSecondary}
+            strokeWidth={1.5}
+          />
         </Pressable>
       );
     },
@@ -105,7 +109,6 @@ const CategoriesScreen = () => {
       keyExtractor={keyExtractor}
       data={categoriesQuery.data || []}
       renderItem={renderItem}
-      numColumns={2}
       contentContainerStyle={{paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40}}
       showsVerticalScrollIndicator={false}
       refreshing={refreshing}

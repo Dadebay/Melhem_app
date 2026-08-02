@@ -31,8 +31,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Melhem uses your location to show pharmacies near you, find medicines available nearby, and set your delivery address.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Melhem uses your location to show pharmacies near you, find medicines available nearby, and set your delivery address.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -47,6 +49,11 @@
 		<string>InclusiveSans-Medium.ttf</string>
 		<string>InclusiveSans-Regular.ttf</string>
 		<string>InclusiveSans-SemiBold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>fetch</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

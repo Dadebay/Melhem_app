@@ -97,5 +97,6 @@ declare namespace Nav {
     AddFamilyMember: {
       memberId?: string;
     };
+    MealTimes: undefined;
   };
 }

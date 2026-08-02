@@ -10,6 +10,7 @@ import {
   FlaskConical,
   CircleDot,
 } from 'lucide-react-native';
+import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 
 type Props = {
@@ -20,29 +21,30 @@ type Props = {
 type FormOption = {
   form: Reminder.MedicationForm;
   icon: React.ElementType;
-  label: string;
+  labelKey: string;
 };
 
 const FORM_OPTIONS: FormOption[] = [
-  {form: 'tablet', icon: Pill, label: 'Tabletka'},
-  {form: 'capsule', icon: CircleDot, label: 'Kapsul'},
-  {form: 'liquid', icon: FlaskConical, label: 'Suwuklyk'},
-  {form: 'drops', icon: Droplets, label: 'Damja'},
-  {form: 'injection', icon: Syringe, label: 'Sanjym'},
-  {form: 'inhaler', icon: Wind, label: 'Inhalyator'},
-  {form: 'topical', icon: Hand, label: 'Melhem'},
-  {form: 'other', icon: MoreHorizontal, label: 'Bashga'},
+  {form: 'tablet', icon: Pill, labelKey: 'reminders.formTablet'},
+  {form: 'capsule', icon: CircleDot, labelKey: 'reminders.formCapsule'},
+  {form: 'liquid', icon: FlaskConical, labelKey: 'reminders.formLiquid'},
+  {form: 'drops', icon: Droplets, labelKey: 'reminders.formDrops'},
+  {form: 'injection', icon: Syringe, labelKey: 'reminders.formInjection'},
+  {form: 'inhaler', icon: Wind, labelKey: 'reminders.formInhaler'},
+  {form: 'topical', icon: Hand, labelKey: 'reminders.formTopical'},
+  {form: 'other', icon: MoreHorizontal, labelKey: 'reminders.formOther'},
 ];
 
 const MedicationFormSelector = ({selected, onSelect}: Props) => {
   const colors = useColors();
+  const {t} = useTranslation();
 
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollContent}>
-      {FORM_OPTIONS.map(({form, icon: Icon, label}) => {
+      {FORM_OPTIONS.map(({form, icon: Icon, labelKey}) => {
         const isSelected = form === selected;
 
         return (
@@ -72,7 +74,7 @@ const MedicationFormSelector = ({selected, onSelect}: Props) => {
                 },
               ]}
               numberOfLines={1}>
-              {label}
+              {t(labelKey)}
             </Text>
           </Pressable>
         );

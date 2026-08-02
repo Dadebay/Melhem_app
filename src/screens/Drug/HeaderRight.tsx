@@ -13,9 +13,9 @@ const HeaderRight = ({onPress, isBookmarked}: Props) => {
       <Pressable onPress={onPress}>
         <Bookmark
           size={22}
-          color={colors.$textPrimary}
+          color={isBookmarked ? colors.$brandActive : colors.$textPrimary}
           strokeWidth={1.5}
-          fill={isBookmarked ? colors.$textPrimary : 'none'}
+          fill={isBookmarked ? colors.$brandActive : 'none'}
         />
       </Pressable>
     </View>

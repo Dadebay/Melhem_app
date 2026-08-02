@@ -1,4 +1,5 @@
-const STORAGE_BASE = 'https://dev.melhem.app';
+// const STORAGE_BASE = 'https://dev.melhem.app';
+const STORAGE_BASE = 'https://storage.melhem.app';
 
 const resolveImageUrl = (imageKey: string) => {
   if (!imageKey) {

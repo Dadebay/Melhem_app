@@ -28,7 +28,16 @@ import {rescheduleAllNotifications} from '../../lib/notifications/reschedule';
 
 type Props = NativeStackScreenProps<Nav.Reminder, 'EditMedication'>;
 
-const DOSAGE_UNITS = ['mg', 'ml', 'tabletka', 'damja'] as const;
+const DOSAGE_UNIT_KEYS = ['mg', 'ml', 'tablet', 'drop'] as const;
+type DosageUnitKey = (typeof DOSAGE_UNIT_KEYS)[number];
+
+// Legacy raw values stored before units were localized → map back to keys.
+const LEGACY_UNIT_KEY: Record<string, DosageUnitKey> = {
+  mg: 'mg',
+  ml: 'ml',
+  tabletka: 'tablet',
+  damja: 'drop',
+};
 
 const DEFAULT_TIMES: Record<number, string[]> = {
   1: ['09:00'],
@@ -37,6 +46,28 @@ const DEFAULT_TIMES: Record<number, string[]> = {
   4: ['08:00', '12:00', '16:00', '20:00'],
   5: ['07:00', '10:00', '13:00', '16:00', '20:00'],
 };
+
+const MIN_TIMES_PER_DAY = 1;
+const MAX_TIMES_PER_DAY = 10;
+
+// Build default intake times for an arbitrary count. Uses the curated presets
+// for 1–5, otherwise distributes evenly across the waking window (08:00–22:00).
+function buildTimesForCount(count: number): string[] {
+  if (DEFAULT_TIMES[count]) {
+    return DEFAULT_TIMES[count];
+  }
+  const startMins = 8 * 60;
+  const endMins = 22 * 60;
+  const span = endMins - startMins;
+  const times: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const mins = Math.round(startMins + (span * i) / Math.max(1, count - 1));
+    const h = String(Math.floor(mins / 60)).padStart(2, '0');
+    const m = String(mins % 60).padStart(2, '0');
+    times.push(`${h}:${m}`);
+  }
+  return times;
+}
 
 const DAY_LABEL_KEYS: {key: string; value: Reminder.DayOfWeek}[] = [
   {key: 'addMedication.dayMon', value: 1},
@@ -78,12 +109,22 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
     [medication?.dosage],
   );
 
+  // Recover the unit key from a stored label (current locale or legacy raw value).
+  const resolveUnitKey = (label: string): DosageUnitKey => {
+    const byLabel = DOSAGE_UNIT_KEYS.find(
+      k => t(`addMedication.dosageUnits.${k}`) === label,
+    );
+    return byLabel ?? LEGACY_UNIT_KEY[label] ?? 'mg';
+  };
+
   const [name, setName] = useState(medication?.name ?? '');
   const [form, setForm] = useState<Reminder.MedicationForm>(
     medication?.form ?? 'tablet',
   );
   const [dosage, setDosage] = useState(parsed.amount);
-  const [dosageUnit, setDosageUnit] = useState(parsed.unit);
+  const [dosageUnit, setDosageUnit] = useState<DosageUnitKey>(
+    resolveUnitKey(parsed.unit),
+  );
   const [notes, setNotes] = useState(medication?.notes ?? '');
 
   const initialScheduleType = schedule?.config.type ?? 'fixed_times';
@@ -156,8 +197,15 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
   }
 
   const handleTimesPerDayChange = (count: number) => {
-    setTimesPerDay(count);
-    setFixedTimes(DEFAULT_TIMES[count] ?? DEFAULT_TIMES[3]);
+    const next = Math.min(MAX_TIMES_PER_DAY, Math.max(MIN_TIMES_PER_DAY, count));
+    setTimesPerDay(next);
+    setFixedTimes(prev => {
+      if (next <= prev.length) {
+        return prev.slice(0, next);
+      }
+      const generated = buildTimesForCount(next);
+      return generated.map((g, i) => (i < prev.length ? prev[i] : g));
+    });
   };
 
   const handleFixedTimeEdit = (index: number) => {
@@ -200,7 +248,9 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
 
     updateMedication(medicationId, {
       name: name.trim(),
-      dosage: dosage ? `${dosage} ${dosageUnit}` : '',
+      dosage: dosage
+        ? `${dosage} ${t(`addMedication.dosageUnits.${dosageUnit}`)}`
+        : '',
       form,
       notes,
       isActive,
@@ -357,15 +407,15 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                 />
               </View>
               <View style={{flexDirection: 'row', gap: 4}}>
-                {DOSAGE_UNITS.map(unit => (
+                {DOSAGE_UNIT_KEYS.map(unitKey => (
                   <Pressable
-                    key={unit}
-                    onPress={() => setDosageUnit(unit)}
+                    key={unitKey}
+                    onPress={() => setDosageUnit(unitKey)}
                     style={[
                       st.chip,
                       {
                         backgroundColor:
-                          dosageUnit === unit
+                          dosageUnit === unitKey
                             ? colors.$brandActive
                             : colors.$surface,
                       },
@@ -375,11 +425,11 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                         fontSize: 13,
                         fontWeight: '500',
                         color:
-                          dosageUnit === unit
+                          dosageUnit === unitKey
                             ? colors.$brandActiveText
                             : colors.$textPrimary,
                       }}>
-                      {unit}
+                      {t(`addMedication.dosageUnits.${unitKey}`)}
                     </Text>
                   </Pressable>
                 ))}
@@ -449,34 +499,49 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               <Text style={[st.label, {color: colors.$textSecondary}]}>
                 {t('addMedication.timesPerDay')}
               </Text>
-              <View style={{flexDirection: 'row', gap: 6}}>
-                {[1, 2, 3, 4, 5].map(n => (
-                  <Pressable
-                    key={n}
-                    onPress={() => handleTimesPerDayChange(n)}
-                    style={[
-                      st.chip,
-                      {
-                        backgroundColor:
-                          timesPerDay === n
-                            ? colors.$brandActive
-                            : colors.$surface,
-                        minWidth: 40,
-                      },
-                    ]}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontWeight: '600',
-                        color:
-                          timesPerDay === n
-                            ? colors.$brandActiveText
-                            : colors.$textPrimary,
-                      }}>
-                      {n}
-                    </Text>
-                  </Pressable>
-                ))}
+              <View style={st.stepperRow}>
+                <Pressable
+                  onPress={() => handleTimesPerDayChange(timesPerDay - 1)}
+                  disabled={timesPerDay <= MIN_TIMES_PER_DAY}
+                  style={[
+                    st.stepperBtn,
+                    {
+                      backgroundColor: colors.$surface,
+                      opacity: timesPerDay <= MIN_TIMES_PER_DAY ? 0.4 : 1,
+                    },
+                  ]}>
+                  <Minus size={16} color={colors.$textPrimary} strokeWidth={2} />
+                </Pressable>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: '700',
+                    color: colors.$textPrimary,
+                    minWidth: 40,
+                    textAlign: 'center',
+                  }}>
+                  {timesPerDay}
+                </Text>
+                <Pressable
+                  onPress={() => handleTimesPerDayChange(timesPerDay + 1)}
+                  disabled={timesPerDay >= MAX_TIMES_PER_DAY}
+                  style={[
+                    st.stepperBtn,
+                    {
+                      backgroundColor: colors.$surface,
+                      opacity: timesPerDay >= MAX_TIMES_PER_DAY ? 0.4 : 1,
+                    },
+                  ]}>
+                  <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
+                </Pressable>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: colors.$textSecondary,
+                    marginLeft: 8,
+                  }}>
+                  {t('addMedication.timesUnit')}
+                </Text>
               </View>
               <View style={{gap: 8}}>
                 {fixedTimes.map((time, i) => (

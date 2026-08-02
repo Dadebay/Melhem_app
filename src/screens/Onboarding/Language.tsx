@@ -1,11 +1,14 @@
 import {useState} from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {changeLanguage} from 'i18next';
 import {useTranslation} from 'react-i18next';
 import {Check} from 'lucide-react-native';
+import Svg, {Circle, Defs, RadialGradient, Stop} from 'react-native-svg';
 import useColors from '../../lib/hooks/useColors';
+import {LEGAL_LINKS} from '../../lib/config/links';
+import Logo from '../../../assets/images/logo.png';
 import TmFlag from '../../../assets/images/tm-flag.png';
 import RuFlag from '../../../assets/images/ru-flag.png';
 
@@ -34,20 +37,60 @@ const OnboardingLanguageScreen = ({navigation}: Props) => {
         backgroundColor: colors.$background,
         paddingTop: insets.top + 24,
         paddingHorizontal: 20,
-        paddingBottom: insets.bottom + 16,
+        paddingBottom: insets.bottom + 12,
       }}>
-      {/* Bilingual title — the language is not chosen yet */}
-      <View style={{gap: 8, marginBottom: 32}}>
+      {/* Decorative brand-tinted glow blobs behind the content */}
+      <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
+        <Defs>
+          <RadialGradient id="welcomeGlow" cx="50%" cy="50%" r="50%">
+            <Stop offset="0%" stopColor={colors.$brandActive} stopOpacity={0.2} />
+            <Stop offset="70%" stopColor={colors.$brandActive} stopOpacity={0.07} />
+            <Stop offset="100%" stopColor={colors.$brandActive} stopOpacity={0} />
+          </RadialGradient>
+        </Defs>
+        <Circle cx="18%" cy="9%" r="35%" fill="url(#welcomeGlow)" />
+        <Circle cx="94%" cy="30%" r="28%" fill="url(#welcomeGlow)" />
+        <Circle cx="6%" cy="88%" r="30%" fill="url(#welcomeGlow)" />
+      </Svg>
+
+      {/* Brand header */}
+      <View style={{alignItems: 'center', marginTop: 24, marginBottom: 40}}>
+        <Image
+          source={Logo}
+          style={{width: 96, height: 96, borderRadius: 24, marginBottom: 20}}
+        />
         <Text
-          style={{fontSize: 26, fontWeight: '700', color: colors.$textPrimary}}>
-          Dili saýlaň
+          style={{
+            fontSize: 30,
+            fontWeight: '800',
+            color: colors.$textPrimary,
+            marginBottom: 8,
+          }}>
+          Melhem
         </Text>
         <Text
-          style={{fontSize: 26, fontWeight: '700', color: colors.$textPrimary}}>
-          Выберите язык
+          style={{
+            fontSize: 15,
+            lineHeight: 22,
+            textAlign: 'center',
+            color: colors.$textSecondary,
+            maxWidth: 300,
+          }}>
+          {t('onboarding.tagline')}
         </Text>
       </View>
 
+      {/* Language selector */}
+      <Text
+        style={{
+          fontSize: 15,
+          fontWeight: '600',
+          color: colors.$textSecondary,
+          marginBottom: 12,
+          marginLeft: 4,
+        }}>
+        {t('onboarding.languageTitle')}
+      </Text>
       <View style={{gap: 12}}>
         {LANGUAGES.map(lang => {
           const isSelected = selected === lang.key;
@@ -105,6 +148,31 @@ const OnboardingLanguageScreen = ({navigation}: Props) => {
           {t('onboarding.continue')}
         </Text>
       </Pressable>
+
+      {/* Legal consent — links open the documents on melhem.app */}
+      <Text
+        style={{
+          fontSize: 12,
+          lineHeight: 18,
+          textAlign: 'center',
+          color: colors.$textSecondary,
+          marginTop: 12,
+          paddingHorizontal: 8,
+        }}>
+        {t('onboarding.agreeStart')}
+        <Text
+          style={{color: colors.$brandActive, textDecorationLine: 'underline'}}
+          onPress={() => Linking.openURL(LEGAL_LINKS.terms)}>
+          {t('onboarding.agreeTerms')}
+        </Text>
+        {t('onboarding.agreeAnd')}
+        <Text
+          style={{color: colors.$brandActive, textDecorationLine: 'underline'}}
+          onPress={() => Linking.openURL(LEGAL_LINKS.privacy)}>
+          {t('onboarding.agreePrivacy')}
+        </Text>
+        {t('onboarding.agreeEnd')}
+      </Text>
     </View>
   );
 };

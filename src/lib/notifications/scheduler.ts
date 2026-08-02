@@ -5,7 +5,7 @@ import notifee, {
   TimestampTrigger,
   AndroidStyle,
 } from '@notifee/react-native';
-import {CHANNEL_MEDICATION} from './channels';
+import {CHANNEL_MEDICATION, NOTIFICATION_ACCENT} from './channels';
 import {CATEGORY_MEDICATION} from './categories';
 import {makeDoseNotificationId} from './idScheme';
 
@@ -26,12 +26,13 @@ export function computeUpcomingDoses(
   const doses: ComputedDose[] = [];
   const {config, course} = schedule;
 
-  const rangeStart = dayjs(course.startDate);
+  const rangeStart = dayjs(course.startDate).startOf('day');
   const rangeEnd =
     course.kind === 'date_range'
-      ? dayjs(course.endDate)
+      ? dayjs(course.endDate).endOf('day')
       : course.kind === 'n_days'
-        ? rangeStart.add(course.days, 'day')
+        ? // startDate counts as day 1 → last active day is start + (days - 1)
+          rangeStart.add(course.days - 1, 'day').endOf('day')
         : dayjs(horizon);
 
   const effectiveEnd = dayjs.min(dayjs(horizon), rangeEnd)!;
@@ -133,6 +134,7 @@ export async function scheduleDoseNotification(
       },
       android: {
         channelId: CHANNEL_MEDICATION,
+        color: NOTIFICATION_ACCENT,
         pressAction: {id: 'default'},
         actions: [
           {title: 'Kabul et', pressAction: {id: 'take'}},

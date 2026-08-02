@@ -2,7 +2,6 @@ import {
   Dimensions,
   FlatList,
   Image,
-  Linking,
   ListRenderItem,
   Pressable,
   View,
@@ -10,9 +9,12 @@ import {
   ViewToken,
 } from 'react-native';
 import {useCallback, useRef, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import getImageUrl from '../../lib/getImageUrl';
 import Placeholder from '../../../assets/images/placeholder.png';
 import useColors from '../../lib/hooks/useColors';
+import {openLink} from '../../lib/deepLink';
 
 interface Props {
   data: Slider.Item[];
@@ -22,7 +24,17 @@ const windowWidth = Dimensions.get('window').width;
 
 const Carousel = ({data}: Props) => {
   const colors = useColors();
+  const navigation = useNavigation<NativeStackNavigationProp<Nav.Home>>();
   const [selectedSlider, setSelectedSlider] = useState(0);
+
+  const handlePress = useCallback(
+    (url: string) => {
+      openLink(url, (screen, params) =>
+        (navigation.navigate as (s: string, p?: object) => void)(screen, params),
+      );
+    },
+    [navigation],
+  );
 
   const viewabilityConfig: ViewabilityConfig = {
     itemVisiblePercentThreshold: 50,
@@ -50,7 +62,7 @@ const Carousel = ({data}: Props) => {
 
   const renderItem: ListRenderItem<Slider.Item> = useCallback(
     ({item}) => (
-      <Pressable onPress={() => Linking.openURL(item.url)}>
+      <Pressable onPress={() => handlePress(item.url)}>
         <Image
           source={
             item.image ? {uri: getImageUrl('sliders', item.image, 1024)} : Placeholder
@@ -65,7 +77,7 @@ const Carousel = ({data}: Props) => {
         />
       </Pressable>
     ),
-    [colors],
+    [colors, handlePress],
   );
 
   return (

@@ -1,5 +1,6 @@
 import {Pressable, Text, View} from 'react-native';
 import {PropsWithChildren} from 'react';
+import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 const SectionHeader = ({onPress, children}: PropsWithChildren<Props>) => {
   const colors = useColors();
+  const {t} = useTranslation();
   return (
     <View
       style={{
@@ -32,7 +34,7 @@ const SectionHeader = ({onPress, children}: PropsWithChildren<Props>) => {
               color: colors.$textSecondary,
               fontWeight: '500',
             }}>
-            Hemmesi
+            {t('common.all')}
           </Text>
         </Pressable>
       )}

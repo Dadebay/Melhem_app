@@ -21,7 +21,6 @@ import {
   Banknote,
   Plus,
   ChevronRight,
-  Calendar,
   MessageSquare,
   Phone,
 } from 'lucide-react-native';
@@ -47,39 +46,11 @@ const CheckoutScreen = ({navigation, route}: Props) => {
   const colors = useColors();
   const {t} = useTranslation();
 
-  const formatDate = useCallback((date: Date): string => {
-    const day = date.getDate();
-    const months = t('checkout.months', {returnObjects: true}) as string[];
-    const weekdays = t('checkout.weekdays', {returnObjects: true}) as string[];
-    return `${weekdays[date.getDay()]}, ${day} ${months[date.getMonth()]}`;
-  }, [t]);
-
-  const getDeliveryDates = useCallback((): {date: Date; label: string; shortLabel: string}[] => {
-    const today = new Date();
-    const weekdays = t('checkout.weekdays', {returnObjects: true}) as string[];
-    const dates = [];
-    for (let i = 0; i < 3; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      const dayName = i === 0
-        ? t('checkout.today')
-        : i === 1
-          ? t('checkout.tomorrow')
-          : weekdays[d.getDay()];
-      dates.push({
-        date: d,
-        label: formatDate(d),
-        shortLabel: dayName,
-      });
-    }
-    return dates;
-  }, [formatDate, t]);
   const insets = useSafeAreaInsets();
 
   const [deliveryMethod, setDeliveryMethod] =
     useState<DeliveryMethod>('pickup');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
-  const [selectedDateIndex, setSelectedDateIndex] = useState(0);
   const [comment, setComment] = useState('');
   const [recipientPhone, setRecipientPhone] = useState('');
 
@@ -107,7 +78,7 @@ const CheckoutScreen = ({navigation, route}: Props) => {
 
   const deliveryAddress =
     deliveryMethod === 'delivery' && selectedAddress
-      ? formatAddress(selectedAddress)
+      ? formatAddress(selectedAddress, t('address.apartmentShort'))
       : undefined;
 
   const allItems = cartStore(state => state.items);
@@ -120,8 +91,6 @@ const CheckoutScreen = ({navigation, route}: Props) => {
 
   const pharmacyName = items[0]?.pharmacyName ?? '';
   const pharmacyLogo = items[0]?.pharmacyLogo ?? '';
-
-  const deliveryDates = useMemo(() => getDeliveryDates(), []);
 
   const subtotal = useMemo(
     () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -140,8 +109,6 @@ const CheckoutScreen = ({navigation, route}: Props) => {
   const handleSubmit = useCallback(async () => {
     if (!canSubmit || createOrder.isPending) return;
 
-    const selectedDate = deliveryDates[selectedDateIndex].date;
-
     try {
       const order = await createOrder.mutateAsync({
         pharmacyId: Number(pharmacyId),
@@ -155,7 +122,8 @@ const CheckoutScreen = ({navigation, route}: Props) => {
           deliveryMethod === 'delivery' && selectedAddressId
             ? Number(selectedAddressId)
             : undefined,
-        deliveryDate: selectedDate.toISOString(),
+        // Delivery-day selection was removed from the UI; always default to today.
+        deliveryDate: new Date().toISOString(),
         comment: comment.trim() || undefined,
         recipientPhone: recipientPhone.trim()
           ? `+993 ${recipientPhone.trim()}`
@@ -179,8 +147,6 @@ const CheckoutScreen = ({navigation, route}: Props) => {
     deliveryMethod,
     paymentMethod,
     selectedAddressId,
-    deliveryDates,
-    selectedDateIndex,
     comment,
     recipientPhone,
     removeItem,
@@ -410,7 +376,7 @@ const CheckoutScreen = ({navigation, route}: Props) => {
                       marginTop: 2,
                     }}
                     numberOfLines={2}>
-                    {formatAddress(selectedAddress)}
+                    {formatAddress(selectedAddress, t('address.apartmentShort'))}
                   </Text>
                 </View>
                 <Text
@@ -423,70 +389,6 @@ const CheckoutScreen = ({navigation, route}: Props) => {
                 </Text>
               </Pressable>
             )}
-          </Animated.View>
-        )}
-
-        {/* Delivery Date */}
-        {deliveryMethod === 'delivery' && (
-          <Animated.View
-            entering={FadeIn.duration(200)}
-            exiting={FadeOut.duration(150)}
-            style={{gap: 12}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <Calendar
-                size={16}
-                color={colors.$textPrimary}
-                strokeWidth={1.5}
-              />
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: '600',
-                  color: colors.$textPrimary,
-                }}>
-                {t('checkout.deliveryDate')}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', gap: 8}}>
-              {deliveryDates.map((d, i) => (
-                <Pressable
-                  key={i}
-                  onPress={() => setSelectedDateIndex(i)}
-                  style={{
-                    flex: 1,
-                    paddingVertical: 10,
-                    paddingHorizontal: 8,
-                    borderRadius: 10,
-                    backgroundColor:
-                      selectedDateIndex === i ? colors.$brandActive : colors.$surface,
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      fontWeight: '600',
-                      color:
-                        selectedDateIndex === i
-                          ? colors.$brandActiveText
-                          : colors.$textPrimary,
-                    }}>
-                    {d.shortLabel}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      color:
-                        selectedDateIndex === i
-                          ? colors.$brandActiveText
-                          : colors.$textSecondary,
-                      marginTop: 2,
-                    }}>
-                    {d.date.getDate()}{' '}
-                    {(t('checkout.monthsShort', {returnObjects: true}) as string[])[d.date.getMonth()]}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
           </Animated.View>
         )}
 

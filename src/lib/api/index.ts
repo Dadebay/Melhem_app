@@ -9,9 +9,10 @@ const toBackendLanguage = (): 'tk' | 'ru' =>
 
 
 const req = axios.create({
-  baseURL: 'https://dev.melhem.app/api',
-  // baseURL: 'http://192.168.1.122:4000',
+  baseURL: 'https://cms.melhem.app/api',
+  // baseURL: 'http://10.30.135.169:4000',
   // baseURL: 'https://cms.melhem.app/api',
+  // baseURL: 'http://192.168.1.121:4000',
   headers: {
     'Content-Language': toBackendLanguage(),
   },

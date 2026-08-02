@@ -47,6 +47,7 @@ import isPharmacyOpen from '../../utils/isPharmacyOpen';
 import PharmacyTodayWorkingHours from '../../utils/PharmacyTodayWorkingHours';
 import cartStore from '../../lib/store/cartStore';
 import categoryApi from '../../lib/api/categoryApi';
+import PharmacyMap from '../../components/PharmacyMap';
 
 type Props = NativeStackScreenProps<Nav.Home, 'Pharmacy'>;
 
@@ -75,6 +76,9 @@ const DAY_NAMES: Record<WeekDays, {tm: string; ru: string}> = {
   saturday: {tm: 'Şenbe', ru: 'Суббота'},
   sunday: {tm: 'Ýekşenbe', ru: 'Воскресенье'},
 };
+
+// Trim seconds from a backend time string ("09:00:00" → "09:00").
+const hm = (time?: string | null): string => (time ? time.slice(0, 5) : '');
 
 // --- Product Card ---
 const ProductCard = ({
@@ -158,7 +162,7 @@ const ProductCard = ({
               width: 32,
               height: 32,
               borderRadius: 16,
-              backgroundColor: isInCart ? colors.$textPrimary : colors.$surface,
+              backgroundColor: isInCart ? colors.$brandActive : colors.$surface,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
@@ -441,7 +445,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                   fontWeight: '500',
                   color: isOpen ? colors.$serviceOpen : colors.$serviceClosed,
                 }}>
-                · {todayHours.open} — {todayHours.close}
+                · {hm(todayHours.open)} — {hm(todayHours.close)}
               </Text>
             )}
           </View>
@@ -540,7 +544,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                   flex: 1,
                 }}>
                 {todayHours
-                  ? `${todayHours.open} — ${todayHours.close}`
+                  ? `${hm(todayHours.open)} — ${hm(todayHours.close)}`
                   : t('pharmacy.dayOff')}
               </Text>
               <Text
@@ -604,7 +608,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                             : colors.$textSecondary,
                         }}>
                         {hours
-                          ? `${hours.open} — ${hours.close}`
+                          ? `${hm(hours.open)} — ${hm(hours.close)}`
                           : t('pharmacy.dayOff')}
                       </Text>
                     </View>
@@ -614,6 +618,17 @@ const PharmacyScreen = ({navigation, route}: Props) => {
             )}
           </View>
         </View>
+
+        {/* Map: pharmacy location pin (tap → external maps for directions) */}
+        {pharmacy.position && (
+          <View style={{paddingHorizontal: H_PADDING}}>
+            <PharmacyMap
+              center={pharmacy.position}
+              colors={colors}
+              label={pharmacy.name}
+            />
+          </View>
+        )}
 
         {/* Search */}
         <View style={{paddingHorizontal: H_PADDING}}>
@@ -675,7 +690,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
               borderRadius: 20,
               backgroundColor:
                 selectedCategory === 'all'
-                  ? colors.$textPrimary
+                  ? colors.$brandActive
                   : colors.$surface,
             }}>
             <Text
@@ -687,7 +702,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                     ? colors.$brandActiveText
                     : colors.$textPrimary,
               }}>
-              {t('statistics.all')}
+              {t('common.all')}
             </Text>
           </Pressable>
           {(categoriesQuery.data || []).map(item => {
@@ -701,7 +716,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                   paddingVertical: 8,
                   borderRadius: 20,
                   backgroundColor: isSelected
-                    ? colors.$textPrimary
+                    ? colors.$brandActive
                     : colors.$surface,
                 }}>
                 <Text

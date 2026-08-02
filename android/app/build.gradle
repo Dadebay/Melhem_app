@@ -79,11 +79,11 @@ android {
 
     namespace "app.melhem"
     defaultConfig {
-        applicationId "app.melhem"
+        applicationId "tm.com.umytgroup.sanlymelhem"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 105
+        versionName "1.0.5"
     }
     signingConfigs {
         debug {
@@ -91,6 +91,14 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            if (project.hasProperty('MELHEM_UPLOAD_STORE_FILE')) {
+                storeFile file(MELHEM_UPLOAD_STORE_FILE)
+                storePassword MELHEM_UPLOAD_STORE_PASSWORD
+                keyAlias MELHEM_UPLOAD_KEY_ALIAS
+                keyPassword MELHEM_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
@@ -100,7 +108,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

@@ -1,18 +1,27 @@
 import React, {useMemo, useState} from 'react';
 import {Pressable, ScrollView, Text, View} from 'react-native';
-import {ChevronLeft, ChevronRight, Check, X, AlertCircle} from 'lucide-react-native';
+import {ChevronLeft, ChevronRight, Check, X, AlertCircle, Clock} from 'lucide-react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import dayjs, {Dayjs} from 'dayjs';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 import reminderStore from '../../lib/store/reminderStore';
 import {useShallow} from 'zustand/react/shallow';
+import {getTodayDoseTimes} from '../Reminders/helpers';
 
 type Props = NativeStackScreenProps<Nav.Reminder, 'CalendarView'>;
 
 // Month and day header arrays are now loaded from i18n locale files
 
-type DayAdherence = 'allTaken' | 'someTaken' | 'noneTaken' | 'none';
+type DayAdherence = 'allTaken' | 'someTaken' | 'noneTaken' | 'scheduled' | 'none';
+
+type SelectedDose = {
+  id: string;
+  medicationId: string;
+  time: string;
+  status: 'taken' | 'skipped' | 'missed' | 'scheduled';
+  actualTime?: string;
+};
 
 const CalendarViewScreen = ({route}: Props) => {
   const {t} = useTranslation();
@@ -23,13 +32,16 @@ const CalendarViewScreen = ({route}: Props) => {
   const memberId = route.params?.memberId;
   const medicationId = route.params?.medicationId;
 
-  const {intakeLogs, medications, activeMemberId} = reminderStore(
-    useShallow(state => ({
-      intakeLogs: state.intakeLogs,
-      medications: state.medications,
-      activeMemberId: state.activeMemberId,
-    })),
-  );
+  const {intakeLogs, medications, schedules, mealTimes, activeMemberId} =
+    reminderStore(
+      useShallow(state => ({
+        intakeLogs: state.intakeLogs,
+        medications: state.medications,
+        schedules: state.schedules,
+        mealTimes: state.mealTimes,
+        activeMemberId: state.activeMemberId,
+      })),
+    );
 
   const effectiveMemberId = memberId ?? activeMemberId;
 
@@ -42,6 +54,19 @@ const CalendarViewScreen = ({route}: Props) => {
           (!medicationId || m.id === medicationId),
       ),
     [medications, effectiveMemberId, medicationId],
+  );
+
+  const memberSchedules = useMemo(() => {
+    const medIds = new Set(memberMedications.map(m => m.id));
+    return schedules.filter(s => medIds.has(s.medicationId) && s.isActive);
+  }, [schedules, memberMedications]);
+
+  // Planned doses for a given calendar day, respecting schedule course bounds
+  // (start date, n-days duration, day-of-week filters).
+  const getPlannedDoses = useMemo(
+    () => (date: Dayjs) =>
+      getTodayDoseTimes(memberMedications, memberSchedules, mealTimes, date.toDate()),
+    [memberMedications, memberSchedules, mealTimes],
   );
 
   const memberLogs = useMemo(
@@ -79,21 +104,29 @@ const CalendarViewScreen = ({route}: Props) => {
   const getDayAdherence = (date: Dayjs): DayAdherence => {
     const dateStr = date.format('YYYY-MM-DD');
     const today = dayjs();
-    if (date.isAfter(today, 'day')) {
+
+    // Doses planned for this day per the prescribed course/schedule.
+    const plannedCount = getPlannedDoses(date).length;
+    if (plannedCount === 0) {
       return 'none';
     }
-    const dayLogs = memberLogs.filter(
-      l => dayjs(l.scheduledTime).format('YYYY-MM-DD') === dateStr,
-    );
-    if (dayLogs.length === 0) {
-      return 'none';
-    }
-    const taken = dayLogs.filter(l => l.status === 'taken').length;
-    if (taken === dayLogs.length) {
+
+    const takenCount = memberLogs.filter(
+      l =>
+        dayjs(l.scheduledTime).format('YYYY-MM-DD') === dateStr &&
+        l.status === 'taken',
+    ).length;
+
+    if (takenCount >= plannedCount) {
       return 'allTaken';
     }
-    if (taken > 0) {
+    if (takenCount > 0) {
       return 'someTaken';
+    }
+    // No doses taken yet — today and future days are still "scheduled",
+    // only past days with nothing taken count as missed.
+    if (!date.isBefore(today, 'day')) {
+      return 'scheduled';
     }
     return 'noneTaken';
   };
@@ -106,19 +139,61 @@ const CalendarViewScreen = ({route}: Props) => {
         return colors.$warning;
       case 'noneTaken':
         return colors.$error;
+      case 'scheduled':
+        return colors.$info;
       default:
         return null;
     }
   };
 
-  const selectedDayLogs = useMemo(() => {
+  const selectedDayLogs = useMemo<SelectedDose[]>(() => {
     if (!selectedDate) {
       return [];
     }
-    return memberLogs
-      .filter(l => dayjs(l.scheduledTime).format('YYYY-MM-DD') === selectedDate)
-      .sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-  }, [selectedDate, memberLogs]);
+    const date = dayjs(selectedDate);
+    const isPast = date.isBefore(dayjs(), 'day');
+    const planned = getPlannedDoses(date);
+
+    const dayLogs = memberLogs.filter(
+      l => dayjs(l.scheduledTime).format('YYYY-MM-DD') === selectedDate,
+    );
+
+    if (planned.length === 0) {
+      // No active course for this day — fall back to any historical logs.
+      return dayLogs
+        .map(l => ({
+          id: l.id,
+          medicationId: l.medicationId,
+          time: dayjs(l.scheduledTime).format('HH:mm'),
+          status: l.status,
+          actualTime: l.actualTime,
+        }))
+        .sort((a, b) => a.time.localeCompare(b.time));
+    }
+
+    return planned
+      .map(dose => {
+        const log = dayLogs.find(
+          l =>
+            l.medicationId === dose.medicationId &&
+            l.scheduleId === dose.scheduleId &&
+            dayjs(l.scheduledTime).format('HH:mm') === dose.time,
+        );
+        const status: SelectedDose['status'] = log
+          ? log.status
+          : isPast
+            ? 'missed'
+            : 'scheduled';
+        return {
+          id: `${dose.scheduleId}-${dose.time}`,
+          medicationId: dose.medicationId,
+          time: dose.time,
+          status,
+          actualTime: log?.actualTime,
+        };
+      })
+      .sort((a, b) => a.time.localeCompare(b.time));
+  }, [selectedDate, memberLogs, getPlannedDoses]);
 
   const selectedDayStats = useMemo(() => {
     const taken = selectedDayLogs.filter(l => l.status === 'taken').length;
@@ -150,6 +225,8 @@ const CalendarViewScreen = ({route}: Props) => {
         return <X size={14} color={colors.$error} strokeWidth={2} />;
       case 'missed':
         return <AlertCircle size={14} color={colors.$warning} strokeWidth={2} />;
+      case 'scheduled':
+        return <Clock size={14} color={colors.$info} strokeWidth={2} />;
       default:
         return null;
     }
@@ -163,6 +240,8 @@ const CalendarViewScreen = ({route}: Props) => {
         return t('reminders.skipped');
       case 'missed':
         return t('reminders.missed');
+      case 'scheduled':
+        return t('reminders.scheduled');
       default:
         return '';
     }
@@ -348,7 +427,7 @@ const CalendarViewScreen = ({route}: Props) => {
                   color: colors.$textSecondary,
                   width: 40,
                 }}>
-                {dayjs(log.scheduledTime).format('HH:mm')}
+                {log.time}
               </Text>
               <Text
                 style={{

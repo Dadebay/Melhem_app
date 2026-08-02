@@ -10,6 +10,7 @@ import OrderDetailScreen from '../../screens/OrderDetail';
 import AuthScreen from '../../screens/Auth';
 import BookmarkScreen from '../../screens/Bookmark';
 import DrugScreen from '../../screens/Drug';
+import DrugsScreen from '../../screens/Drugs';
 
 const Stack = createNativeStackNavigator<Nav.Settings>();
 
@@ -34,6 +35,8 @@ const SettingsStack = () => {
         component={DrugScreen}
         options={{headerShadowVisible: false, headerTitle: ''}}
       />
+      <Stack.Screen name="Drugs" component={DrugsScreen} />
+
       <Stack.Screen
         name="Languages"
         component={LanguagesScreen}

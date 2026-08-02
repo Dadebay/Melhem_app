@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useLayoutEffect, useMemo, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Animated, {FadeInDown, FadeIn, Layout} from 'react-native-reanimated';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -18,6 +18,7 @@ import {
   AlertTriangle,
   Undo2,
   Users,
+  UtensilsCrossed,
 } from 'lucide-react-native';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
@@ -39,11 +40,10 @@ type DoseStatus = 'taken' | 'skipped' | 'missed' | 'upcoming' | 'current';
 type FilterTab = 'upcoming' | 'all' | 'taken' | 'missed';
 
 
-function generateWeekDays(centerDate: Date) {
+function generateWeekDays(centerDate: Date, weekdayLabels: string[]) {
   const days: {date: Date; dayNum: number; dayLabel: string; isToday: boolean}[] = [];
   const today = new Date();
   const todayStr = getDateStr(today);
-  const shortDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
   for (let i = -3; i <= 3; i++) {
     const d = new Date(centerDate);
@@ -51,7 +51,7 @@ function generateWeekDays(centerDate: Date) {
     days.push({
       date: d,
       dayNum: d.getDate(),
-      dayLabel: shortDays[d.getDay()],
+      dayLabel: weekdayLabels[d.getDay()] ?? '',
       isToday: getDateStr(d) === todayStr,
     });
   }
@@ -65,8 +65,20 @@ type DateCarouselProps = {
 };
 
 const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) => {
+  const {t} = useTranslation();
   const [center, setCenter] = useState(selectedDate);
-  const days = useMemo(() => generateWeekDays(center), [center]);
+  const weekdayLabels = useMemo(
+    () => t('reminders.weekdaysShort', {returnObjects: true}) as string[],
+    [t],
+  );
+  const months = useMemo(
+    () => t('reminders.months', {returnObjects: true}) as string[],
+    [t],
+  );
+  const days = useMemo(
+    () => generateWeekDays(center, weekdayLabels),
+    [center, weekdayLabels],
+  );
   const selectedStr = getDateStr(selectedDate);
 
   const shiftWeek = (dir: -1 | 1) => {
@@ -75,7 +87,7 @@ const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) =
     setCenter(next);
   };
 
-  const monthLabel = center.toLocaleDateString('ru', {month: 'long', year: 'numeric'});
+  const monthLabel = `${months[center.getMonth()] ?? ''} ${center.getFullYear()}`;
 
   return (
     <View style={dc.root}>
@@ -85,7 +97,7 @@ const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) =
           <ChevronLeft size={18} color={colors.$textSecondary} strokeWidth={1.8} />
         </Pressable>
         <Text style={[dc.monthLabel, {color: colors.$textPrimary}]}>
-          {monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1)}
+          {monthLabel}
         </Text>
         <Pressable onPress={() => shiftWeek(1)} hitSlop={12} style={dc.navBtn}>
           <ChevronRight size={18} color={colors.$textSecondary} strokeWidth={1.8} />
@@ -436,7 +448,7 @@ const DoseCard = ({
           <Pressable onPress={onUndo} style={doseS.undoRow} hitSlop={8}>
             <Undo2 size={13} color={colors.$textSecondary} strokeWidth={1.5} />
             <Text style={[doseS.undoText, {color: colors.$textSecondary}]}>
-              Undo
+              {t('reminders.undo')}
             </Text>
           </Pressable>
         )}
@@ -573,6 +585,24 @@ const RemindersScreen = ({navigation}: Props) => {
       removeIntakeLog: state.removeIntakeLog,
     })),
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => navigation.navigate('MealTimes')}
+          hitSlop={10}
+          accessibilityLabel={t('navigation.mealTimes')}
+          style={{padding: 4}}>
+          <UtensilsCrossed
+            size={22}
+            color={colors.$textPrimary}
+            strokeWidth={1.75}
+          />
+        </Pressable>
+      ),
+    });
+  }, [navigation, colors.$textPrimary, t]);
 
   const memberMeds = useMemo(
     () => medications.filter(m => m.memberId === activeMemberId),

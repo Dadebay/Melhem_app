@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
-import {Alert, Pressable, ScrollView, Text, View} from 'react-native';
+import {useState} from 'react';
+import {Alert, Linking, Pressable, ScrollView, Text, View} from 'react-native';
 import {ListGroup, Select, Separator, Switch} from 'heroui-native';
 import {
-  Coffee,
   Globe,
   MapPin,
   Moon,
@@ -13,16 +12,16 @@ import {
   Package,
   PackageCheck,
   PackageX,
-  UtensilsCrossed,
+  FileText,
+  ShieldCheck,
 } from 'lucide-react-native';
 import useColors from '../../lib/hooks/useColors';
+import {LEGAL_LINKS} from '../../lib/config/links';
 import themeStore from '../../lib/store/themeStore';
 import authStore from '../../lib/store/authStore';
-import reminderStore from '../../lib/store/reminderStore';
 import {useShallow} from 'zustand/react/shallow';
 import {useTranslation} from 'react-i18next';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import TimePickerModal from '../../components/TimePickerModal';
 
 type Props = NativeStackScreenProps<Nav.Settings, 'Settings'>;
 
@@ -40,10 +39,6 @@ const SettingsScreen = ({navigation}: Props) => {
   const user = authStore(state => state.user);
   const isAuthenticated = authStore(state => state.isAuthenticated);
   const logout = authStore(state => state.logout);
-
-  const mealTimes = reminderStore(s => s.mealTimes);
-  const setMealTime = reminderStore(s => s.setMealTime);
-  const [editingMeal, setEditingMeal] = useState<Reminder.MealSlot | null>(null);
 
   const [langValue, setLangValue] = useState({
     value: i18n.language,
@@ -354,89 +349,6 @@ const SettingsScreen = ({navigation}: Props) => {
         </ListGroup>
       </View>
 
-      {/* Meal Times */}
-      <View
-        style={{
-          backgroundColor: colors.$surface,
-          borderRadius: 14,
-          padding: 16,
-          gap: 12,
-        }}>
-        <Text
-          style={{
-            fontSize: 15,
-            fontWeight: '600',
-            color: colors.$textPrimary,
-          }}>
-          {t('settings.mealTimes')}
-        </Text>
-        {([
-          {key: 'breakfast' as Reminder.MealSlot, icon: Coffee, label: t('settings.breakfast')},
-          {key: 'lunch' as Reminder.MealSlot, icon: UtensilsCrossed, label: t('settings.lunch')},
-          {key: 'dinner' as Reminder.MealSlot, icon: Moon, label: t('settings.dinner')},
-        ]).map((meal, index) => {
-          const MealIcon = meal.icon;
-          return (
-            <React.Fragment key={meal.key}>
-              {index > 0 && (
-                <View style={{height: 1, backgroundColor: colors.$border}} />
-              )}
-              <Pressable
-                onPress={() => setEditingMeal(meal.key)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingVertical: 4,
-                }}>
-                <MealIcon
-                  size={18}
-                  color={colors.$textSecondary}
-                  strokeWidth={1.5}
-                />
-                <Text
-                  style={{
-                    flex: 1,
-                    fontSize: 14,
-                    color: colors.$textPrimary,
-                    marginLeft: 10,
-                  }}>
-                  {meal.label}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '500',
-                    color: colors.$info,
-                    fontVariant: ['tabular-nums'],
-                  }}>
-                  {mealTimes[meal.key]}
-                </Text>
-              </Pressable>
-            </React.Fragment>
-          );
-        })}
-        <Text
-          style={{
-            fontSize: 12,
-            color: colors.$textSecondary,
-            marginTop: 2,
-          }}>
-          {t('settings.mealTimesHint')}
-        </Text>
-      </View>
-
-      <TimePickerModal
-        visible={editingMeal !== null}
-        initialTime={editingMeal ? mealTimes[editingMeal] : '12:00'}
-        onConfirm={time => {
-          if (editingMeal) {
-            setMealTime(editingMeal, time);
-          }
-          setEditingMeal(null);
-        }}
-        onCancel={() => setEditingMeal(null)}
-      />
-
       {/* Support */}
       <View style={{gap: 10}}>
         <ListGroup>
@@ -453,6 +365,34 @@ const SettingsScreen = ({navigation}: Props) => {
               <ListGroup.ItemDescription>
                 {t('settings.helpAndQuestions')}
               </ListGroup.ItemDescription>
+            </ListGroup.ItemContent>
+            <ListGroup.ItemSuffix />
+          </ListGroup.Item>
+          <Separator className="mx-4" />
+          <ListGroup.Item onPress={() => Linking.openURL(LEGAL_LINKS.terms)}>
+            <ListGroup.ItemPrefix>
+              <FileText
+                size={20}
+                color={colors.$textPrimary}
+                strokeWidth={1.5}
+              />
+            </ListGroup.ItemPrefix>
+            <ListGroup.ItemContent>
+              <ListGroup.ItemTitle>{t('settings.termsOfUse')}</ListGroup.ItemTitle>
+            </ListGroup.ItemContent>
+            <ListGroup.ItemSuffix />
+          </ListGroup.Item>
+          <Separator className="mx-4" />
+          <ListGroup.Item onPress={() => Linking.openURL(LEGAL_LINKS.privacy)}>
+            <ListGroup.ItemPrefix>
+              <ShieldCheck
+                size={20}
+                color={colors.$textPrimary}
+                strokeWidth={1.5}
+              />
+            </ListGroup.ItemPrefix>
+            <ListGroup.ItemContent>
+              <ListGroup.ItemTitle>{t('settings.privacyPolicy')}</ListGroup.ItemTitle>
             </ListGroup.ItemContent>
             <ListGroup.ItemSuffix />
           </ListGroup.Item>

@@ -1,5 +1,6 @@
 import {Dimensions, Image, Pressable, Text, View} from 'react-native';
 import TurboImage from 'react-native-turbo-image';
+import {useTranslation} from 'react-i18next';
 import getImageUrl from '../../lib/getImageUrl';
 import useColors from '../../lib/hooks/useColors';
 import utils from '../../lib/utils';
@@ -14,9 +15,13 @@ interface Props {
 
 const PopularProductsListItem = ({data, onPress}: Props) => {
   const colors = useColors();
+  const {t} = useTranslation();
   const cardWidth = windowWidth * 0.4;
 
-  const {priceText, isOutOfStock} = utils.getDrugPriceText(data);
+  const {priceText, isOutOfStock} = utils.getDrugPriceText(
+    data,
+    t('drug.fromPrice'),
+  );
   const imageKey = data.images?.[0] ?? null;
 
   return (
@@ -51,29 +56,33 @@ const PopularProductsListItem = ({data, onPress}: Props) => {
       <Text
         style={{
           fontSize: 14,
-          fontWeight: '600',
+          fontWeight: '500',
+          lineHeight: 18,
           color: colors.$textPrimary,
-          marginBottom: 3,
+          marginBottom: 2,
         }}
         numberOfLines={2}>
-        {data.name}
+        {utils.tightenName(data.name)}
       </Text>
       {isOutOfStock ? (
         <Text
           style={{
-            fontSize: 12,
-            fontWeight: '600',
+            fontSize: 13,
+            fontWeight: '700',
             color: colors.$error,
+            marginTop: 3,
           }}>
-          Satlykda yok
+          {t('drug.outOfStock')}
         </Text>
       ) : (
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 15,
             fontWeight: '700',
-            color: colors.$textPrimary,
-          }}>
+            color: colors.$brandActive,
+            marginTop: 3,
+          }}
+          numberOfLines={1}>
           {priceText}
         </Text>
       )}

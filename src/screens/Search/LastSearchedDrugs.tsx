@@ -13,7 +13,7 @@ interface Props {
   colors: ColorType;
 }
 
-const LastSearchedDrugs = ({colors}: Props) => {
+const LastSearchedDrugs = ({colors, t}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<Nav.Home, 'Search'>>();
   const {lastSearchedDrugs, clearLastSearchedDrugs} = appStore(
@@ -29,7 +29,7 @@ const LastSearchedDrugs = ({colors}: Props) => {
 
   return (
     <View style={{padding: 12, gap: 12}}>
-      <Text style={{fontWeight: '700'}}>Soňky gözlenen dermanlar</Text>
+      <Text style={{fontWeight: '700'}}>{t('search.recent')}</Text>
       <View style={{gap: 8}}>
         {lastSearchedDrugs.map(item => (
           <Pressable
@@ -69,7 +69,7 @@ const LastSearchedDrugs = ({colors}: Props) => {
               borderRadius: 8,
               borderColor: colors.$border,
             }}>
-            <Text>Arassala</Text>
+            <Text>{t('search.clear')}</Text>
           </Pressable>
         </View>
       )}

@@ -1,4 +1,5 @@
 import {ActivityIndicator, Alert, FlatList, Pressable, Text, View} from 'react-native';
+import {AxiosError} from 'axios';
 import {Check, MapPin, Pencil, Plus, Star, Trash2} from 'lucide-react-native';
 import Animated, {FadeIn, FadeOut, LinearTransition} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
@@ -41,12 +42,21 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
 
   const handleDelete = useCallback(
     (id: string, label: string) => {
+      if (removeAddress.isPending) return;
       Alert.alert(t('address.deleteTitle'), t('address.deleteConfirm', {label}), [
         {text: t('address.deleteCancel'), style: 'cancel'},
         {
           text: t('address.deleteAction'),
           style: 'destructive',
-          onPress: () => removeAddress.mutate(id),
+          onPress: () =>
+            removeAddress.mutate(id, {
+              onError: e => {
+                const message =
+                  (e as AxiosError<ApiErrorResponse>)?.response?.data?.message ||
+                  t('address.deleteError');
+                Alert.alert(t('checkout.orderErrorTitle'), String(message));
+              },
+            }),
         },
       ]);
     },
@@ -56,7 +66,7 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
   const renderItem = useCallback(
     ({item}: {item: SavedAddress}) => {
       const isSelected = mode === 'pick' && currentId === item.id;
-      const formatted = formatAddress(item);
+      const formatted = formatAddress(item, t('address.apartmentShort'));
 
       return (
         <Animated.View
@@ -179,6 +189,7 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
                   </Pressable>
                   <Pressable
                     onPress={() => handleDelete(item.id, item.label)}
+                    disabled={removeAddress.isPending}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -187,6 +198,7 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
                       paddingHorizontal: 10,
                       borderRadius: 6,
                       backgroundColor: colors.$errorBg,
+                      opacity: removeAddress.isPending ? 0.5 : 1,
                     }}>
                     <Trash2 size={12} color={colors.$error} strokeWidth={1.5} />
                     <Text
@@ -233,7 +245,16 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
         </Animated.View>
       );
     },
-    [colors, currentId, handleDelete, handleSelect, mode, navigation, t],
+    [
+      colors,
+      currentId,
+      handleDelete,
+      handleSelect,
+      mode,
+      navigation,
+      removeAddress.isPending,
+      t,
+    ],
   );
 
   const renderEmpty = useCallback(

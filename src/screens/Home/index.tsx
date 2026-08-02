@@ -50,22 +50,14 @@ const HomeScreen = ({navigation}: Props) => {
     page: 1,
     size: 10,
     location_id: locationId,
+    popular: true,
   });
-  console.log(pharmaciesQuery.data)
+
   return (
-    <ScrollView
-      contentContainerStyle={{paddingBottom: 40}}
-      stickyHeaderIndices={[0]}
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          tintColor={colors.$textSecondary}
-          colors={[colors.$brandActive]}
-        />
-      }
-      style={{backgroundColor: colors.$background}}>
+    <View style={{flex: 1, backgroundColor: colors.$background}}>
+      {/* Fixed header — kept OUTSIDE the ScrollView so the search stays pinned
+          AND remains tappable. As a sticky header inside the ScrollView, the
+          scrolling content passed under it and swallowed its touches. */}
       <View
         style={{
           paddingTop: statusBarHeight,
@@ -102,7 +94,19 @@ const HomeScreen = ({navigation}: Props) => {
         </Pressable>
       </View>
 
-      <View style={{gap: 28, marginTop: 20}}>
+      <ScrollView
+        contentContainerStyle={{paddingBottom: 40}}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.$textSecondary}
+            colors={[colors.$brandActive]}
+          />
+        }
+        style={{backgroundColor: colors.$background}}>
+        <View style={{gap: 28, marginTop: 20}}>
         <Carousel data={slidersQuery.data?.sliders || []} />
 
         <View style={{gap: 14}}>
@@ -143,8 +147,9 @@ const HomeScreen = ({navigation}: Props) => {
             <PopularProductsList data={popularDrugsQuery.data.drugs} />
           ) : null}
         </View>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

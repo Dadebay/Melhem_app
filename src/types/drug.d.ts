@@ -61,6 +61,10 @@ declare namespace Drug {
     name: string | null;
     description: string | null;
     instructions: string | null;
+    indications: string | null;
+    side_effects: string | null;
+    contraindications: string | null;
+    ingredients: string | null;
     form: Drug.FormulationForm;
     unit: string | null;
     strength: string | null;
@@ -90,6 +94,7 @@ declare namespace Drug {
       location_id?: number | string;
       manufacturer_id?: number | string;
       pharmacy_id?: number | string;
+      popular?: boolean;
     };
     /** `GET /drugs/client` responds with a raw array of rows. */
     type GetAllResponse = {

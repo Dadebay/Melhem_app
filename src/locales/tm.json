@@ -100,6 +100,12 @@
     "loginWallButton": "Girmek"
   },
   "onboarding": {
+    "tagline": "Türkmenistanyň dermanhanalaryndaky dermanlar — bir goşundyda",
+    "agreeStart": "«Dowam etmek» düwmesine basmak bilen siz ",
+    "agreeTerms": "Ulanyjy ylalaşygyna",
+    "agreeAnd": " we ",
+    "agreePrivacy": "Gizlinlik syýasatyna",
+    "agreeEnd": " razylyk berýärsiňiz",
     "languageTitle": "Dili saýlaň",
     "languageSubtitle": "Programmany haýsy dilde ulanmak isleýärsiňiz?",
     "continue": "Dowam etmek",
@@ -185,7 +191,18 @@
       "Ann",
       "Şen",
       "Ýek"
-    ]
+    ],
+    "weekdaysShort": [
+      "Ýek",
+      "Duş",
+      "Siş",
+      "Çar",
+      "Pen",
+      "Ann",
+      "Şen"
+    ],
+    "scheduled": "Meýilleşdirilen",
+    "undo": "Yzyna al"
   },
   "addMedication": {
     "steps": [
@@ -197,6 +214,12 @@
     "drugNamePlaceholder": "meselem, Parasetamol",
     "drugForm": "Derman görnüşi",
     "dosage": "Mukdary",
+    "dosageUnits": {
+      "mg": "mg",
+      "ml": "ml",
+      "tablet": "tab.",
+      "drop": "damja"
+    },
     "notes": "Bellik",
     "notesPlaceholder": "Lukmanyň maslahaty, goşmaça bellik...",
     "scheduleType": "Tertip görnüşi",
@@ -207,6 +230,7 @@
     "withMeals": "Nahar bilen",
     "withMealsDesc": "Nahar wagtyna baglanyşykly",
     "timesPerDay": "Günde näçe gezek?",
+    "timesUnit": "gezek",
     "everyHour": "Her ___ sagatda",
     "hours": "sagat",
     "startTime": "Başlangyç wagt",
@@ -245,6 +269,7 @@
     "mealAfterDesc": "Nahardan {{offset}} min. soň",
     "mealDuringDesc": "Nahar wagtynda",
     "mealCountDesc": "Günde {{count}} nahar",
+    "mealScheduleDesc": "{{relation}} · günde {{count}} gezek",
     "medicationInfo": "Derman barada",
     "deleteMedication": "Dermany pozmak",
     "deleteConfirmMessage": "Bu dermany we onuň tertibini pozmak isleýärsiňizmi? Bu hereketi yzyna alyp bolmaýar.",
@@ -351,7 +376,13 @@
     "checkout": "Sargyt bermek",
     "selectAddress": "Salgy saýlaň",
     "newAddress": "Täze salgy",
-    "categories": "Bölümler"
+    "categories": "Bölümler",
+    "mealTimes": "Naharlanyş wagty"
+  },
+  "mealTimes": {
+    "intro": "Bu wagtlar naharlanyşa görä kabul edilýän dermanlar üçin ulanylýar («ertirlikden öň», «agşamlykdan soň»). Adatdaky naharlanyş wagtyňyzy görkeziň.",
+    "previewTitle": "Ýatlatma haçan geler",
+    "edit": "Üýtgetmek"
   },
   "statistics": {
     "week": "Hepde",
@@ -380,6 +411,7 @@
     "relationship": "Kim bolýar?"
   },
   "common": {
+    "all": "Hemmesi",
     "save": "Ýatda saklamak",
     "delete": "Pozmak",
     "edit": "Üýtgetmek",
@@ -418,6 +450,7 @@
     "houseNumber": "Jaý belgisi",
     "housePlaceholder": "meselem, 15",
     "apartment": "Öý (kwartira)",
+    "apartmentShort": "kw.",
     "optional": "Hökman däl",
     "setDefault": "Esasy salgy edip bellemek",
     "edit": "Üýtgetmek",
@@ -431,6 +464,7 @@
     "noAddressesHint": "Sargytlary eltip bermek üçin salgy goşuň",
     "addNew": "Täze salgy goşmak",
     "saveError": "Salgyny ýatda saklamak başartmady",
+    "deleteError": "Salgyny pozmak başartmady",
     "saving": "Ýatda saklanýar…"
   },
   "drug": {
@@ -458,7 +492,20 @@
     "inCart": "Sebetde bar",
     "remove": "Aýyrmak",
     "similarDrugs": "Meňzeş dermanlar",
-    "fromPrice": "-dan"
+    "fromPrice": "-dan",
+    "outOfStock": "Satlykda ýok",
+    "notFound": "Derman tapylmady",
+    "notFoundHint": "Bu derman aýrylan ýa-da elýeterli däl bolup biler.",
+    "goBack": "Yzyna gaýt",
+    "forms": {
+      "tablet": "Tabletka",
+      "capsule": "Kapsula",
+      "liquid": "Suwuklyk",
+      "injection": "Sanjym",
+      "topical": "Üstki derman",
+      "inhaler": "Dem alyş",
+      "other": "Beýleki"
+    }
   },
   "pharmacy": {
     "call": "Jaň etmek",
@@ -477,7 +524,7 @@
     "orderAccepted": "Sargytyňyz kabul edildi!",
     "orderNumber": "Sargyt #{{id}}",
     "orderNotFound": "Sargyt tapylmady",
-    "deliveryLabel": "Eltip bermek",
+    "deliveryLabel": "Almak usuly",
     "deliveryDelivery": "Eltip bermek",
     "deliveryPickup": "Özüm alaryn",
     "deliveryDateLabel": "Eltip bermeli güni",

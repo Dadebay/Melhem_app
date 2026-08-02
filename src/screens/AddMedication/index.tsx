@@ -29,8 +29,16 @@ import StepIndicator from '../../components/StepIndicator';
 import MedicationFormSelector from '../../components/MedicationFormSelector';
 import TimePickerModal from '../../components/TimePickerModal';
 import {rescheduleAllNotifications} from '../../lib/notifications/reschedule';
+import {formatTimeToMinutes, minutesToTime} from '../Reminders/helpers';
 
 type Props = NativeStackScreenProps<Nav.Reminder, 'AddMedication'>;
+
+const MEAL_SLOTS: Reminder.MealSlot[] = ['breakfast', 'lunch', 'dinner'];
+const MEAL_LABEL_KEYS: Record<Reminder.MealSlot, string> = {
+  breakfast: 'settings.breakfast',
+  lunch: 'settings.lunch',
+  dinner: 'settings.dinner',
+};
 
 const DEFAULT_TIMES: Record<number, string[]> = {
   1: ['09:00'],
@@ -39,6 +47,28 @@ const DEFAULT_TIMES: Record<number, string[]> = {
   4: ['08:00', '12:00', '16:00', '20:00'],
   5: ['07:00', '10:00', '13:00', '16:00', '20:00'],
 };
+
+const MIN_TIMES_PER_DAY = 1;
+const MAX_TIMES_PER_DAY = 10;
+
+// Build default intake times for an arbitrary count. Uses the curated presets
+// for 1–5, otherwise distributes evenly across the waking window (08:00–22:00).
+function buildTimesForCount(count: number): string[] {
+  if (DEFAULT_TIMES[count]) {
+    return DEFAULT_TIMES[count];
+  }
+  const startMins = 8 * 60;
+  const endMins = 22 * 60;
+  const span = endMins - startMins;
+  const times: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const mins = Math.round(startMins + (span * i) / Math.max(1, count - 1));
+    const h = String(Math.floor(mins / 60)).padStart(2, '0');
+    const m = String(mins % 60).padStart(2, '0');
+    times.push(`${h}:${m}`);
+  }
+  return times;
+}
 
 const COLOR_PALETTE = [
   '#3B82F6',
@@ -51,7 +81,7 @@ const COLOR_PALETTE = [
   '#F97316',
 ];
 
-const DOSAGE_UNITS = ['mg', 'ml', 'tabletka', 'damja'];
+const DOSAGE_UNIT_KEYS = ['mg', 'ml', 'tablet', 'drop'] as const;
 
 const FORM_ICON_MAP: Record<Reminder.MedicationForm, string> = {
   tablet: 'Pill',
@@ -73,6 +103,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
   const addMedication = reminderStore(s => s.addMedication);
   const addSchedule = reminderStore(s => s.addSchedule);
   const activeMemberId = reminderStore(s => s.activeMemberId);
+  const mealTimes = reminderStore(s => s.mealTimes);
 
   const stepLabels = t('addMedication.steps', {returnObjects: true}) as string[];
 
@@ -120,13 +151,18 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
 
   const memberId = route.params?.memberId ?? activeMemberId;
 
-  const handleTimesPerDayChange = useCallback(
-    (count: number) => {
-      setTimesPerDay(count);
-      setFixedTimes(DEFAULT_TIMES[count] ?? DEFAULT_TIMES[3]);
-    },
-    [],
-  );
+  const handleTimesPerDayChange = useCallback((count: number) => {
+    const next = Math.min(MAX_TIMES_PER_DAY, Math.max(MIN_TIMES_PER_DAY, count));
+    setTimesPerDay(next);
+    setFixedTimes(prev => {
+      if (next <= prev.length) {
+        return prev.slice(0, next);
+      }
+      // Growing: keep the user's already-edited times, fill the rest with defaults.
+      const generated = buildTimesForCount(next);
+      return generated.map((g, i) => (i < prev.length ? prev[i] : g));
+    });
+  }, []);
 
   const handleFixedTimeEdit = useCallback((index: number) => {
     setEditingTimeIndex(index);
@@ -169,7 +205,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
 
     const medId = addMedication({
       name: name.trim(),
-      dosage: dosage ? `${dosage} ${dosageUnit}` : '',
+      dosage: dosage
+        ? `${dosage} ${t(`addMedication.dosageUnits.${dosageUnit}`)}`
+        : '',
       form,
       notes,
       color,
@@ -300,15 +338,15 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
             />
           </View>
           <View style={{flexDirection: 'row', gap: 4}}>
-            {DOSAGE_UNITS.map(unit => (
+            {DOSAGE_UNIT_KEYS.map(unitKey => (
               <Pressable
-                key={unit}
-                onPress={() => setDosageUnit(unit)}
+                key={unitKey}
+                onPress={() => setDosageUnit(unitKey)}
                 style={[
                   s.chip,
                   {
                     backgroundColor:
-                      dosageUnit === unit
+                      dosageUnit === unitKey
                         ? colors.$brandActive
                         : colors.$surface,
                   },
@@ -318,11 +356,11 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
                     fontSize: 13,
                     fontWeight: '500',
                     color:
-                      dosageUnit === unit
+                      dosageUnit === unitKey
                         ? colors.$brandActiveText
                         : colors.$textPrimary,
                   }}>
-                  {unit}
+                  {t(`addMedication.dosageUnits.${unitKey}`)}
                 </Text>
               </Pressable>
             ))}
@@ -433,34 +471,49 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           <Text style={[s.label, {color: colors.$textSecondary}]}>
             {t('addMedication.timesPerDay')}
           </Text>
-          <View style={{flexDirection: 'row', gap: 6}}>
-            {[1, 2, 3, 4, 5].map(n => (
-              <Pressable
-                key={n}
-                onPress={() => handleTimesPerDayChange(n)}
-                style={[
-                  s.chip,
-                  {
-                    backgroundColor:
-                      timesPerDay === n
-                        ? colors.$brandActive
-                        : colors.$surface,
-                    minWidth: 40,
-                  },
-                ]}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '600',
-                    color:
-                      timesPerDay === n
-                        ? colors.$brandActiveText
-                        : colors.$textPrimary,
-                  }}>
-                  {n}
-                </Text>
-              </Pressable>
-            ))}
+          <View style={s.stepperRow}>
+            <Pressable
+              onPress={() => handleTimesPerDayChange(timesPerDay - 1)}
+              disabled={timesPerDay <= MIN_TIMES_PER_DAY}
+              style={[
+                s.stepperBtn,
+                {
+                  backgroundColor: colors.$surface,
+                  opacity: timesPerDay <= MIN_TIMES_PER_DAY ? 0.4 : 1,
+                },
+              ]}>
+              <Minus size={16} color={colors.$textPrimary} strokeWidth={2} />
+            </Pressable>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: '700',
+                color: colors.$textPrimary,
+                minWidth: 40,
+                textAlign: 'center',
+              }}>
+              {timesPerDay}
+            </Text>
+            <Pressable
+              onPress={() => handleTimesPerDayChange(timesPerDay + 1)}
+              disabled={timesPerDay >= MAX_TIMES_PER_DAY}
+              style={[
+                s.stepperBtn,
+                {
+                  backgroundColor: colors.$surface,
+                  opacity: timesPerDay >= MAX_TIMES_PER_DAY ? 0.4 : 1,
+                },
+              ]}>
+              <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
+            </Pressable>
+            <Text
+              style={{
+                fontSize: 14,
+                color: colors.$textSecondary,
+                marginLeft: 8,
+              }}>
+              {t('addMedication.timesUnit')}
+            </Text>
           </View>
           <View style={{gap: 8}}>
             {fixedTimes.map((time, i) => (
@@ -678,6 +731,63 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
               ))}
             </View>
           </View>
+
+          {/* Derived reminder times — surfaced from the meal schedule */}
+          <View style={[s.sectionCard, {backgroundColor: colors.$surface, gap: 10}]}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Clock size={16} color={colors.$info} strokeWidth={1.75} />
+              <Text
+                style={{
+                  flex: 1,
+                  marginLeft: 8,
+                  fontSize: 13,
+                  fontWeight: '600',
+                  color: colors.$textPrimary,
+                }}>
+                {t('mealTimes.previewTitle')}
+              </Text>
+              <Pressable
+                onPress={() => navigation.navigate('MealTimes')}
+                hitSlop={8}>
+                <Text
+                  style={{fontSize: 13, fontWeight: '600', color: colors.$info}}>
+                  {t('mealTimes.edit')}
+                </Text>
+              </Pressable>
+            </View>
+            {MEAL_SLOTS.slice(0, mealsPerDay).map(slot => {
+              const base = formatTimeToMinutes(mealTimes[slot]);
+              const mins =
+                mealRelation === 'before_meal'
+                  ? base - mealOffset
+                  : mealRelation === 'after_meal'
+                    ? base + mealOffset
+                    : base;
+              return (
+                <View
+                  key={slot}
+                  style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      fontSize: 13,
+                      color: colors.$textSecondary,
+                    }}>
+                    {t(MEAL_LABEL_KEYS[slot])} · {mealTimes[slot]}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      fontWeight: '600',
+                      color: colors.$textPrimary,
+                      fontVariant: ['tabular-nums'],
+                    }}>
+                    {minutesToTime(Math.max(0, mins))}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
       )}
 
@@ -845,7 +955,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         </View>
         {dosage ? (
           <Text style={{fontSize: 14, color: colors.$textSecondary}}>
-            {dosage} {dosageUnit}
+            {dosage} {t(`addMedication.dosageUnits.${dosageUnit}`)}
           </Text>
         ) : null}
       </View>

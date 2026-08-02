@@ -208,12 +208,11 @@ const AuthScreen = ({navigation, route}: Props) => {
           )}
         </View>
 
-        {/* Phone Step */}
+        {/* Phone Step — initial screen content, rendered without a reanimated
+            `entering` animation: a FadeIn here races the native-stack push and
+            can leave the field stuck at opacity 0 until a back/forward remount. */}
         {step === 'phone' && (
-          <Animated.View
-            entering={FadeIn.duration(200)}
-            exiting={SlideOutLeft.duration(200)}
-            style={{flex: 1}}>
+          <View style={{flex: 1}}>
             <View style={{gap: 8, marginBottom: 32}}>
               <Text
                 style={{
@@ -325,7 +324,7 @@ const AuthScreen = ({navigation, route}: Props) => {
                 </>
               )}
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
         {/* OTP Step */}

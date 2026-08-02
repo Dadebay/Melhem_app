@@ -25,6 +25,8 @@ declare namespace Pharmacy {
     address: string;
     image: string;
     location_id?: number;
+    /** The pharmacy's own map point. Null when no coordinate is set. */
+    position?: {latitude: number; longitude: number} | null;
     contact: Pharmacy.Contact;
     operatingHours: Record<WeekDays, Pharmacy.DailyHours>;
   };

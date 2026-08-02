@@ -8,6 +8,7 @@ import CalendarViewScreen from '../../screens/CalendarView';
 import StatisticsScreen from '../../screens/Statistics';
 import FamilyMembersScreen from '../../screens/FamilyMembers';
 import AddFamilyMemberScreen from '../../screens/AddFamilyMember';
+import MealTimesScreen from '../../screens/MealTimes';
 import useDefaultStackOptions from './useDefaultStackOptions';
 import {useTranslation} from 'react-i18next';
 import AuthScreen from '../../screens/Auth';
@@ -68,6 +69,11 @@ const ReminderStack = () => {
             ? t('navigation.editMember')
             : t('navigation.newMember'),
         })}
+      />
+      <Stack.Screen
+        name="MealTimes"
+        component={MealTimesScreen}
+        options={{title: t('navigation.mealTimes')}}
       />
       <Stack.Screen
         name={'Auth' as any}

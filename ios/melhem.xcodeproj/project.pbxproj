@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C80B921A6F3F58F76C31292 /* libPods-melhem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-melhem.a */; };
+		06F4639910EEC99ECAD29BA7 /* libPods-melhem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF6EBFA86DAB809D5620511 /* libPods-melhem.a */; };
 		0CB71A7DF4E749C99E99294B /* IBMPlexSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57591B5A41664802A2F5E2EF /* IBMPlexSans-Medium.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2723E916713B4F69869AE933 /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F05408750984AB5AF2E9B36 /* IBMPlexSans-SemiBold.ttf */; };
 		2955D14C3CBA43C190DB4EC8 /* InclusiveSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9557B7DB57044A7985490310 /* InclusiveSans-Light.ttf */; };
 		2D60A8B96BBC47F98B190F93 /* InclusiveSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E698241DB794A2DA18A40C6 /* InclusiveSans-SemiBold.ttf */; };
+		5260596D2FEE30FA00C92AF5 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 3F0044F3FC4B97072C61368E /* MapLibre */; };
 		5410AACAB55B4FCAB97203AC /* IBMPlexSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04067FA186E64173AB223ADD /* IBMPlexSans-Thin.ttf */; };
 		5C71A55BBA1548529025FBAB /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A32E097BD0F48E7AD13CD13 /* IBMPlexSans-Regular.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
@@ -31,15 +32,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = melhem/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = melhem/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = melhem/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2AAD3D5CFB89FF371F9B1448 /* Pods-melhem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-melhem.debug.xcconfig"; path = "Target Support Files/Pods-melhem/Pods-melhem.debug.xcconfig"; sourceTree = "<group>"; };
 		32DFCD7162224CC0A04A650F /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Bold.ttf"; path = "../assets/fonts/IBMPlexSans/IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		3786493227964105BC70C0B2 /* InclusiveSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InclusiveSans-Regular.ttf"; path = "../assets/fonts/InclusiveSans/InclusiveSans-Regular.ttf"; sourceTree = "<group>"; };
 		3A32E097BD0F48E7AD13CD13 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Regular.ttf"; path = "../assets/fonts/IBMPlexSans/IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-melhem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-melhem.debug.xcconfig"; path = "Target Support Files/Pods-melhem/Pods-melhem.debug.xcconfig"; sourceTree = "<group>"; };
 		4F05408750984AB5AF2E9B36 /* IBMPlexSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-SemiBold.ttf"; path = "../assets/fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-melhem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-melhem.release.xcconfig"; path = "Target Support Files/Pods-melhem/Pods-melhem.release.xcconfig"; sourceTree = "<group>"; };
+		5260596E2FEE320800C92AF5 /* melhem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = melhem.entitlements; path = melhem/melhem.entitlements; sourceTree = "<group>"; };
 		57591B5A41664802A2F5E2EF /* IBMPlexSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Medium.ttf"; path = "../assets/fonts/IBMPlexSans/IBMPlexSans-Medium.ttf"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-melhem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-melhem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7490821F7FC1395C1E4BAD50 /* Pods-melhem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-melhem.release.xcconfig"; path = "Target Support Files/Pods-melhem/Pods-melhem.release.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = melhem/AppDelegate.swift; sourceTree = "<group>"; };
+		7FF6EBFA86DAB809D5620511 /* libPods-melhem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-melhem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = melhem/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E698241DB794A2DA18A40C6 /* InclusiveSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InclusiveSans-SemiBold.ttf"; path = "../assets/fonts/InclusiveSans/InclusiveSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		9557B7DB57044A7985490310 /* InclusiveSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InclusiveSans-Light.ttf"; path = "../assets/fonts/InclusiveSans/InclusiveSans-Light.ttf"; sourceTree = "<group>"; };
@@ -52,7 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-melhem.a in Frameworks */,
+				5260596D2FEE30FA00C92AF5 /* MapLibre in Frameworks */,
+				06F4639910EEC99ECAD29BA7 /* libPods-melhem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +65,7 @@
 		13B07FAE1A68108700A75B9A /* melhem */ = {
 			isa = PBXGroup;
 			children = (
+				5260596E2FEE320800C92AF5 /* melhem.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -75,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-melhem.a */,
+				7FF6EBFA86DAB809D5620511 /* libPods-melhem.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,8 +134,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-melhem.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-melhem.release.xcconfig */,
+				2AAD3D5CFB89FF371F9B1448 /* Pods-melhem.debug.xcconfig */,
+				7490821F7FC1395C1E4BAD50 /* Pods-melhem.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -143,14 +147,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "melhem" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				36097D34EADA65564312BAB4 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 				2C131DEB0A6652321995EC5B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */,
+				42E13A503AE67E57DFB64645 /* [CP] Embed Pods Frameworks */,
+				0207679848F32145CF5FE6C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -238,21 +242,25 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+		0207679848F32145CF5FE6C6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2C131DEB0A6652321995EC5B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */ = {
@@ -274,7 +282,7 @@
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$CONFIGURATION_BUILD_DIR/MapLibre.xcframework-ios.signature\"";
 		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		36097D34EADA65564312BAB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,21 +304,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+		42E13A503AE67E57DFB64645 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-melhem/Pods-melhem-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -329,21 +341,25 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-melhem.debug.xcconfig */;
+			baseConfigurationReference = 2AAD3D5CFB89FF371F9B1448 /* Pods-melhem.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = melhem/melhem.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LR46SK782F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = melhem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Melhem;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -351,28 +367,38 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.melhem;
 				PRODUCT_NAME = melhem;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-melhem.release.xcconfig */;
+			baseConfigurationReference = 7490821F7FC1395C1E4BAD50 /* Pods-melhem.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = melhem/melhem.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LR46SK782F;
 				INFOPLIST_FILE = melhem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Melhem;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -380,7 +406,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.melhem;
 				PRODUCT_NAME = melhem;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -459,10 +491,7 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -537,10 +566,7 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;

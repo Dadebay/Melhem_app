@@ -101,6 +101,12 @@
     "loginWallButton": "Войти"
   },
   "onboarding": {
+    "tagline": "Лекарства из аптек Туркменистана — в одном приложении",
+    "agreeStart": "Нажимая «Продолжить», вы принимаете ",
+    "agreeTerms": "Пользовательское соглашение",
+    "agreeAnd": " и ",
+    "agreePrivacy": "Политику конфиденциальности",
+    "agreeEnd": "",
     "languageTitle": "Выберите язык",
     "languageSubtitle": "На каком языке Вам удобнее пользоваться приложением?",
     "continue": "Продолжить",
@@ -186,7 +192,18 @@
       "Пт",
       "Сб",
       "Вс"
-    ]
+    ],
+    "weekdaysShort": [
+      "Вс",
+      "Пн",
+      "Вт",
+      "Ср",
+      "Чт",
+      "Пт",
+      "Сб"
+    ],
+    "scheduled": "Запланировано",
+    "undo": "Отменить"
   },
   "addMedication": {
     "steps": [
@@ -198,6 +215,12 @@
     "drugNamePlaceholder": "например, Парацетамол",
     "drugForm": "Форма выпуска",
     "dosage": "Дозировка",
+    "dosageUnits": {
+      "mg": "мг",
+      "ml": "мл",
+      "tablet": "табл.",
+      "drop": "кап."
+    },
     "notes": "Заметки",
     "notesPlaceholder": "Рекомендации врача...",
     "scheduleType": "Тип расписания",
@@ -208,6 +231,7 @@
     "withMeals": "С приёмом пищи",
     "withMealsDesc": "Привязка к завтраку, обеду или ужину",
     "timesPerDay": "Сколько раз в день?",
+    "timesUnit": "раз",
     "everyHour": "Каждые ___ часов",
     "hours": "часов",
     "startTime": "Время начала",
@@ -246,6 +270,7 @@
     "mealAfterDesc": "Через {{offset}} мин. после еды",
     "mealDuringDesc": "Во время еды",
     "mealCountDesc": "{{count}} приёмов пищи в день",
+    "mealScheduleDesc": "{{relation}} · {{count}} раз в день",
     "medicationInfo": "О лекарстве",
     "deleteMedication": "Удалить лекарство",
     "deleteConfirmMessage": "Лекарство и его расписание будут удалены. Это действие нельзя отменить",
@@ -352,7 +377,13 @@
     "checkout": "Оформление заказа",
     "selectAddress": "Выбор адреса",
     "newAddress": "Новый адрес",
-    "categories": "Категории"
+    "categories": "Категории",
+    "mealTimes": "Время приёма пищи"
+  },
+  "mealTimes": {
+    "intro": "Эти часы используются для лекарств, которые принимают относительно еды («до завтрака», «после ужина»). Укажите своё привычное время приёмов пищи.",
+    "previewTitle": "Когда придёт напоминание",
+    "edit": "Изменить"
   },
   "statistics": {
     "week": "Неделя",
@@ -381,6 +412,7 @@
     "relationship": "Кем приходится"
   },
   "common": {
+    "all": "Все",
     "save": "Сохранить",
     "delete": "Удалить",
     "edit": "Изменить",
@@ -419,6 +451,7 @@
     "houseNumber": "Номер дома",
     "housePlaceholder": "Дом",
     "apartment": "Квартира",
+    "apartmentShort": "кв.",
     "optional": "Необязательно",
     "setDefault": "Сделать основным адресом",
     "edit": "Изменить",
@@ -432,6 +465,7 @@
     "noAddressesHint": "Добавьте адрес для доставки заказов",
     "addNew": "Добавить адрес",
     "saveError": "Не удалось сохранить адрес",
+    "deleteError": "Не удалось удалить адрес",
     "saving": "Сохраняем…"
   },
   "drug": {
@@ -459,7 +493,20 @@
     "inCart": "В корзине",
     "remove": "Убрать",
     "similarDrugs": "Похожие препараты",
-    "fromPrice": "от"
+    "fromPrice": "от",
+    "outOfStock": "Нет в наличии",
+    "notFound": "Лекарство не найдено",
+    "notFoundHint": "Возможно, товар удалён или больше недоступен.",
+    "goBack": "Вернуться назад",
+    "forms": {
+      "tablet": "Таблетка",
+      "capsule": "Капсула",
+      "liquid": "Жидкость",
+      "injection": "Инъекция",
+      "topical": "Наружное средство",
+      "inhaler": "Ингаляционное",
+      "other": "Другое"
+    }
   },
   "pharmacy": {
     "call": "Позвонить",
@@ -478,7 +525,7 @@
     "orderAccepted": "Заказ принят",
     "orderNumber": "Заказ #{{id}}",
     "orderNotFound": "Заказ не найден",
-    "deliveryLabel": "Доставка",
+    "deliveryLabel": "Способ получения",
     "deliveryDelivery": "Доставка",
     "deliveryPickup": "Самовывоз",
     "deliveryDateLabel": "Дата доставки",

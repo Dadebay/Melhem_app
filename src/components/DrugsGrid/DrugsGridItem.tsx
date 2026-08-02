@@ -1,6 +1,8 @@
 import {Image, Pressable, Text, View} from 'react-native';
 import TurboImage from 'react-native-turbo-image';
+import {useTranslation} from 'react-i18next';
 import getImageUrl from '../../lib/getImageUrl';
+import utils from '../../lib/utils';
 import {Bookmark} from 'lucide-react-native';
 import {ColorType} from '../../lib/theme/lightTheme';
 import PlaceholderImage from '../../../assets/images/placeholder.png';
@@ -32,6 +34,7 @@ const DrugsGridItem = ({
   onBookmarkPress,
   isBookmarked,
 }: Props) => {
+  const {t} = useTranslation();
   return (
     <Pressable
       onPress={onPress}
@@ -54,9 +57,9 @@ const DrugsGridItem = ({
           onPress={onBookmarkPress}>
           <Bookmark
             size={18}
-            color={isBookmarked ? colors.$textPrimary : colors.$textSecondary}
+            color={isBookmarked ? colors.$brandActive : colors.$textSecondary}
             strokeWidth={1.5}
-            fill={isBookmarked ? colors.$textPrimary : 'none'}
+            fill={isBookmarked ? colors.$brandActive : 'none'}
           />
         </Pressable>
         <View
@@ -88,15 +91,16 @@ const DrugsGridItem = ({
           )}
         </View>
       </View>
-      <View style={{paddingTop: 10, gap: 3}}>
+      <View style={{paddingTop: 10, gap: 2}}>
         <Text
           style={{
             fontSize: 14,
-            fontWeight: '600',
+            fontWeight: '500',
+            lineHeight: 18,
             color: colors.$textPrimary,
           }}
           numberOfLines={2}>
-          {name}
+          {utils.tightenName(name)}
         </Text>
         {!!formulationText && (
           <Text
@@ -111,21 +115,22 @@ const DrugsGridItem = ({
         {isOutOfStock ? (
           <Text
             style={{
-              fontSize: 12,
-              fontWeight: '600',
+              fontSize: 13,
+              fontWeight: '700',
               color: colors.$error,
-              marginTop: 4,
+              marginTop: 6,
             }}>
-            Satlykda yok
+            {t('drug.outOfStock')}
           </Text>
         ) : (
           <Text
             style={{
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: '700',
-              color: colors.$textPrimary,
-              marginTop: 4,
-            }}>
+              color: colors.$brandActive,
+              marginTop: 5,
+            }}
+            numberOfLines={1}>
             {priceText}
           </Text>
         )}

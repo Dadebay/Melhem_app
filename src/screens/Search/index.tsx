@@ -35,11 +35,15 @@ const PAGE_SIZE = 20;
 
 // Suggested searches (static — there is no backend trending endpoint yet).
 const MOCK_TRENDING = [
-  'Paracetamol',
+  'Parasetamol',
   'Ibuprofen',
-  'Amoxicillin',
-  'Vitamin C',
+  'Analgin',
+  'Dimedrol',
   'Aspirin',
+  'Nurofen',
+  'Deksametazon',
+  'Sitramon',
+  'Ýod',
 ];
 
 const SearchScreen = ({navigation}: Props) => {
@@ -352,7 +356,10 @@ const SearchScreen = ({navigation}: Props) => {
                 ) : null
               }
               renderItem={({item, index}) => {
-                const {priceText} = utils.getDrugPriceText(item);
+                const {priceText} = utils.getDrugPriceText(
+                  item,
+                  t('drug.fromPrice'),
+                );
                 const imageKey = item.images?.[0] ?? null;
                 return (
                   <Animated.View

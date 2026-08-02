@@ -5,6 +5,8 @@ import CheckoutScreen from '../../screens/Checkout';
 import OrderCreatedScreen from '../../screens/OrderCreated';
 import AddressPickerScreen from '../../screens/AddressPicker';
 import AddressDetailScreen from '../../screens/AddressDetail';
+import DrugScreen from '../../screens/Drug';
+import DrugsScreen from '../../screens/Drugs';
 import useDefaultStackOptions from './useDefaultStackOptions';
 import {useTranslation} from 'react-i18next';
 
@@ -46,6 +48,15 @@ const CartStack = () => {
         component={OrderCreatedScreen}
         options={{headerShown: false, gestureEnabled: false}}
       />
+      <Stack.Screen
+        name="Drug"
+        component={DrugScreen}
+        options={{
+          headerShadowVisible: false,
+          headerTitle: '',
+        }}
+      />
+      <Stack.Screen name="Drugs" component={DrugsScreen} />
     </Stack.Navigator>
   );
 };

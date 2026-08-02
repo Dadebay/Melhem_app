@@ -18,6 +18,8 @@ type BackendPharmacyDetail = {
   contact: Pharmacy.Contact;
   image?: string | null;
   location_id?: number | null;
+  /** Postgres point: x = longitude, y = latitude. */
+  position?: {x: number; y: number} | null;
   operatingHours?: BackendOperatingHour[];
   location?: {
     id: number;
@@ -50,6 +52,10 @@ const mapPharmacyDetail = (pharmacy: BackendPharmacyDetail): Pharmacy.Item => ({
   address: pharmacy.address,
   image: pharmacy.image ?? '',
   location_id: pharmacy.location_id ?? undefined,
+  // point {x: lng, y: lat} -> {latitude, longitude} for the map components.
+  position: pharmacy.position
+    ? {latitude: pharmacy.position.y, longitude: pharmacy.position.x}
+    : null,
   contact: pharmacy.contact,
   operatingHours: mapOperatingHours(pharmacy.operatingHours),
 });

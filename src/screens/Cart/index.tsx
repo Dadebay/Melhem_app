@@ -22,6 +22,7 @@ import useColors from '../../lib/hooks/useColors';
 import cartStore, {CartItem} from '../../lib/store/cartStore';
 import authStore from '../../lib/store/authStore';
 import getImageUrl from '../../lib/getImageUrl';
+import utils from '../../lib/utils';
 
 type Props = NativeStackScreenProps<Nav.Home, 'Cart'>;
 
@@ -175,31 +176,43 @@ const CartScreen = ({navigation}: Props) => {
                       borderTopColor: colors.$border,
                     },
                   ]}>
-                  <TurboImage
-                    source={{
-                      uri: getImageUrl('drugs', item.drugImage, 256),
-                    }}
-                    style={styles.drugImage}
-                  />
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate('Drug', {id: item.drugId})
+                    }
+                    style={({pressed}) => [
+                      styles.itemTappable,
+                      pressed && {opacity: 0.6},
+                    ]}>
+                    <TurboImage
+                      source={{
+                        uri: getImageUrl('drugs', item.drugImage, 256),
+                      }}
+                      style={styles.drugImage}
+                    />
 
-                  <View style={styles.itemInfo}>
-                    <Text
-                      style={[
-                        styles.drugName,
-                        {color: colors.$textPrimary},
-                      ]}
-                      numberOfLines={2}>
-                      {item.drugName}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.formulation,
-                        {color: colors.$textSecondary},
-                      ]}
-                      numberOfLines={1}>
-                      {item.formulation}
-                    </Text>
-                  </View>
+                    <View style={styles.itemInfo}>
+                      <Text
+                        style={[styles.drugName, {color: colors.$textPrimary}]}
+                        numberOfLines={2}>
+                        {item.drugName}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.formulation,
+                          {color: colors.$textSecondary},
+                        ]}
+                        numberOfLines={1}>
+                        {item.form
+                          ? utils.getPrettyFormulation({
+                              form: item.form,
+                              strength: item.strength ?? null,
+                              unit: item.unit ?? null,
+                            })
+                          : item.formulation}
+                      </Text>
+                    </View>
+                  </Pressable>
 
                   <View style={styles.itemRight}>
                     <Text
@@ -382,6 +395,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 14,
     paddingVertical: 10,
+    gap: 10,
+  },
+  itemTappable: {
+    flexDirection: 'row',
+    flex: 1,
     gap: 10,
   },
   drugImage: {

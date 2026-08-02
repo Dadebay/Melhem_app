@@ -1,6 +1,6 @@
 import notifee, {TriggerType, TimestampTrigger} from '@notifee/react-native';
 import {makeDoseNotificationId} from './idScheme';
-import {CHANNEL_MEDICATION} from './channels';
+import {CHANNEL_MEDICATION, NOTIFICATION_ACCENT} from './channels';
 import {CATEGORY_MEDICATION} from './categories';
 
 const MAX_SNOOZES = 3;
@@ -40,6 +40,7 @@ export async function scheduleSnooze(
       },
       android: {
         channelId: CHANNEL_MEDICATION,
+        color: NOTIFICATION_ACCENT,
         pressAction: {id: 'default'},
         actions: [
           {title: 'Kabul et', pressAction: {id: 'take'}},

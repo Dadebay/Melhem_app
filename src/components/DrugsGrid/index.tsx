@@ -28,11 +28,14 @@ interface Props {
 const isInventory = (item: Data): item is Inventory.ListItem =>
   'type' in item && item.type === 'inventory';
 
-const ListEmptyComponent = () => (
-  <View className="justify-center items-center flex-1">
-    <Text style={{fontSize: 14, fontWeight: '500'}}>Derman tapylmady</Text>
-  </View>
-);
+const ListEmptyComponent = () => {
+  const {t} = useTranslation();
+  return (
+    <View className="justify-center items-center flex-1">
+      <Text style={{fontSize: 14, fontWeight: '500'}}>{t('drug.notFound')}</Text>
+    </View>
+  );
+};
 
 const DrugsGrid = ({
   data,
@@ -129,7 +132,10 @@ const DrugsGrid = ({
       }
 
       const navId = String(item.id);
-      const {priceText, isOutOfStock} = utils.getDrugPriceText(item);
+      const {priceText, isOutOfStock} = utils.getDrugPriceText(
+        item,
+        t('drug.fromPrice'),
+      );
       const imageKey = item.images?.[0] ?? null;
       return (
         <DrugsGridItem

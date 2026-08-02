@@ -9,7 +9,8 @@
     --foreground: oklch(0.15 0 0);
     --surface: oklch(0.97 0 0);
     --surface-foreground: oklch(0.15 0 0);
-    --accent: oklch(0.15 0 0);
+    /* Brand green (#2E6F40) — drives heroui primary accents (tabs, switches…) */
+    --accent: oklch(0.487 0.1 150.2);
     --accent-foreground: oklch(1 0 0);
     --muted: oklch(0.55 0 0);
     --default: oklch(0.96 0 0);
@@ -30,8 +31,9 @@
     --foreground: oklch(0.98 0 0);
     --surface: oklch(0.2 0 0);
     --surface-foreground: oklch(0.98 0 0);
-    --accent: oklch(0.98 0 0);
-    --accent-foreground: oklch(0.14 0 0);
+    /* Brand green, lightened for contrast on the dark background */
+    --accent: oklch(0.649 0.124 151.9);
+    --accent-foreground: oklch(1 0 0);
     --muted: oklch(0.6 0 0);
     --default: oklch(0.2 0 0);
     --default-foreground: oklch(0.98 0 0);

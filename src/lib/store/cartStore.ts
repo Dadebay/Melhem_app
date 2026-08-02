@@ -6,7 +6,12 @@ export interface CartItem {
   drugId: string;
   drugName: string;
   drugImage: string;
+  /** Pre-rendered formulation snapshot (legacy / fallback). */
   formulation: string;
+  /** Raw form parts so the label can be localized live on render. */
+  form?: Drug.FormulationForm;
+  strength?: string | null;
+  unit?: string | null;
   pharmacyId: string;
   pharmacyName: string;
   pharmacyLogo: string;

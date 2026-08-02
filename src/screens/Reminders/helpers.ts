@@ -10,7 +10,37 @@ export function minutesToTime(mins: number): string {
 }
 
 export function getDateStr(date: Date): string {
-  return date.toISOString().slice(0, 10);
+  // Use local calendar components — toISOString() would convert to UTC and
+  // shift the date back for early-morning local times in positive timezones
+  // (e.g. UTC+5 in Turkmenistan), causing doses to land on the wrong day.
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * Returns true if the given course is active on `dateStr` (YYYY-MM-DD),
+ * comparing whole calendar days (timezone-safe).
+ */
+export function isCourseActiveOn(
+  course: Reminder.CourseDuration,
+  dateStr: string,
+): boolean {
+  if (dateStr < course.startDate) {
+    return false;
+  }
+  if (course.kind === 'date_range') {
+    return dateStr <= course.endDate;
+  }
+  if (course.kind === 'n_days') {
+    // startDate counts as day 1, so the last active day is start + (days - 1).
+    const start = new Date(`${course.startDate}T00:00:00`);
+    const last = new Date(start);
+    last.setDate(last.getDate() + course.days - 1);
+    return dateStr <= getDateStr(last);
+  }
+  return true; // indefinite
 }
 
 export function getTodayDoseTimes(
@@ -40,21 +70,8 @@ export function getTodayDoseTimes(
         continue;
       }
 
-      const {course} = schedule;
-      if (course.startDate > todayStr) {
+      if (!isCourseActiveOn(schedule.course, todayStr)) {
         continue;
-      }
-      if (course.kind === 'date_range' && course.endDate < todayStr) {
-        continue;
-      }
-      if (course.kind === 'n_days') {
-        const start = new Date(course.startDate);
-        const diffDays = Math.floor(
-          (today.getTime() - start.getTime()) / 86400000,
-        );
-        if (diffDays >= course.days) {
-          continue;
-        }
       }
 
       const {config} = schedule;

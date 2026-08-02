@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import {AxiosError} from 'axios';
-import {Check, Info, Package, X} from 'lucide-react-native';
+import {Check, ChevronRight, Info, Package, X} from 'lucide-react-native';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 import {OrderStatus} from '../../lib/store/orderStore';
@@ -71,7 +71,7 @@ const formatCreatedAt = (isoString: string): string => {
   return `${day}.${month}.${year} ${hours}:${minutes}`;
 };
 
-const OrderDetailScreen = ({route}: Props) => {
+const OrderDetailScreen = ({route, navigation}: Props) => {
   const colors = useColors();
   const {t} = useTranslation();
   const {orderId} = route.params;
@@ -507,16 +507,18 @@ const OrderDetailScreen = ({route}: Props) => {
             {t('orderDetail.goods')}
           </Text>
           {order.items.map((item, index) => (
-            <View
+            <Pressable
               key={item.drugId}
-              style={{
+              onPress={() => navigation.navigate('Drug', {id: item.drugId})}
+              style={({pressed}) => ({
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 paddingVertical: 8,
                 borderTopWidth: index > 0 ? 1 : 0,
                 borderTopColor: colors.$border,
-              }}>
+                opacity: pressed ? 0.6 : 1,
+              })}>
               <Text
                 style={{
                   fontSize: 14,
@@ -538,7 +540,13 @@ const OrderDetailScreen = ({route}: Props) => {
                 }}>
                 {(item.price * item.quantity).toFixed(2)} {t('cart.currency')}
               </Text>
-            </View>
+              <ChevronRight
+                size={16}
+                color={colors.$textSecondary}
+                strokeWidth={1.5}
+                style={{marginLeft: 6}}
+              />
+            </Pressable>
           ))}
         </View>
 

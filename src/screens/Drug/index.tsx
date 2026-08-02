@@ -202,7 +202,7 @@ const PharmacyPriceRow = ({
             width: 36,
             height: 36,
             borderRadius: 18,
-            backgroundColor: isSelected ? colors.$textPrimary : colors.$surface,
+            backgroundColor: isSelected ? colors.$brandActive : colors.$surface,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -297,6 +297,9 @@ const DrugScreen = ({navigation, route}: Props) => {
             strength: drug.strength,
             unit: drug.unit,
           }),
+          form: drug.form,
+          strength: drug.strength,
+          unit: drug.unit,
           pharmacyId,
           pharmacyName: pharmacy.name,
           pharmacyLogo: pharmacy.image ?? '',
@@ -370,7 +373,66 @@ const DrugScreen = ({navigation, route}: Props) => {
   }
 
   if (!drug) {
-    return null;
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 32,
+          gap: 10,
+          backgroundColor: colors.$background,
+        }}>
+        <View
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 32,
+            backgroundColor: colors.$surface,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 4,
+          }}>
+          <Package size={30} color={colors.$textSecondary} strokeWidth={1.4} />
+        </View>
+        <Text
+          style={{
+            fontSize: 17,
+            fontWeight: '700',
+            color: colors.$textPrimary,
+            textAlign: 'center',
+          }}>
+          {t('drug.notFound')}
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: colors.$textSecondary,
+            textAlign: 'center',
+            lineHeight: 20,
+          }}>
+          {t('drug.notFoundHint')}
+        </Text>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{
+            marginTop: 8,
+            backgroundColor: colors.$brandActive,
+            paddingHorizontal: 24,
+            paddingVertical: 12,
+            borderRadius: 12,
+          }}>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: '600',
+              color: colors.$brandActiveText,
+            }}>
+            {t('drug.goBack')}
+          </Text>
+        </Pressable>
+      </View>
+    );
   }
 
   const minPrice = drug.min_price;
@@ -418,7 +480,7 @@ const DrugScreen = ({navigation, route}: Props) => {
               color: colors.$textPrimary,
               letterSpacing: -0.5,
             }}>
-            {drug.name}
+            {utils.tightenName(drug.name)}
           </Text>
           <Text style={{fontSize: 15, color: colors.$textSecondary}}>
             {prettyFormulation}
@@ -448,7 +510,7 @@ const DrugScreen = ({navigation, route}: Props) => {
                 style={{
                   fontSize: 22,
                   fontWeight: '700',
-                  color: colors.$textPrimary,
+                  color: colors.$brandActive,
                   letterSpacing: -0.3,
                 }}>
                 {priceLabel}
@@ -544,7 +606,7 @@ const DrugScreen = ({navigation, route}: Props) => {
               <Pill size={18} color={colors.$textSecondary} strokeWidth={1.5} />
             }
             label={t('drug.form')}
-            value={utils.formTranslations[drug.form]}
+            value={utils.getFormLabel(drug.form)}
             colors={colors}
           />
           <SpecRow
@@ -556,11 +618,7 @@ const DrugScreen = ({navigation, route}: Props) => {
               />
             }
             label={t('drug.dosage')}
-            value={
-              drug.strength && drug.unit
-                ? `${drug.strength} ${drug.unit}`
-                : ''
-            }
+            value={drug.strength ? String(drug.strength) : ''}
             colors={colors}
           />
           <SpecRow
@@ -647,12 +705,12 @@ const DrugScreen = ({navigation, route}: Props) => {
               {
                 key: 'ingredients',
                 title: t('drug.composition'),
-                content: drug.description,
+                content: drug.ingredients,
               },
               {
                 key: 'indications',
                 title: t('drug.indications'),
-                content: null,
+                content: drug.indications,
               },
               {
                 key: 'methods',
@@ -662,12 +720,12 @@ const DrugScreen = ({navigation, route}: Props) => {
               {
                 key: 'sideEffects',
                 title: t('drug.sideEffects'),
-                content: null,
+                content: drug.side_effects,
               },
               {
                 key: 'contraindications',
                 title: t('drug.contraindications'),
-                content: null,
+                content: drug.contraindications,
               },
             ]
               .filter(item => !!item.content)

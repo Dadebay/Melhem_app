@@ -1,66 +1,46 @@
 # Melhem
 
-React Native mobile app built with [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Melhem is a React Native app for finding medicines and pharmacies, placing pharmacy orders, and managing medication reminders. The interface currently includes Turkmen and Russian translations. This is a React Native CLI project, so Flutter and Dart commands in the general completion checklist do not apply.
 
-## Prerequisites
+## Requirements
 
-- Node.js >= 20
-- [pnpm](https://pnpm.io/) 10.12+
-- Ruby >= 2.6.10
-- Xcode (for iOS)
-- Android Studio (for Android)
+- Node.js 20 or newer and pnpm 10.12.1
+- JDK 17, Android SDK and Android Studio for Android
+- macOS, Xcode, Ruby 3.3 and CocoaPods for iOS
 
-See the [React Native Environment Setup](https://reactnative.dev/docs/set-up-your-environment) guide for details.
+Follow the [React Native environment setup](https://reactnative.dev/docs/set-up-your-environment) for platform SDK details.
 
 ## Setup
 
 ```sh
-pnpm install
+pnpm install --frozen-lockfile
 bundle install
-```
-
-For iOS, install CocoaPods dependencies (run after first clone or updating native deps):
-
-```sh
 bundle exec pod install --project-directory=ios
 ```
 
-## Running the app
+The Ruby and CocoaPods steps are needed only for iOS. Start Metro with `pnpm start`, then use `pnpm android` or `pnpm ios` in another terminal. The `ios` script targets an iPhone 17 Pro simulator; use Xcode to select another device.
 
-Start Metro bundler:
-
-```sh
-pnpm start
-```
-
-In a separate terminal, build and run on a platform:
+## Checks and builds
 
 ```sh
-# iOS (iPhone 17 Pro simulator)
-pnpm ios
-
-# Android
-pnpm android
+pnpm exec prettier --check 'src/**/*.{ts,tsx}' 'App.tsx' '__tests__/**/*.{ts,tsx}'
+pnpm exec tsc --noEmit
+pnpm exec eslint . --quiet
+pnpm test --runInBand --watch=false
+(cd android && ./gradlew :app:assembleDebug --no-daemon)
 ```
 
-You can also build directly from Xcode or Android Studio.
+For an iOS simulator build, install pods and build the `melhem` scheme in Xcode. The CI workflow runs these checks and both platform builds on pull requests.
 
-## Scripts
+## Project configuration
 
-| Command         | Description                        |
-| --------------- | ---------------------------------- |
-| `pnpm start`    | Start Metro dev server             |
-| `pnpm ios`      | Build and run on iOS simulator     |
-| `pnpm android`  | Build and run on Android emulator  |
-| `pnpm test`     | Run Jest tests                     |
-| `pnpm lint`     | Run ESLint                         |
+- Android application ID: `tm.com.umytgroup.sanlymelhem` (currently version 1.0.5, build 105).
+- iOS bundle ID: `app.melhem` (currently version 2.0.0, build 2).
+- API base URL: `https://cms.melhem.app/api`; image storage: `https://storage.melhem.app`.
+- The app requests location to show nearby pharmacies and notifications for reminders. The backend and public legal-document URLs must be verified before distribution.
 
-## Project structure
+Production signing files and credentials are not part of this repository. Never distribute a debug APK. See [release readiness](docs/release-readiness.md) for verification, release, and operations steps.
 
-```
-src/            - Application source code
-ios/            - iOS native project
-android/        - Android native project
-assets/         - Static assets
-__tests__/      - Tests
-```
+## Distribution status
+
+No current GitHub Release or store listing has been verified for these application IDs. Store and download links will be added after a signed build and device testing are complete.

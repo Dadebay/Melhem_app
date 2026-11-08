@@ -32,6 +32,17 @@ target 'melhem' do
       # :ccache_enabled => true
     )
 
+    # Xcode 27 rejects older deployment targets in resource-bundle pods.
+    minimum_ios = Gem::Version.new('15.1')
+    installer.pods_project.targets.each do |pod_target|
+      pod_target.build_configurations.each do |build_config|
+        current = build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+        if current && Gem::Version.new(current) < minimum_ios
+          build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = minimum_ios.to_s
+        end
+      end
+    end
+
     # Wire the native MapLibre SDK (added via SPM) into the Pods/app targets.
     # Required by @maplibre/maplibre-react-native v11 — without it the
     # 'MapLibre/MapLibre.h' headers are not found at build time.

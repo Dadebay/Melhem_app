@@ -40,7 +40,6 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
       - run: pnpm install --frozen-lockfile
       - run: ./gradlew :app:assembleDebug --no-daemon
         working-directory: android

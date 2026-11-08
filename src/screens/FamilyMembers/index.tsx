@@ -122,7 +122,9 @@ const FamilyMembersScreen = ({navigation}: Props) => {
                   }}>
                   <Pressable
                     onPress={() =>
-                      navigation.navigate('AddFamilyMember', {memberId: member.id})
+                      navigation.navigate('AddFamilyMember', {
+                        memberId: member.id,
+                      })
                     }
                     hitSlop={8}>
                     <Edit3

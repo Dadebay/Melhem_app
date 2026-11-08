@@ -39,9 +39,13 @@ type DoseStatus = 'taken' | 'skipped' | 'missed' | 'upcoming' | 'current';
 
 type FilterTab = 'upcoming' | 'all' | 'taken' | 'missed';
 
-
 function generateWeekDays(centerDate: Date, weekdayLabels: string[]) {
-  const days: {date: Date; dayNum: number; dayLabel: string; isToday: boolean}[] = [];
+  const days: {
+    date: Date;
+    dayNum: number;
+    dayLabel: string;
+    isToday: boolean;
+  }[] = [];
   const today = new Date();
   const todayStr = getDateStr(today);
 
@@ -64,7 +68,11 @@ type DateCarouselProps = {
   colors: ColorType;
 };
 
-const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) => {
+const DateCarousel = ({
+  selectedDate,
+  onSelectDate,
+  colors,
+}: DateCarouselProps) => {
   const {t} = useTranslation();
   const [center, setCenter] = useState(selectedDate);
   const weekdayLabels = useMemo(
@@ -87,20 +95,30 @@ const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) =
     setCenter(next);
   };
 
-  const monthLabel = `${months[center.getMonth()] ?? ''} ${center.getFullYear()}`;
+  const monthLabel = `${
+    months[center.getMonth()] ?? ''
+  } ${center.getFullYear()}`;
 
   return (
     <View style={dc.root}>
       {/* Month header with nav */}
       <View style={dc.header}>
         <Pressable onPress={() => shiftWeek(-1)} hitSlop={12} style={dc.navBtn}>
-          <ChevronLeft size={18} color={colors.$textSecondary} strokeWidth={1.8} />
+          <ChevronLeft
+            size={18}
+            color={colors.$textSecondary}
+            strokeWidth={1.8}
+          />
         </Pressable>
         <Text style={[dc.monthLabel, {color: colors.$textPrimary}]}>
           {monthLabel}
         </Text>
         <Pressable onPress={() => shiftWeek(1)} hitSlop={12} style={dc.navBtn}>
-          <ChevronRight size={18} color={colors.$textSecondary} strokeWidth={1.8} />
+          <ChevronRight
+            size={18}
+            color={colors.$textSecondary}
+            strokeWidth={1.8}
+          />
         </Pressable>
       </View>
 
@@ -115,22 +133,31 @@ const DateCarousel = ({selectedDate, onSelectDate, colors}: DateCarouselProps) =
               style={[
                 dc.dayItem,
                 isSelected && {backgroundColor: colors.$brandActive},
-                !isSelected && day.isToday && {
-                  borderWidth: 1.5,
-                  borderColor: colors.$brandActive,
-                },
+                !isSelected &&
+                  day.isToday && {
+                    borderWidth: 1.5,
+                    borderColor: colors.$brandActive,
+                  },
               ]}>
               <Text
                 style={[
                   dc.dayLabel,
-                  {color: isSelected ? colors.$brandActiveText : colors.$textSecondary},
+                  {
+                    color: isSelected
+                      ? colors.$brandActiveText
+                      : colors.$textSecondary,
+                  },
                 ]}>
                 {day.dayLabel}
               </Text>
               <Text
                 style={[
                   dc.dayNum,
-                  {color: isSelected ? colors.$brandActiveText : colors.$textPrimary},
+                  {
+                    color: isSelected
+                      ? colors.$brandActiveText
+                      : colors.$textPrimary,
+                  },
                 ]}>
                 {day.dayNum}
               </Text>
@@ -215,14 +242,20 @@ const FilterTabs = ({active, onSelect, counts, colors, t}: FilterTabsProps) => {
               style={[
                 ft.tab,
                 {
-                  backgroundColor: isActive ? colors.$brandActive : colors.$surface,
+                  backgroundColor: isActive
+                    ? colors.$brandActive
+                    : colors.$surface,
                   borderColor: isActive ? colors.$brandActive : colors.$border,
                 },
               ]}>
               <Text
                 style={[
                   ft.tabLabel,
-                  {color: isActive ? colors.$brandActiveText : colors.$textSecondary},
+                  {
+                    color: isActive
+                      ? colors.$brandActiveText
+                      : colors.$textSecondary,
+                  },
                 ]}>
                 {tab.label}
               </Text>
@@ -238,7 +271,11 @@ const FilterTabs = ({active, onSelect, counts, colors, t}: FilterTabsProps) => {
                 <Text
                   style={[
                     ft.badgeText,
-                    {color: isActive ? colors.$brandActiveText : colors.$textSecondary},
+                    {
+                      color: isActive
+                        ? colors.$brandActiveText
+                        : colors.$textSecondary,
+                    },
                   ]}>
                   {counts[tab.key]}
                 </Text>
@@ -314,7 +351,6 @@ const DoseCard = ({
   t,
   index,
 }: DoseCardProps) => {
-
   const statusConfig: Record<
     DoseStatus,
     {label: string; bg: string; fg: string; icon: typeof Check}
@@ -367,23 +403,28 @@ const DoseCard = ({
 
   return (
     <Animated.View
-      entering={FadeInDown.delay(60 * index).duration(350).springify()}
+      entering={FadeInDown.delay(60 * index)
+        .duration(350)
+        .springify()}
       layout={Layout.springify()}>
       <View
         style={[
           doseS.card,
           {
             backgroundColor: colors.$surface,
-            borderColor: status === 'current'
-              ? colors.$info + '40'
-              : colors.$border + '60',
+            borderColor:
+              status === 'current'
+                ? colors.$info + '40'
+                : colors.$border + '60',
           },
         ]}>
         {/* Top row: Status badge + Time */}
         <View style={doseS.topRow}>
           <View style={[doseS.statusBadge, {backgroundColor: cfg.bg}]}>
             <StatusIcon size={12} color={cfg.fg} strokeWidth={2.5} />
-            <Text style={[doseS.statusLabel, {color: cfg.fg}]}>{cfg.label}</Text>
+            <Text style={[doseS.statusLabel, {color: cfg.fg}]}>
+              {cfg.label}
+            </Text>
           </View>
           <View style={doseS.timeRow}>
             <Clock size={12} color={colors.$textSecondary} strokeWidth={1.5} />
@@ -412,7 +453,9 @@ const DoseCard = ({
           </Text>
           {actualTime && (
             <>
-              <View style={[doseS.detailSep, {backgroundColor: colors.$border}]} />
+              <View
+                style={[doseS.detailSep, {backgroundColor: colors.$border}]}
+              />
               <Text style={[doseS.detailText, {color: colors.$textSecondary}]}>
                 {t('reminders.takenAt').replace('{{time}}', actualTime)}
               </Text>
@@ -426,8 +469,13 @@ const DoseCard = ({
             <Pressable
               onPress={onTake}
               style={[doseS.takeBtn, {backgroundColor: colors.$brandActive}]}>
-              <Check size={14} color={colors.$brandActiveText} strokeWidth={2.5} />
-              <Text style={[doseS.takeBtnText, {color: colors.$brandActiveText}]}>
+              <Check
+                size={14}
+                color={colors.$brandActiveText}
+                strokeWidth={2.5}
+              />
+              <Text
+                style={[doseS.takeBtnText, {color: colors.$brandActiveText}]}>
                 {t('reminders.taken')}
               </Text>
             </Pressable>
@@ -435,7 +483,8 @@ const DoseCard = ({
               <Pressable
                 onPress={onSkip}
                 style={[doseS.skipBtn, {borderColor: colors.$border}]}>
-                <Text style={[doseS.skipBtnText, {color: colors.$textSecondary}]}>
+                <Text
+                  style={[doseS.skipBtnText, {color: colors.$textSecondary}]}>
                   {t('reminders.skipped')}
                 </Text>
               </Pressable>
@@ -625,19 +674,26 @@ const RemindersScreen = ({navigation}: Props) => {
 
   const now = useMemo(() => {
     const d = new Date();
-    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    return `${String(d.getHours()).padStart(2, '0')}:${String(
+      d.getMinutes(),
+    ).padStart(2, '0')}`;
   }, []);
 
   const takenCount = selectedLogs.filter(l => l.status === 'taken').length;
   const totalDoses = todayDoses.length;
-  const adherencePercent = totalDoses > 0 ? Math.round((takenCount / totalDoses) * 100) : 0;
+  const adherencePercent =
+    totalDoses > 0 ? Math.round((takenCount / totalDoses) * 100) : 0;
 
   const streak = useMemo(
     () => computeStreak(intakeLogs, schedules, memberMeds, mealTimes),
     [intakeLogs, schedules, memberMeds, mealTimes],
   );
 
-  const handleTake = (medicationId: string, scheduleId: string, time: string) => {
+  const handleTake = (
+    medicationId: string,
+    scheduleId: string,
+    time: string,
+  ) => {
     logIntake({
       medicationId,
       scheduleId,
@@ -648,7 +704,11 @@ const RemindersScreen = ({navigation}: Props) => {
     });
   };
 
-  const handleSkip = (medicationId: string, scheduleId: string, time: string) => {
+  const handleSkip = (
+    medicationId: string,
+    scheduleId: string,
+    time: string,
+  ) => {
     logIntake({
       medicationId,
       scheduleId,
@@ -658,7 +718,11 @@ const RemindersScreen = ({navigation}: Props) => {
     });
   };
 
-  const handleUndo = (medicationId: string, scheduleId: string, time: string) => {
+  const handleUndo = (
+    medicationId: string,
+    scheduleId: string,
+    time: string,
+  ) => {
     const log = selectedLogs.find(
       l =>
         l.medicationId === medicationId &&
@@ -715,12 +779,18 @@ const RemindersScreen = ({navigation}: Props) => {
 
   // Filter counts
   const filterCounts = useMemo(() => {
-    const counts: Record<FilterTab, number> = {upcoming: 0, all: 0, taken: 0, missed: 0};
+    const counts: Record<FilterTab, number> = {
+      upcoming: 0,
+      all: 0,
+      taken: 0,
+      missed: 0,
+    };
     for (const item of timelineItems) {
       counts.all++;
       if (item.status === 'taken') counts.taken++;
       else if (item.status === 'missed') counts.missed++;
-      else if (item.status === 'upcoming' || item.status === 'current') counts.upcoming++;
+      else if (item.status === 'upcoming' || item.status === 'current')
+        counts.upcoming++;
     }
     return counts;
   }, [timelineItems]);
@@ -774,9 +844,11 @@ const RemindersScreen = ({navigation}: Props) => {
         contentContainerStyle={s.onboardScroll}
         showsVerticalScrollIndicator={false}>
         {/* Hero */}
-        <Animated.View entering={FadeInDown.delay(80).duration(400).springify()}>
+        <Animated.View
+          entering={FadeInDown.delay(80).duration(400).springify()}>
           <View style={s.onboardHero}>
-            <View style={[s.onboardIconWrap, {backgroundColor: colors.$surface}]}>
+            <View
+              style={[s.onboardIconWrap, {backgroundColor: colors.$surface}]}>
               <Pill size={36} color={colors.$brandActive} strokeWidth={1.4} />
             </View>
             <Text style={[s.onboardTitle, {color: colors.$textPrimary}]}>
@@ -794,7 +866,9 @@ const RemindersScreen = ({navigation}: Props) => {
           return (
             <Animated.View
               key={i}
-              entering={FadeInDown.delay(160 + i * 80).duration(350).springify()}>
+              entering={FadeInDown.delay(160 + i * 80)
+                .duration(350)
+                .springify()}>
               <View style={[s.featureCard, {backgroundColor: colors.$surface}]}>
                 <View style={[s.featureIcon, {backgroundColor: feat.bg}]}>
                   <Icon size={18} color={feat.color} strokeWidth={1.8} />
@@ -813,9 +887,12 @@ const RemindersScreen = ({navigation}: Props) => {
         })}
 
         {/* CTA */}
-        <Animated.View entering={FadeInDown.delay(420).duration(350).springify()}>
+        <Animated.View
+          entering={FadeInDown.delay(420).duration(350).springify()}>
           <Pressable
-            onPress={() => navigation.navigate('AddMedication', {memberId: activeMemberId})}
+            onPress={() =>
+              navigation.navigate('AddMedication', {memberId: activeMemberId})
+            }
             style={[s.onboardCta, {backgroundColor: colors.$brandActive}]}>
             <Plus size={18} color={colors.$brandActiveText} strokeWidth={2.5} />
             <Text style={[s.onboardCtaText, {color: colors.$brandActiveText}]}>
@@ -854,7 +931,9 @@ const RemindersScreen = ({navigation}: Props) => {
       {/* Quick Stats Strip */}
       <Animated.View entering={FadeInDown.delay(120).duration(350).springify()}>
         <Pressable
-          onPress={() => navigation.navigate('Statistics', {memberId: activeMemberId})}
+          onPress={() =>
+            navigation.navigate('Statistics', {memberId: activeMemberId})
+          }
           style={[s.statsStrip, {backgroundColor: colors.$surface}]}>
           <View style={s.statsLeft}>
             <AdherenceRing
@@ -878,7 +957,11 @@ const RemindersScreen = ({navigation}: Props) => {
                 {streak} {t('reminders.days')}
               </Text>
             </View>
-            <ChevronRight size={14} color={colors.$textSecondary} strokeWidth={1.5} />
+            <ChevronRight
+              size={14}
+              color={colors.$textSecondary}
+              strokeWidth={1.5}
+            />
           </View>
         </Pressable>
       </Animated.View>
@@ -920,7 +1003,12 @@ const RemindersScreen = ({navigation}: Props) => {
                 }
                 onUndo={
                   item.status === 'taken' || item.status === 'skipped'
-                    ? () => handleUndo(item.medicationId, item.scheduleId, item.time)
+                    ? () =>
+                        handleUndo(
+                          item.medicationId,
+                          item.scheduleId,
+                          item.time,
+                        )
                     : undefined
                 }
                 colors={colors}

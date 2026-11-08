@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
 import api, {unwrapData} from '.';
 import i18n from '../i18n';
@@ -45,7 +41,11 @@ type BackendOrder = {
   items: BackendOrderItem[];
 };
 
-type PaginatedOrders = {totalCount: number; items: BackendOrder[]; page?: number};
+type PaginatedOrders = {
+  totalCount: number;
+  items: BackendOrder[];
+  page?: number;
+};
 
 const lang = (): 'ru' | 'tk' => (i18n.language === 'ru' ? 'ru' : 'tk');
 
@@ -95,7 +95,11 @@ const useCreate = () => {
   const queryClient = useQueryClient();
   return useMutation<Order, AxiosError<ApiErrorResponse>, CreateOrderPayload>({
     mutationFn: async payload => {
-      const res = await api.req({method: 'POST', url: '/orders', data: payload});
+      const res = await api.req({
+        method: 'POST',
+        url: '/orders',
+        data: payload,
+      });
       return mapOrder(unwrapData<BackendOrder>(res));
     },
     onSuccess: () => queryClient.invalidateQueries({queryKey: ORDERS_KEY}),

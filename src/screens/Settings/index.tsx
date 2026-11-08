@@ -42,7 +42,10 @@ const SettingsScreen = ({navigation}: Props) => {
 
   const [langValue, setLangValue] = useState({
     value: i18n.language,
-    label: i18n.language === 'tm' ? t('settings.turkmenLang') : t('settings.russianLang'),
+    label:
+      i18n.language === 'tm'
+        ? t('settings.turkmenLang')
+        : t('settings.russianLang'),
   });
 
   const handleLogout = () => {
@@ -51,7 +54,11 @@ const SettingsScreen = ({navigation}: Props) => {
       t('settings.logoutConfirmMessage'),
       [
         {text: t('settings.no'), style: 'cancel'},
-        {text: t('settings.yes'), style: 'destructive', onPress: () => logout()},
+        {
+          text: t('settings.yes'),
+          style: 'destructive',
+          onPress: () => logout(),
+        },
       ],
     );
   };
@@ -105,115 +112,123 @@ const SettingsScreen = ({navigation}: Props) => {
 
       {/* Orders — auth required */}
       {isAuthenticated && (
-      <View style={{gap: 10}}>
-        <Text
-          style={{
-            fontSize: 15,
-            fontWeight: '600',
-            color: colors.$textSecondary,
-            marginLeft: 4,
-          }}>
-          {t('settings.myOrders')}
-        </Text>
-        <View style={{flexDirection: 'row', gap: 10}}>
-          <Pressable
-            onPress={() => navigation.navigate('Orders', {initialTab: 'active'})}
+        <View style={{gap: 10}}>
+          <Text
             style={{
-              flex: 1,
-              backgroundColor: colors.$surface,
-              borderRadius: 14,
-              paddingVertical: 16,
-              alignItems: 'center',
-              gap: 8,
+              fontSize: 15,
+              fontWeight: '600',
+              color: colors.$textSecondary,
+              marginLeft: 4,
             }}>
-            <Package
-              size={22}
-              color={colors.$statusPending}
-              strokeWidth={1.5}
-            />
-            <Text
+            {t('settings.myOrders')}
+          </Text>
+          <View style={{flexDirection: 'row', gap: 10}}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Orders', {initialTab: 'active'})
+              }
               style={{
-                fontSize: 12,
-                fontWeight: '500',
-                color: colors.$textPrimary,
+                flex: 1,
+                backgroundColor: colors.$surface,
+                borderRadius: 14,
+                paddingVertical: 16,
+                alignItems: 'center',
+                gap: 8,
               }}>
-              {t('settings.active')}
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Orders', {initialTab: 'completed'})}
-            style={{
-              flex: 1,
-              backgroundColor: colors.$surface,
-              borderRadius: 14,
-              paddingVertical: 16,
-              alignItems: 'center',
-              gap: 8,
-            }}>
-            <PackageCheck
-              size={22}
-              color={colors.$statusCompleted}
-              strokeWidth={1.5}
-            />
-            <Text
+              <Package
+                size={22}
+                color={colors.$statusPending}
+                strokeWidth={1.5}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '500',
+                  color: colors.$textPrimary,
+                }}>
+                {t('settings.active')}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Orders', {initialTab: 'completed'})
+              }
               style={{
-                fontSize: 12,
-                fontWeight: '500',
-                color: colors.$textPrimary,
+                flex: 1,
+                backgroundColor: colors.$surface,
+                borderRadius: 14,
+                paddingVertical: 16,
+                alignItems: 'center',
+                gap: 8,
               }}>
-              {t('settings.completed')}
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => navigation.navigate('Orders', {initialTab: 'cancelled'})}
-            style={{
-              flex: 1,
-              backgroundColor: colors.$surface,
-              borderRadius: 14,
-              paddingVertical: 16,
-              alignItems: 'center',
-              gap: 8,
-            }}>
-            <PackageX
-              size={22}
-              color={colors.$statusCancelled}
-              strokeWidth={1.5}
-            />
-            <Text
+              <PackageCheck
+                size={22}
+                color={colors.$statusCompleted}
+                strokeWidth={1.5}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '500',
+                  color: colors.$textPrimary,
+                }}>
+                {t('settings.completed')}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Orders', {initialTab: 'cancelled'})
+              }
               style={{
-                fontSize: 12,
-                fontWeight: '500',
-                color: colors.$textPrimary,
+                flex: 1,
+                backgroundColor: colors.$surface,
+                borderRadius: 14,
+                paddingVertical: 16,
+                alignItems: 'center',
+                gap: 8,
               }}>
-              {t('settings.cancelled')}
-            </Text>
-          </Pressable>
+              <PackageX
+                size={22}
+                color={colors.$statusCancelled}
+                strokeWidth={1.5}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '500',
+                  color: colors.$textPrimary,
+                }}>
+                {t('settings.cancelled')}
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
       )}
 
       {/* Addresses — auth required */}
       {isAuthenticated && (
-      <View style={{gap: 10}}>
-        <ListGroup>
-          <ListGroup.Item onPress={() => navigation.navigate('Addresses')}>
-            <ListGroup.ItemPrefix>
-              <MapPin
-                size={20}
-                color={colors.$textPrimary}
-                strokeWidth={1.5}
-              />
-            </ListGroup.ItemPrefix>
-            <ListGroup.ItemContent>
-              <ListGroup.ItemTitle>{t('settings.myAddresses')}</ListGroup.ItemTitle>
-              <ListGroup.ItemDescription>
-                {t('settings.deliveryAddresses')}
-              </ListGroup.ItemDescription>
-            </ListGroup.ItemContent>
-            <ListGroup.ItemSuffix />
-          </ListGroup.Item>
-        </ListGroup>
-      </View>
+        <View style={{gap: 10}}>
+          <ListGroup>
+            <ListGroup.Item onPress={() => navigation.navigate('Addresses')}>
+              <ListGroup.ItemPrefix>
+                <MapPin
+                  size={20}
+                  color={colors.$textPrimary}
+                  strokeWidth={1.5}
+                />
+              </ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle>
+                  {t('settings.myAddresses')}
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription>
+                  {t('settings.deliveryAddresses')}
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix />
+            </ListGroup.Item>
+          </ListGroup>
+        </View>
       )}
 
       {/* Login CTA for unauthenticated users */}
@@ -270,24 +285,24 @@ const SettingsScreen = ({navigation}: Props) => {
         <ListGroup>
           <ListGroup.Item>
             <ListGroup.ItemPrefix>
-              <Globe
-                size={20}
-                color={colors.$textPrimary}
-                strokeWidth={1.5}
-              />
+              <Globe size={20} color={colors.$textPrimary} strokeWidth={1.5} />
             </ListGroup.ItemPrefix>
             <ListGroup.ItemContent>
-              <ListGroup.ItemTitle>{t('settings.language')}</ListGroup.ItemTitle>
+              <ListGroup.ItemTitle>
+                {t('settings.language')}
+              </ListGroup.ItemTitle>
             </ListGroup.ItemContent>
             <ListGroup.ItemSuffix>
               <Select
                 value={langValue}
-                onValueChange={(v) => {
+                onValueChange={v => {
                   if (!v) return;
                   setLangValue(v);
                   i18n.changeLanguage(v.value);
                 }}>
-                <Select.Trigger variant="unstyled" className="flex-row items-center gap-2">
+                <Select.Trigger
+                  variant="unstyled"
+                  className="flex-row items-center gap-2">
                   <Text style={{fontSize: 14, color: colors.$textSecondary}}>
                     {langValue.label}
                   </Text>
@@ -317,25 +332,18 @@ const SettingsScreen = ({navigation}: Props) => {
             </ListGroup.ItemSuffix>
           </ListGroup.Item>
           <Separator className="mx-4" />
-          <ListGroup.Item
-            onPress={toggleTheme}>
+          <ListGroup.Item onPress={toggleTheme}>
             <ListGroup.ItemPrefix>
               {isDark ? (
-                <Moon
-                  size={20}
-                  color={colors.$textPrimary}
-                  strokeWidth={1.5}
-                />
+                <Moon size={20} color={colors.$textPrimary} strokeWidth={1.5} />
               ) : (
-                <Sun
-                  size={20}
-                  color={colors.$textPrimary}
-                  strokeWidth={1.5}
-                />
+                <Sun size={20} color={colors.$textPrimary} strokeWidth={1.5} />
               )}
             </ListGroup.ItemPrefix>
             <ListGroup.ItemContent>
-              <ListGroup.ItemTitle>{t('settings.darkTheme')}</ListGroup.ItemTitle>
+              <ListGroup.ItemTitle>
+                {t('settings.darkTheme')}
+              </ListGroup.ItemTitle>
               <ListGroup.ItemDescription>
                 {isDark ? t('settings.themeOn') : t('settings.themeOff')}
               </ListGroup.ItemDescription>
@@ -379,7 +387,9 @@ const SettingsScreen = ({navigation}: Props) => {
               />
             </ListGroup.ItemPrefix>
             <ListGroup.ItemContent>
-              <ListGroup.ItemTitle>{t('settings.termsOfUse')}</ListGroup.ItemTitle>
+              <ListGroup.ItemTitle>
+                {t('settings.termsOfUse')}
+              </ListGroup.ItemTitle>
             </ListGroup.ItemContent>
             <ListGroup.ItemSuffix />
           </ListGroup.Item>
@@ -393,7 +403,9 @@ const SettingsScreen = ({navigation}: Props) => {
               />
             </ListGroup.ItemPrefix>
             <ListGroup.ItemContent>
-              <ListGroup.ItemTitle>{t('settings.privacyPolicy')}</ListGroup.ItemTitle>
+              <ListGroup.ItemTitle>
+                {t('settings.privacyPolicy')}
+              </ListGroup.ItemTitle>
             </ListGroup.ItemContent>
             <ListGroup.ItemSuffix />
           </ListGroup.Item>
@@ -405,11 +417,17 @@ const SettingsScreen = ({navigation}: Props) => {
         <ListGroup>
           <ListGroup.Item onPress={handleLogout}>
             <ListGroup.ItemPrefix>
-              <LogOut size={20} color={colors.$statusCancelled} strokeWidth={1.5} />
+              <LogOut
+                size={20}
+                color={colors.$statusCancelled}
+                strokeWidth={1.5}
+              />
             </ListGroup.ItemPrefix>
             <ListGroup.ItemContent>
               <ListGroup.ItemTitle>
-                <Text style={{color: colors.$statusCancelled}}>{t('settings.logout')}</Text>
+                <Text style={{color: colors.$statusCancelled}}>
+                  {t('settings.logout')}
+                </Text>
               </ListGroup.ItemTitle>
             </ListGroup.ItemContent>
           </ListGroup.Item>

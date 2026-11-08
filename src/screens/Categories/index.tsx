@@ -109,7 +109,11 @@ const CategoriesScreen = () => {
       keyExtractor={keyExtractor}
       data={categoriesQuery.data || []}
       renderItem={renderItem}
-      contentContainerStyle={{paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40}}
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+        paddingTop: 16,
+        paddingBottom: 40,
+      }}
       showsVerticalScrollIndicator={false}
       refreshing={refreshing}
       onRefresh={onRefresh}

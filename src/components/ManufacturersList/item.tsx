@@ -35,8 +35,13 @@ const ManufacturersListItem = ({data, width, onPress}: Props) => {
           borderRadius: 8,
         }}
       />
-      <Text style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>{data.title}</Text>
-      <Text style={{fontSize: 10, color: colors.$textPrimary}}>{data.drugCount} drugs</Text>
+      <Text
+        style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>
+        {data.title}
+      </Text>
+      <Text style={{fontSize: 10, color: colors.$textPrimary}}>
+        {data.drugCount} drugs
+      </Text>
     </Pressable>
   );
 };

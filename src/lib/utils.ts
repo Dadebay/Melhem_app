@@ -17,8 +17,12 @@ const formTranslations: Record<Drug.FormulationForm, string> = {
  * unmapped value — normalize the case and fall back to the localized "other"
  * label so a raw English token like "Other" is never shown to the user.
  */
-const getFormLabel = (form: Drug.FormulationForm | string | null | undefined): string => {
-  const normalized = String(form ?? '').trim().toLowerCase();
+const getFormLabel = (
+  form: Drug.FormulationForm | string | null | undefined,
+): string => {
+  const normalized = String(form ?? '')
+    .trim()
+    .toLowerCase();
   const key = `drug.forms.${normalized}`;
   const label = i18n.t(key);
   if (label !== key) {
@@ -62,8 +66,8 @@ const getDrugPriceText = (
   const priceText = !hasPrice
     ? null
     : isRange
-      ? `${fromLabel ? `${fromLabel} ` : ''}${minText}`
-      : minText;
+    ? `${fromLabel ? `${fromLabel} ` : ''}${minText}`
+    : minText;
 
   const isOutOfStock = !hasPrice && !(stock_count != null && stock_count > 0);
 
@@ -96,7 +100,10 @@ const tightenName = <T extends string | null | undefined>(
       new RegExp(`(\\d)\\s+(\\S{1,${minTail}})(?=\\s|$)`, 'gu'),
       `$1${NBSP}$2`,
     )
-    .replace(new RegExp(`(\\S)\\s+(\\S{1,${minTail}})$`, 'u'), `$1${NBSP}$2`) as T;
+    .replace(
+      new RegExp(`(\\S)\\s+(\\S{1,${minTail}})$`, 'u'),
+      `$1${NBSP}$2`,
+    ) as T;
 };
 
 const utils = {

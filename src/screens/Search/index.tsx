@@ -126,13 +126,10 @@ const SearchScreen = ({navigation}: Props) => {
     [navigation, logDrugSearch],
   );
 
-  const handleTrendingPress = useCallback(
-    (term: string) => {
-      setQuery(term);
-      inputRef.current?.setNativeProps({text: term});
-    },
-    [],
-  );
+  const handleTrendingPress = useCallback((term: string) => {
+    setQuery(term);
+    inputRef.current?.setNativeProps({text: term});
+  }, []);
 
   const hasQuery = query.trim().length >= MIN_QUERY_LENGTH;
   const showTrending = query.length === 0 && lastSearchedDrugs.length === 0;
@@ -215,8 +212,18 @@ const SearchScreen = ({navigation}: Props) => {
         {/* Trending */}
         {showTrending && (
           <View style={{paddingHorizontal: 20, paddingTop: 8}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 14}}>
-              <TrendingUp size={16} color={colors.$textSecondary} strokeWidth={1.5} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 6,
+                marginBottom: 14,
+              }}>
+              <TrendingUp
+                size={16}
+                color={colors.$textSecondary}
+                strokeWidth={1.5}
+              />
               <Text
                 style={{
                   fontSize: 14,
@@ -261,8 +268,13 @@ const SearchScreen = ({navigation}: Props) => {
                 justifyContent: 'space-between',
                 marginBottom: 14,
               }}>
-              <View style={{flexDirection: 'row', alignItems: 'center', gap: 6}}>
-                <Clock size={16} color={colors.$textSecondary} strokeWidth={1.5} />
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 6}}>
+                <Clock
+                  size={16}
+                  color={colors.$textSecondary}
+                  strokeWidth={1.5}
+                />
                 <Text
                   style={{
                     fontSize: 14,
@@ -302,7 +314,11 @@ const SearchScreen = ({navigation}: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Clock size={14} color={colors.$textPlaceholder} strokeWidth={1.5} />
+                  <Clock
+                    size={14}
+                    color={colors.$textPlaceholder}
+                    strokeWidth={1.5}
+                  />
                 </View>
                 <Text
                   style={{
@@ -331,12 +347,20 @@ const SearchScreen = ({navigation}: Props) => {
               keyExtractor={item => String(item.id)}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{paddingHorizontal: 20, paddingTop: 4, paddingBottom: 40}}
+              contentContainerStyle={{
+                paddingHorizontal: 20,
+                paddingTop: 4,
+                paddingBottom: 40,
+              }}
               onEndReached={handleEndReached}
               onEndReachedThreshold={0.5}
               ListEmptyComponent={
                 <View style={{alignItems: 'center', paddingTop: 60, gap: 12}}>
-                  <Search size={36} color={colors.$textPlaceholder} strokeWidth={1.2} />
+                  <Search
+                    size={36}
+                    color={colors.$textPlaceholder}
+                    strokeWidth={1.2}
+                  />
                   <Text
                     style={{
                       fontSize: 15,
@@ -391,7 +415,11 @@ const SearchScreen = ({navigation}: Props) => {
                             style={{width: 40, height: 40}}
                           />
                         ) : (
-                          <Pill size={18} color={colors.$textSecondary} strokeWidth={1.5} />
+                          <Pill
+                            size={18}
+                            color={colors.$textSecondary}
+                            strokeWidth={1.5}
+                          />
                         )}
                       </View>
                       <View style={{flex: 1}}>

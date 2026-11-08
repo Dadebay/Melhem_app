@@ -24,11 +24,14 @@ const LanguagesList = ({data, t}: Props) => {
           borderColor: colors.$surface,
           borderRadius: 12,
           padding: 12,
-          backgroundColor: t('key') === item.key ? colors.$surface : colors.$background,
+          backgroundColor:
+            t('key') === item.key ? colors.$surface : colors.$background,
           gap: 10,
         }}>
         <Image source={item.imageSrc as ImageSourcePropType} />
-        <Text style={{fontWeight: '700', color: colors.$textPrimary}}>{item.title}</Text>
+        <Text style={{fontWeight: '700', color: colors.$textPrimary}}>
+          {item.title}
+        </Text>
       </Pressable>
     ),
     [t, colors],

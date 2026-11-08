@@ -1,6 +1,13 @@
 import React, {useMemo, useState} from 'react';
 import {Pressable, ScrollView, Text, View} from 'react-native';
-import {ChevronLeft, ChevronRight, Check, X, AlertCircle, Clock} from 'lucide-react-native';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  X,
+  AlertCircle,
+  Clock,
+} from 'lucide-react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import dayjs, {Dayjs} from 'dayjs';
 import {useTranslation} from 'react-i18next';
@@ -13,7 +20,12 @@ type Props = NativeStackScreenProps<Nav.Reminder, 'CalendarView'>;
 
 // Month and day header arrays are now loaded from i18n locale files
 
-type DayAdherence = 'allTaken' | 'someTaken' | 'noneTaken' | 'scheduled' | 'none';
+type DayAdherence =
+  | 'allTaken'
+  | 'someTaken'
+  | 'noneTaken'
+  | 'scheduled'
+  | 'none';
 
 type SelectedDose = {
   id: string;
@@ -65,7 +77,12 @@ const CalendarViewScreen = ({route}: Props) => {
   // (start date, n-days duration, day-of-week filters).
   const getPlannedDoses = useMemo(
     () => (date: Dayjs) =>
-      getTodayDoseTimes(memberMedications, memberSchedules, mealTimes, date.toDate()),
+      getTodayDoseTimes(
+        memberMedications,
+        memberSchedules,
+        mealTimes,
+        date.toDate(),
+      ),
     [memberMedications, memberSchedules, mealTimes],
   );
 
@@ -82,9 +99,10 @@ const CalendarViewScreen = ({route}: Props) => {
   const calendarDays = useMemo(() => {
     const startOfMonth = currentMonth.startOf('month');
     const endOfMonth = currentMonth.endOf('month');
-    const startDay = startOfMonth.day() === 0
-      ? startOfMonth.subtract(6, 'day')
-      : startOfMonth.subtract(startOfMonth.day() - 1, 'day');
+    const startDay =
+      startOfMonth.day() === 0
+        ? startOfMonth.subtract(6, 'day')
+        : startOfMonth.subtract(startOfMonth.day() - 1, 'day');
     const days: Dayjs[] = [];
     let day = startDay;
     while (days.length < 42) {
@@ -182,8 +200,8 @@ const CalendarViewScreen = ({route}: Props) => {
         const status: SelectedDose['status'] = log
           ? log.status
           : isPast
-            ? 'missed'
-            : 'scheduled';
+          ? 'missed'
+          : 'scheduled';
         return {
           id: `${dose.scheduleId}-${dose.time}`,
           medicationId: dose.medicationId,
@@ -209,8 +227,7 @@ const CalendarViewScreen = ({route}: Props) => {
   };
 
   const todayStr = dayjs().format('YYYY-MM-DD');
-  const isCurrentMonth = (date: Dayjs) =>
-    date.month() === currentMonth.month();
+  const isCurrentMonth = (date: Dayjs) => date.month() === currentMonth.month();
 
   const rows: Dayjs[][] = [];
   for (let i = 0; i < calendarDays.length; i += 7) {
@@ -224,7 +241,9 @@ const CalendarViewScreen = ({route}: Props) => {
       case 'skipped':
         return <X size={14} color={colors.$error} strokeWidth={2} />;
       case 'missed':
-        return <AlertCircle size={14} color={colors.$warning} strokeWidth={2} />;
+        return (
+          <AlertCircle size={14} color={colors.$warning} strokeWidth={2} />
+        );
       case 'scheduled':
         return <Clock size={14} color={colors.$info} strokeWidth={2} />;
       default:
@@ -248,7 +267,9 @@ const CalendarViewScreen = ({route}: Props) => {
   };
 
   const months = t('reminders.months', {returnObjects: true}) as string[];
-  const dayHeaders = t('reminders.dayHeaders', {returnObjects: true}) as string[];
+  const dayHeaders = t('reminders.dayHeaders', {
+    returnObjects: true,
+  }) as string[];
 
   return (
     <ScrollView
@@ -270,7 +291,11 @@ const CalendarViewScreen = ({route}: Props) => {
         <Pressable
           onPress={() => setCurrentMonth(prev => prev.subtract(1, 'month'))}
           hitSlop={12}>
-          <ChevronLeft size={24} color={colors.$textPrimary} strokeWidth={1.5} />
+          <ChevronLeft
+            size={24}
+            color={colors.$textPrimary}
+            strokeWidth={1.5}
+          />
         </Pressable>
         <Text
           style={{
@@ -283,7 +308,11 @@ const CalendarViewScreen = ({route}: Props) => {
         <Pressable
           onPress={() => setCurrentMonth(prev => prev.add(1, 'month'))}
           hitSlop={12}>
-          <ChevronRight size={24} color={colors.$textPrimary} strokeWidth={1.5} />
+          <ChevronRight
+            size={24}
+            color={colors.$textPrimary}
+            strokeWidth={1.5}
+          />
         </Pressable>
       </View>
 
@@ -347,8 +376,8 @@ const CalendarViewScreen = ({route}: Props) => {
                         color: isToday
                           ? '#FFFFFF'
                           : !inMonth
-                            ? colors.$textDisabled
-                            : colors.$textPrimary,
+                          ? colors.$textDisabled
+                          : colors.$textPrimary,
                       }}>
                       {date.date()}
                     </Text>
@@ -394,7 +423,8 @@ const CalendarViewScreen = ({route}: Props) => {
                 fontWeight: '600',
                 color: colors.$textPrimary,
               }}>
-              {dayjs(selectedDate).format('D')} {months[dayjs(selectedDate).month()]}
+              {dayjs(selectedDate).format('D')}{' '}
+              {months[dayjs(selectedDate).month()]}
             </Text>
             <View
               style={{
@@ -403,8 +433,12 @@ const CalendarViewScreen = ({route}: Props) => {
                 paddingHorizontal: 8,
                 paddingVertical: 4,
               }}>
-              <Text style={{fontSize: 12, color: colors.$info, fontWeight: '500'}}>
-                {t('reminders.takenOf', {taken: selectedDayStats.taken, total: selectedDayStats.total})}
+              <Text
+                style={{fontSize: 12, color: colors.$info, fontWeight: '500'}}>
+                {t('reminders.takenOf', {
+                  taken: selectedDayStats.taken,
+                  total: selectedDayStats.total,
+                })}
               </Text>
             </View>
           </View>
@@ -439,7 +473,8 @@ const CalendarViewScreen = ({route}: Props) => {
                 numberOfLines={1}>
                 {getMedicationName(log.medicationId)}
               </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
                 {renderStatusIcon(log.status)}
                 <Text style={{fontSize: 11, color: colors.$textSecondary}}>
                   {statusLabel(log.status)}

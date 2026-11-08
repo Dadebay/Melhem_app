@@ -79,9 +79,7 @@ const DAY_LABEL_KEYS: {key: string; value: Reminder.DayOfWeek}[] = [
   {key: 'addMedication.daySun', value: 0},
 ];
 
-const parseDosage = (
-  dosageStr: string,
-): {amount: string; unit: string} => {
+const parseDosage = (dosageStr: string): {amount: string; unit: string} => {
   const parts = dosageStr.split(' ');
   if (parts.length >= 2) {
     return {amount: parts[0], unit: parts.slice(1).join(' ')};
@@ -94,11 +92,11 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
   const colors = useColors();
   const {medicationId} = route.params;
 
-  const medication = reminderStore(
-    s => s.medications.find(m => m.id === medicationId),
+  const medication = reminderStore(s =>
+    s.medications.find(m => m.id === medicationId),
   );
-  const schedule = reminderStore(
-    s => s.schedules.find(sc => sc.medicationId === medicationId),
+  const schedule = reminderStore(s =>
+    s.schedules.find(sc => sc.medicationId === medicationId),
   );
   const updateMedication = reminderStore(s => s.updateMedication);
   const updateSchedule = reminderStore(s => s.updateSchedule);
@@ -197,7 +195,10 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
   }
 
   const handleTimesPerDayChange = (count: number) => {
-    const next = Math.min(MAX_TIMES_PER_DAY, Math.max(MIN_TIMES_PER_DAY, count));
+    const next = Math.min(
+      MAX_TIMES_PER_DAY,
+      Math.max(MIN_TIMES_PER_DAY, count),
+    );
     setTimesPerDay(next);
     setFixedTimes(prev => {
       if (next <= prev.length) {
@@ -242,7 +243,10 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
 
   const handleSave = () => {
     if (!name.trim()) {
-      Alert.alert(t('addMedication.alertTitle'), t('addMedication.alertEnterName'));
+      Alert.alert(
+        t('addMedication.alertTitle'),
+        t('addMedication.alertEnterName'),
+      );
       return;
     }
 
@@ -270,16 +274,14 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
           type: 'meal_relative',
           mealRelative: {
             relation: mealRelation,
-            offsetMinutes:
-              mealRelation === 'with_meal' ? 0 : mealOffset,
+            offsetMinutes: mealRelation === 'with_meal' ? 0 : mealOffset,
             mealsPerDay,
           },
         };
       }
 
       const startDate =
-        schedule.course.startDate ??
-        new Date().toISOString().split('T')[0];
+        schedule.course.startDate ?? new Date().toISOString().split('T')[0];
 
       const course: Reminder.CourseDuration = hasCourse
         ? {kind: 'n_days', startDate, days: courseDays}
@@ -314,9 +316,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
         style={[
           st.scheduleCard,
           {
-            backgroundColor: isSelected
-              ? colors.$infoBg
-              : colors.$surface,
+            backgroundColor: isSelected ? colors.$infoBg : colors.$surface,
             borderWidth: isSelected ? 1 : 0,
             borderColor: isSelected ? colors.$info : 'transparent',
           },
@@ -366,10 +366,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               {t('addMedication.drugName')}
             </Text>
             <View
-              style={[
-                st.inputContainer,
-                {backgroundColor: colors.$surface},
-              ]}>
+              style={[st.inputContainer, {backgroundColor: colors.$surface}]}>
               <TextInput
                 style={[st.input, {color: colors.$textPrimary}]}
                 value={name}
@@ -442,15 +439,9 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               {t('addMedication.notes')}
             </Text>
             <View
-              style={[
-                st.inputContainer,
-                {backgroundColor: colors.$surface},
-              ]}>
+              style={[st.inputContainer, {backgroundColor: colors.$surface}]}>
               <TextInput
-                style={[
-                  st.input,
-                  {color: colors.$textPrimary, minHeight: 60},
-                ]}
+                style={[st.input, {color: colors.$textPrimary, minHeight: 60}]}
                 value={notes}
                 onChangeText={setNotes}
                 placeholder={t('addMedication.notesPlaceholder')}
@@ -510,7 +501,11 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                       opacity: timesPerDay <= MIN_TIMES_PER_DAY ? 0.4 : 1,
                     },
                   ]}>
-                  <Minus size={16} color={colors.$textPrimary} strokeWidth={2} />
+                  <Minus
+                    size={16}
+                    color={colors.$textPrimary}
+                    strokeWidth={2}
+                  />
                 </Pressable>
                 <Text
                   style={{
@@ -548,10 +543,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                   <Pressable
                     key={i}
                     onPress={() => handleFixedTimeEdit(i)}
-                    style={[
-                      st.timeRow,
-                      {backgroundColor: colors.$surface},
-                    ]}>
+                    style={[st.timeRow, {backgroundColor: colors.$surface}]}>
                     <Clock
                       size={16}
                       color={colors.$textSecondary}
@@ -584,13 +576,8 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               </Text>
               <View style={st.stepperRow}>
                 <Pressable
-                  onPress={() =>
-                    setIntervalHours(h => Math.max(1, h - 1))
-                  }
-                  style={[
-                    st.stepperBtn,
-                    {backgroundColor: colors.$surface},
-                  ]}>
+                  onPress={() => setIntervalHours(h => Math.max(1, h - 1))}
+                  style={[st.stepperBtn, {backgroundColor: colors.$surface}]}>
                   <Minus
                     size={16}
                     color={colors.$textPrimary}
@@ -608,18 +595,9 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                   {intervalHours}
                 </Text>
                 <Pressable
-                  onPress={() =>
-                    setIntervalHours(h => Math.min(24, h + 1))
-                  }
-                  style={[
-                    st.stepperBtn,
-                    {backgroundColor: colors.$surface},
-                  ]}>
-                  <Plus
-                    size={16}
-                    color={colors.$textPrimary}
-                    strokeWidth={2}
-                  />
+                  onPress={() => setIntervalHours(h => Math.min(24, h + 1))}
+                  style={[st.stepperBtn, {backgroundColor: colors.$surface}]}>
+                  <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
                 </Pressable>
                 <Text
                   style={{
@@ -635,10 +613,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               </Text>
               <Pressable
                 onPress={() => setEditingIntervalStart(true)}
-                style={[
-                  st.timeRow,
-                  {backgroundColor: colors.$surface},
-                ]}>
+                style={[st.timeRow, {backgroundColor: colors.$surface}]}>
                 <Clock
                   size={16}
                   color={colors.$textSecondary}
@@ -678,14 +653,10 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                     st.scheduleCard,
                     {
                       backgroundColor:
-                        mealRelation === rel
-                          ? colors.$infoBg
-                          : colors.$surface,
+                        mealRelation === rel ? colors.$infoBg : colors.$surface,
                       borderWidth: mealRelation === rel ? 1 : 0,
                       borderColor:
-                        mealRelation === rel
-                          ? colors.$info
-                          : 'transparent',
+                        mealRelation === rel ? colors.$info : 'transparent',
                     },
                   ]}>
                   <Text
@@ -701,8 +672,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
 
               {mealRelation !== 'with_meal' && (
                 <View style={{gap: 8}}>
-                  <Text
-                    style={[st.label, {color: colors.$textSecondary}]}>
+                  <Text style={[st.label, {color: colors.$textSecondary}]}>
                     {t('addMedication.intervalMinutes')}
                   </Text>
                   <View style={{flexDirection: 'row', gap: 6}}>
@@ -738,8 +708,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               )}
 
               <View style={{gap: 8}}>
-                <Text
-                  style={[st.label, {color: colors.$textSecondary}]}>
+                <Text style={[st.label, {color: colors.$textSecondary}]}>
                   {t('addMedication.mealsPerDay')}
                 </Text>
                 <View style={{flexDirection: 'row', gap: 6}}>
@@ -776,11 +745,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
           )}
 
           {/* Course */}
-          <View
-            style={[
-              st.sectionCard,
-              {backgroundColor: colors.$surface},
-            ]}>
+          <View style={[st.sectionCard, {backgroundColor: colors.$surface}]}>
             <View style={st.switchRow}>
               <View style={{flex: 1}}>
                 <Text
@@ -801,9 +766,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
               <View style={{marginTop: 12}}>
                 <View style={st.stepperRow}>
                   <Pressable
-                    onPress={() =>
-                      setCourseDays(d => Math.max(1, d - 1))
-                    }
+                    onPress={() => setCourseDays(d => Math.max(1, d - 1))}
                     style={[
                       st.stepperBtn,
                       {backgroundColor: colors.$background},
@@ -825,9 +788,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
                     {courseDays}
                   </Text>
                   <Pressable
-                    onPress={() =>
-                      setCourseDays(d => Math.min(365, d + 1))
-                    }
+                    onPress={() => setCourseDays(d => Math.min(365, d + 1))}
                     style={[
                       st.stepperBtn,
                       {backgroundColor: colors.$background},
@@ -852,11 +813,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
           </View>
 
           {/* Days of week */}
-          <View
-            style={[
-              st.sectionCard,
-              {backgroundColor: colors.$surface},
-            ]}>
+          <View style={[st.sectionCard, {backgroundColor: colors.$surface}]}>
             <View style={st.switchRow}>
               <View style={{flex: 1}}>
                 <Text
@@ -922,11 +879,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
             {t('addMedication.actions')}
           </Text>
 
-          <View
-            style={[
-              st.sectionCard,
-              {backgroundColor: colors.$surface},
-            ]}>
+          <View style={[st.sectionCard, {backgroundColor: colors.$surface}]}>
             <View style={st.switchRow}>
               <View style={{flex: 1}}>
                 <Text
@@ -947,10 +900,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
 
           <Pressable
             onPress={handleDelete}
-            style={[
-              st.deleteBtn,
-              {backgroundColor: colors.$errorBg},
-            ]}>
+            style={[st.deleteBtn, {backgroundColor: colors.$errorBg}]}>
             <Trash2 size={18} color={colors.$error} strokeWidth={1.5} />
             <Text
               style={{
@@ -975,10 +925,7 @@ const EditMedicationScreen = ({navigation, route}: Props) => {
         ]}>
         <Pressable
           onPress={handleSave}
-          style={[
-            st.primaryBtn,
-            {backgroundColor: colors.$brandActive},
-          ]}>
+          style={[st.primaryBtn, {backgroundColor: colors.$brandActive}]}>
           <Text
             style={{
               fontSize: 15,

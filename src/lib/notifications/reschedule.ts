@@ -29,9 +29,7 @@ export async function rescheduleAllNotifications(): Promise<void> {
   }> = [];
 
   for (const med of activeMeds) {
-    const medSchedules = activeSchedules.filter(
-      s => s.medicationId === med.id,
-    );
+    const medSchedules = activeSchedules.filter(s => s.medicationId === med.id);
     const member = familyMembers.find(m => m.id === med.memberId);
     const memberName = member?.name ?? 'Men';
 

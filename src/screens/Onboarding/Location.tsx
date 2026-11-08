@@ -1,5 +1,11 @@
 import {useState} from 'react';
-import {ActivityIndicator, Pressable, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
@@ -40,7 +46,8 @@ const OnboardingLocationScreen = ({navigation}: Props) => {
           style={{fontSize: 26, fontWeight: '700', color: colors.$textPrimary}}>
           {t('onboarding.locationTitle')}
         </Text>
-        <Text style={{fontSize: 15, color: colors.$textSecondary, lineHeight: 22}}>
+        <Text
+          style={{fontSize: 15, color: colors.$textSecondary, lineHeight: 22}}>
           {t('onboarding.locationSubtitle')}
         </Text>
       </View>
@@ -120,7 +127,9 @@ const OnboardingLocationScreen = ({navigation}: Props) => {
                 }}>
                 <MapPin
                   size={20}
-                  color={isSelected ? colors.$brandActive : colors.$textSecondary}
+                  color={
+                    isSelected ? colors.$brandActive : colors.$textSecondary
+                  }
                   strokeWidth={1.5}
                 />
                 <Text

@@ -8,8 +8,7 @@
  *      https://maps.melhem.app/tiles/{z}/{x}/{y}.png
  * Keep the literal `{z}/{x}/{y}` placeholders — MapLibre fills them in.
  */
-export const OSM_TILE_URL =
-  'https://map.ayterek.com/tile/{z}/{x}/{y}.png';
+export const OSM_TILE_URL = 'https://map.ayterek.com/tile/{z}/{x}/{y}.png';
 
 /** Standard OSM raster tiles are 256px. Use 512 only for @2x/retina tiles. */
 export const OSM_TILE_SIZE = 256;

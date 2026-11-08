@@ -11,7 +11,10 @@ interface Props {
 const PopularProductsList = ({data}: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<Nav.Home>>();
 
-  const keyExtractor = useCallback((item: Drug.ListItem) => String(item.id), []);
+  const keyExtractor = useCallback(
+    (item: Drug.ListItem) => String(item.id),
+    [],
+  );
 
   const renderItem: ListRenderItem<Drug.ListItem> = useCallback(
     ({item}) => {

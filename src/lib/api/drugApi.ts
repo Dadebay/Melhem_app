@@ -80,20 +80,22 @@ const useGetAllInfiniteList = (
 const useGet = ({drugId}: {drugId: string}) => {
   const language = toBackendLanguage();
 
-  const query = useQuery<Drug.API.GetOneResponse, AxiosError<ApiErrorResponse>>({
-    queryKey: ['drug', drugId, language],
-    queryFn: async () => {
-      const res = await api.req({
-        method: 'GET',
-        url: '/drugs/client/' + drugId,
-        headers: {
-          'Content-Language': language,
-        },
-      });
+  const query = useQuery<Drug.API.GetOneResponse, AxiosError<ApiErrorResponse>>(
+    {
+      queryKey: ['drug', drugId, language],
+      queryFn: async () => {
+        const res = await api.req({
+          method: 'GET',
+          url: '/drugs/client/' + drugId,
+          headers: {
+            'Content-Language': language,
+          },
+        });
 
-      return unwrapData<Drug.API.GetOneResponse>(res);
+        return unwrapData<Drug.API.GetOneResponse>(res);
+      },
     },
-  });
+  );
 
   return query;
 };

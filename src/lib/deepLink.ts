@@ -40,9 +40,11 @@ export type ResolvedLink =
 
 // Path → screen mapping. `segments` are the path parts (no leading slash),
 // already URL-decoded. Return an InternalTarget to handle it, or null to skip.
-const PATTERNS: Array<(segments: string[], query: URLSearchParams) => InternalTarget | null> = [
+const PATTERNS: Array<
+  (segments: string[], query: URLSearchParams) => InternalTarget | null
+> = [
   // /drug/:id  (aliases: /product/:id, /p/:id) → product page
-  (seg) =>
+  seg =>
     /^(drug|product|p)$/i.test(seg[0]) && seg[1]
       ? {screen: 'Drug', params: {id: seg[1]}}
       : null,
@@ -60,7 +62,7 @@ const PATTERNS: Array<(segments: string[], query: URLSearchParams) => InternalTa
       : null,
 
   // /pharmacy/:id → pharmacy page
-  (seg) =>
+  seg =>
     /^pharmacy$/i.test(seg[0]) && seg[1]
       ? {screen: 'Pharmacy', params: {id: seg[1]}}
       : null,
@@ -101,7 +103,13 @@ const parse = (raw: string): Parsed | null => {
 
     if (proto === 'http' || proto === 'https') {
       const m = rest.match(/^([^/?#]+)([^?#]*)(?:\?([^#]*))?/);
-      if (!m) return {segments: [], query: new URLSearchParams(), trusted: false, openable: true};
+      if (!m)
+        return {
+          segments: [],
+          query: new URLSearchParams(),
+          trusted: false,
+          openable: true,
+        };
       const host = m[1].toLowerCase().replace(/:\d+$/, '');
       return {
         segments: toSegments(m[2] || ''),
@@ -113,11 +121,21 @@ const parse = (raw: string): Parsed | null => {
 
     if (proto === APP_SCHEME) {
       const [path, query] = splitQuery(rest);
-      return {segments: toSegments(path), query, trusted: true, openable: false};
+      return {
+        segments: toSegments(path),
+        query,
+        trusted: true,
+        openable: false,
+      };
     }
 
     // tel:, mailto:, geo:, … — let the OS handle it.
-    return {segments: [], query: new URLSearchParams(), trusted: false, openable: true};
+    return {
+      segments: [],
+      query: new URLSearchParams(),
+      trusted: false,
+      openable: true,
+    };
   }
 
   // Bare path: /drug/123 or drug/123
@@ -133,7 +151,9 @@ const parse = (raw: string): Parsed | null => {
  * Map a URL/path to an in-app destination, or mark it as external.
  * Returns null for empty/unusable input (caller should no-op).
  */
-export const resolveDeepLink = (url: string | null | undefined): ResolvedLink | null => {
+export const resolveDeepLink = (
+  url: string | null | undefined,
+): ResolvedLink | null => {
   if (!url || !url.trim()) return null;
 
   const parsed = parse(url);

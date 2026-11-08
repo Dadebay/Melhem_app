@@ -32,7 +32,9 @@ const ListEmptyComponent = () => {
   const {t} = useTranslation();
   return (
     <View className="justify-center items-center flex-1">
-      <Text style={{fontSize: 14, fontWeight: '500'}}>{t('drug.notFound')}</Text>
+      <Text style={{fontSize: 14, fontWeight: '500'}}>
+        {t('drug.notFound')}
+      </Text>
     </View>
   );
 };

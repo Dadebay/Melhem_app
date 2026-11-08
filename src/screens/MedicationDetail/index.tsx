@@ -1,5 +1,12 @@
 import React, {useLayoutEffect, useState, useMemo, useCallback} from 'react';
-import {Image, Pressable, ScrollView, Text, View, StyleSheet} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Pill,
@@ -45,11 +52,11 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
   const colors = useColors();
   const {medicationId} = route.params;
 
-  const medication = reminderStore(
-    s => s.medications.find(m => m.id === medicationId),
+  const medication = reminderStore(s =>
+    s.medications.find(m => m.id === medicationId),
   );
-  const schedule = reminderStore(
-    s => s.schedules.find(sc => sc.medicationId === medicationId),
+  const schedule = reminderStore(s =>
+    s.schedules.find(sc => sc.medicationId === medicationId),
   );
   const allLogs = reminderStore(s => s.intakeLogs);
   const mealTimes = reminderStore(s => s.mealTimes);
@@ -61,15 +68,9 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
     navigation.setOptions({
       headerRight: () => (
         <Pressable
-          onPress={() =>
-            navigation.navigate('EditMedication', {medicationId})
-          }
+          onPress={() => navigation.navigate('EditMedication', {medicationId})}
           hitSlop={8}>
-          <Edit3
-            size={20}
-            color={colors.$textPrimary}
-            strokeWidth={1.5}
-          />
+          <Edit3 size={20} color={colors.$textPrimary} strokeWidth={1.5} />
         </Pressable>
       ),
     });
@@ -81,8 +82,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
         .filter(l => l.medicationId === medicationId)
         .sort(
           (a, b) =>
-            dayjs(b.scheduledTime).valueOf() -
-            dayjs(a.scheduledTime).valueOf(),
+            dayjs(b.scheduledTime).valueOf() - dayjs(a.scheduledTime).valueOf(),
         ),
     [allLogs, medicationId],
   );
@@ -125,9 +125,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
 
   const groupedLogs = useMemo(() => {
     const cutoff = dayjs().subtract(30, 'day').startOf('day');
-    const recent = logs.filter(l =>
-      dayjs(l.scheduledTime).isAfter(cutoff),
-    );
+    const recent = logs.filter(l => dayjs(l.scheduledTime).isAfter(cutoff));
 
     const groups: Map<string, Reminder.IntakeLog[]> = new Map();
     for (const log of recent) {
@@ -140,16 +138,19 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
     return groups;
   }, [logs]);
 
-  const formatDateHeader = useCallback((dateStr: string) => {
-    const d = dayjs(dateStr);
-    if (d.isToday()) {
-      return t('reminders.today');
-    }
-    if (d.isYesterday()) {
-      return t('reminders.yesterday');
-    }
-    return d.format('D MMMM');
-  }, [t]);
+  const formatDateHeader = useCallback(
+    (dateStr: string) => {
+      const d = dayjs(dateStr);
+      if (d.isToday()) {
+        return t('reminders.today');
+      }
+      if (d.isYesterday()) {
+        return t('reminders.yesterday');
+      }
+      return d.format('D MMMM');
+    },
+    [t],
+  );
 
   const filteredLogs = useMemo(() => {
     if (statPeriod === 0) {
@@ -171,10 +172,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
     () => (medication ? [medication] : []),
     [medication],
   );
-  const medSchedules = useMemo(
-    () => (schedule ? [schedule] : []),
-    [schedule],
-  );
+  const medSchedules = useMemo(() => (schedule ? [schedule] : []), [schedule]);
 
   const currentStreak = useMemo(
     () => computeCurrentStreak(logs, medSchedules, memberMeds, mealTimes),
@@ -194,11 +192,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
           return <X size={14} color={colors.$error} strokeWidth={2} />;
         case 'missed':
           return (
-            <AlertCircle
-              size={14}
-              color={colors.$warning}
-              strokeWidth={2}
-            />
+            <AlertCircle size={14} color={colors.$warning} strokeWidth={2} />
           );
       }
     },
@@ -210,7 +204,9 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
       switch (log.status) {
         case 'taken':
           return log.actualTime
-            ? t('reminders.takenAt', {time: dayjs(log.actualTime).format('HH:mm')})
+            ? t('reminders.takenAt', {
+                time: dayjs(log.actualTime).format('HH:mm'),
+              })
             : t('reminders.takenStatus');
         case 'skipped':
           return t('reminders.skipped');
@@ -248,8 +244,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
       }}
       showsVerticalScrollIndicator={false}>
       {/* Medication Info Card */}
-      <View
-        style={[styles.infoCard, {backgroundColor: colors.$surface}]}>
+      <View style={[styles.infoCard, {backgroundColor: colors.$surface}]}>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 12}}>
           {medication.photoUri ? (
             <Image
@@ -282,7 +277,9 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
                   marginTop: 2,
                 }}>
                 {medication.dosage} &middot;{' '}
-                {FORM_LABEL_KEYS[medication.form] ? t(FORM_LABEL_KEYS[medication.form]) : medication.form}
+                {FORM_LABEL_KEYS[medication.form]
+                  ? t(FORM_LABEL_KEYS[medication.form])
+                  : medication.form}
               </Text>
             ) : (
               <Text
@@ -291,7 +288,9 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
                   color: colors.$textSecondary,
                   marginTop: 2,
                 }}>
-                {FORM_LABEL_KEYS[medication.form] ? t(FORM_LABEL_KEYS[medication.form]) : medication.form}
+                {FORM_LABEL_KEYS[medication.form]
+                  ? t(FORM_LABEL_KEYS[medication.form])
+                  : medication.form}
               </Text>
             )}
           </View>
@@ -309,15 +308,8 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
             {scheduleTimes.map((t, i) => (
               <View
                 key={i}
-                style={[
-                  styles.timeChip,
-                  {backgroundColor: colors.$infoBg},
-                ]}>
-                <Clock
-                  size={12}
-                  color={colors.$info}
-                  strokeWidth={1.5}
-                />
+                style={[styles.timeChip, {backgroundColor: colors.$infoBg}]}>
+                <Clock size={12} color={colors.$info} strokeWidth={1.5} />
                 <Text
                   style={{
                     fontSize: 12,
@@ -358,7 +350,10 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
                 fontSize: 12,
                 color: colors.$textSecondary,
               }}>
-              {t('reminders.daysCompleted', {elapsed: courseProgress.elapsed, total: courseProgress.total})}
+              {t('reminders.daysCompleted', {
+                elapsed: courseProgress.elapsed,
+                total: courseProgress.total,
+              })}
             </Text>
           </View>
         )}
@@ -390,8 +385,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
       )}
 
       {/* Tabs */}
-      <View
-        style={[styles.tabBar, {borderBottomColor: colors.$border}]}>
+      <View style={[styles.tabBar, {borderBottomColor: colors.$border}]}>
         <Pressable
           onPress={() => setTab('history')}
           style={[
@@ -406,9 +400,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
               fontSize: 14,
               fontWeight: tab === 'history' ? '700' : '500',
               color:
-                tab === 'history'
-                  ? colors.$textPrimary
-                  : colors.$textSecondary,
+                tab === 'history' ? colors.$textPrimary : colors.$textSecondary,
             }}>
             {t('reminders.history')}
           </Text>
@@ -464,10 +456,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
               {dateLogs.map(log => (
                 <View
                   key={log.id}
-                  style={[
-                    styles.logRow,
-                    {backgroundColor: colors.$surface},
-                  ]}>
+                  style={[styles.logRow, {backgroundColor: colors.$surface}]}>
                   <Text
                     style={{
                       fontSize: 13,
@@ -545,16 +534,13 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
               alignSelf: 'stretch',
             }}>
             <View
-              style={[
-                styles.streakCard,
-                {backgroundColor: colors.$surface},
-              ]}>
-              <View style={[styles.streakIconWrap, {backgroundColor: colors.$warningBg}]}>
-                <Flame
-                  size={18}
-                  color={colors.$warning}
-                  strokeWidth={1.8}
-                />
+              style={[styles.streakCard, {backgroundColor: colors.$surface}]}>
+              <View
+                style={[
+                  styles.streakIconWrap,
+                  {backgroundColor: colors.$warningBg},
+                ]}>
+                <Flame size={18} color={colors.$warning} strokeWidth={1.8} />
               </View>
               <View style={styles.streakValueRow}>
                 <Text
@@ -596,11 +582,12 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
               </Text>
             </View>
             <View
-              style={[
-                styles.streakCard,
-                {backgroundColor: colors.$surface},
-              ]}>
-              <View style={[styles.streakIconWrap, {backgroundColor: colors.$statusPendingBg}]}>
+              style={[styles.streakCard, {backgroundColor: colors.$surface}]}>
+              <View
+                style={[
+                  styles.streakIconWrap,
+                  {backgroundColor: colors.$statusPendingBg},
+                ]}>
                 <Trophy
                   size={18}
                   color={colors.$statusPending}
@@ -649,11 +636,7 @@ const MedicationDetailScreen = ({navigation, route}: Props) => {
           </View>
 
           {/* Summary stats */}
-          <View
-            style={[
-              styles.statsCard,
-              {backgroundColor: colors.$surface},
-            ]}>
+          <View style={[styles.statsCard, {backgroundColor: colors.$surface}]}>
             <View style={styles.statRow}>
               <Text
                 style={{

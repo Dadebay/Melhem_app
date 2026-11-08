@@ -41,7 +41,11 @@ const InventoriesListItem = ({
         }}
       />
       <View
-        style={{borderRadius: 8, backgroundColor: colors.$background, height: 30}}
+        style={{
+          borderRadius: 8,
+          backgroundColor: colors.$background,
+          height: 30,
+        }}
         className="flex-row items-center">
         <Text
           style={{
@@ -53,7 +57,9 @@ const InventoriesListItem = ({
           }}>
           {data.price} TMT
         </Text>
-        <View style={{height: '100%', width: 1, backgroundColor: colors.$border}} />
+        <View
+          style={{height: '100%', width: 1, backgroundColor: colors.$border}}
+        />
         <Text
           style={{
             fontSize: 10,
@@ -65,7 +71,9 @@ const InventoriesListItem = ({
           {data.stockCount > 0 ? 'Satuwda' : 'Satuwda däl'}
         </Text>
       </View>
-      <Text style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}} numberOfLines={2}>
+      <Text
+        style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}
+        numberOfLines={2}>
         {data.drug.translations[currentLanguage].name}
       </Text>
       <Text
@@ -81,10 +89,20 @@ const InventoriesListItem = ({
           flexDirection: 'row',
         }}
         className="justify-center items-center">
-        <Text style={{textAlign: 'center', fontSize: 10, color: colors.$textPrimary}}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 10,
+            color: colors.$textPrimary,
+          }}>
           {data.drug.manufacturer.title}
         </Text>
-        <Text style={{textAlign: 'center', fontSize: 10, color: colors.$textPrimary}}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 10,
+            color: colors.$textPrimary,
+          }}>
           , {data.drug.country.translations[currentLanguage].name}
         </Text>
       </View>

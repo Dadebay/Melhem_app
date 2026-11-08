@@ -17,6 +17,7 @@ const toastStore = create<ToastState>(set => ({
 }));
 
 /** Fire a lightweight toast from anywhere without subscribing to the store. */
-export const showToast = (message: string) => toastStore.getState().show(message);
+export const showToast = (message: string) =>
+  toastStore.getState().show(message);
 
 export default toastStore;

@@ -50,7 +50,10 @@ const FORM_ICONS: Record<
   other: MoreHorizontal,
 };
 
-function getScheduleSummary(schedule: Reminder.Schedule | undefined, t: (key: string, opts?: any) => string): string {
+function getScheduleSummary(
+  schedule: Reminder.Schedule | undefined,
+  t: (key: string, opts?: any) => string,
+): string {
   if (!schedule) {
     return '';
   }
@@ -60,7 +63,9 @@ function getScheduleSummary(schedule: Reminder.Schedule | undefined, t: (key: st
     return t('medicationsList.timesPerDay', {count});
   }
   if (config.type === 'interval') {
-    return t('medicationsList.everyNHours', {hours: config.interval.intervalHours});
+    return t('medicationsList.everyNHours', {
+      hours: config.interval.intervalHours,
+    });
   }
   if (config.type === 'meal_relative') {
     const labels: Record<Reminder.MealRelation, string> = {
@@ -132,7 +137,13 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const {activeMemberId, medications, schedules, toggleMedicationActive, removeMedication} = reminderStore(
+  const {
+    activeMemberId,
+    medications,
+    schedules,
+    toggleMedicationActive,
+    removeMedication,
+  } = reminderStore(
     useShallow(state => ({
       activeMemberId: state.activeMemberId,
       medications: state.medications,
@@ -169,10 +180,7 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
         case 'all':
           return true;
         case 'active':
-          return (
-            med.isActive &&
-            !medSchedules.some(s => isCourseCompleted(s))
-          );
+          return med.isActive && !medSchedules.some(s => isCourseCompleted(s));
         case 'completed':
           return medSchedules.some(s => isCourseCompleted(s));
         case 'paused':
@@ -205,7 +213,13 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
     );
   };
 
-  const renderItem = ({item, index}: {item: Reminder.Medication; index: number}) => {
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: Reminder.Medication;
+    index: number;
+  }) => {
     const schedule = getFirstSchedule(item.id);
     const summary = getScheduleSummary(schedule, t);
     const progress = getCourseProgress(schedule);
@@ -213,9 +227,13 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
     const isExpanded = expandedId === item.id;
 
     return (
-      <Animated.View entering={FadeInRight.delay(index * 50).duration(300)} layout={Layout.springify()}>
+      <Animated.View
+        entering={FadeInRight.delay(index * 50).duration(300)}
+        layout={Layout.springify()}>
         <Pressable
-          onPress={() => navigation.navigate('MedicationDetail', {medicationId: item.id})}
+          onPress={() =>
+            navigation.navigate('MedicationDetail', {medicationId: item.id})
+          }
           onLongPress={() => setExpandedId(isExpanded ? null : item.id)}
           style={{
             backgroundColor: colors.$surface,
@@ -279,7 +297,10 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
                         height: 3,
                         borderRadius: 1.5,
                         backgroundColor: colors.$brandActive,
-                        width: `${Math.min(100, (progress.current / progress.total) * 100)}%`,
+                        width: `${Math.min(
+                          100,
+                          (progress.current / progress.total) * 100,
+                        )}%`,
                       }}
                     />
                   </View>
@@ -289,25 +310,42 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
                       color: colors.$textSecondary,
                       marginTop: 2,
                     }}>
-                    {progress.current}/{progress.total} {t('medicationsList.daysProgress')}
+                    {progress.current}/{progress.total}{' '}
+                    {t('medicationsList.daysProgress')}
                   </Text>
                 </View>
               )}
               {item.remainingPills !== undefined && (
-                <View style={{flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4}}>
-                  <Text style={{
-                    fontSize: 12,
-                    color: item.remainingPills <= 5 ? colors.$error : colors.$textSecondary,
-                    fontWeight: item.remainingPills <= 5 ? '600' : '400',
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                    marginTop: 4,
                   }}>
-                    {t('medicationsList.pillsLeft', {count: item.remainingPills})}
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color:
+                        item.remainingPills <= 5
+                          ? colors.$error
+                          : colors.$textSecondary,
+                      fontWeight: item.remainingPills <= 5 ? '600' : '400',
+                    }}>
+                    {t('medicationsList.pillsLeft', {
+                      count: item.remainingPills,
+                    })}
                   </Text>
                 </View>
               )}
             </View>
 
             {/* Chevron */}
-            <ChevronRight size={16} color={colors.$textSecondary} strokeWidth={1.5} />
+            <ChevronRight
+              size={16}
+              color={colors.$textSecondary}
+              strokeWidth={1.5}
+            />
           </View>
 
           {/* Quick Actions (on long press) */}
@@ -325,7 +363,9 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
               <Pressable
                 onPress={() => {
                   setExpandedId(null);
-                  navigation.navigate('EditMedication', {medicationId: item.id});
+                  navigation.navigate('EditMedication', {
+                    medicationId: item.id,
+                  });
                 }}
                 style={{
                   flex: 1,
@@ -338,7 +378,12 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
                   backgroundColor: colors.$infoBg,
                 }}>
                 <Edit3 size={14} color={colors.$info} strokeWidth={1.5} />
-                <Text style={{fontSize: 12, fontWeight: '500', color: colors.$info}}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: '500',
+                    color: colors.$info,
+                  }}>
                   {t('common.edit')}
                 </Text>
               </Pressable>
@@ -363,8 +408,15 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
                 ) : (
                   <Play size={14} color={colors.$success} strokeWidth={1.5} />
                 )}
-                <Text style={{fontSize: 12, fontWeight: '500', color: item.isActive ? colors.$warning : colors.$success}}>
-                  {item.isActive ? t('medicationsList.pause') : t('medicationsList.resume')}
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: '500',
+                    color: item.isActive ? colors.$warning : colors.$success,
+                  }}>
+                  {item.isActive
+                    ? t('medicationsList.pause')
+                    : t('medicationsList.resume')}
                 </Text>
               </Pressable>
               <Pressable
@@ -380,7 +432,12 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
                   backgroundColor: colors.$errorBg,
                 }}>
                 <Trash2 size={14} color={colors.$error} strokeWidth={1.5} />
-                <Text style={{fontSize: 12, fontWeight: '500', color: colors.$error}}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: '500',
+                    color: colors.$error,
+                  }}>
                   {t('common.delete')}
                 </Text>
               </Pressable>
@@ -447,7 +504,13 @@ const MedicationsListScreen = ({navigation, route}: Props) => {
   return (
     <View style={{flex: 1, backgroundColor: colors.$background}}>
       {/* Filter Chips */}
-      <View style={{flexDirection: 'row', paddingHorizontal: 16, paddingVertical: 10, gap: 8}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingHorizontal: 16,
+          paddingVertical: 10,
+          gap: 8,
+        }}>
         {(['all', 'active', 'completed', 'paused'] as FilterKey[]).map(key => {
           const isSelected = filter === key;
           return (

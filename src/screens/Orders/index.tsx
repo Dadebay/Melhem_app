@@ -1,7 +1,20 @@
 import {useState, useMemo, useCallback} from 'react';
-import {ActivityIndicator, FlatList, Image, Pressable, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import {Tabs} from 'heroui-native';
-import {Package, PackageCheck, PackageX, Clock, Store} from 'lucide-react-native';
+import {
+  Package,
+  PackageCheck,
+  PackageX,
+  Clock,
+  Store,
+} from 'lucide-react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
@@ -137,7 +150,13 @@ const OrderCard = ({
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+            flex: 1,
+          }}>
           <PharmacyLogo logo={order.pharmacyLogo} colors={colors} />
           <View style={{flex: 1}}>
             <Text
@@ -149,8 +168,18 @@ const OrderCard = ({
               }}>
               {order.pharmacyName}
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2}}>
-              <Clock size={11} color={colors.$textSecondary} strokeWidth={1.5} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4,
+                marginTop: 2,
+              }}>
+              <Clock
+                size={11}
+                color={colors.$textSecondary}
+                strokeWidth={1.5}
+              />
               <Text style={{fontSize: 12, color: colors.$textSecondary}}>
                 {formatDate(order.createdAt)}
               </Text>
@@ -276,8 +305,8 @@ const OrdersScreen = ({navigation, route}: Props) => {
     activeTab === 'active'
       ? activeOrders
       : activeTab === 'completed'
-        ? completedOrders
-        : cancelledOrders;
+      ? completedOrders
+      : cancelledOrders;
 
   const handleOrderPress = useCallback(
     (orderId: string) => {
@@ -290,7 +319,13 @@ const OrdersScreen = ({navigation, route}: Props) => {
     if (activeTab === 'active') {
       return (
         <EmptyState
-          icon={<Package size={32} color={colors.$statusPending} strokeWidth={1.5} />}
+          icon={
+            <Package
+              size={32}
+              color={colors.$statusPending}
+              strokeWidth={1.5}
+            />
+          }
           iconBgColor={colors.$statusPendingBg}
           title={t('orders.noActive')}
           subtitle={t('orders.noActiveHint')}
@@ -301,7 +336,13 @@ const OrdersScreen = ({navigation, route}: Props) => {
     if (activeTab === 'completed') {
       return (
         <EmptyState
-          icon={<PackageCheck size={32} color={colors.$statusCompleted} strokeWidth={1.5} />}
+          icon={
+            <PackageCheck
+              size={32}
+              color={colors.$statusCompleted}
+              strokeWidth={1.5}
+            />
+          }
           iconBgColor={colors.$statusCompletedBg}
           title={t('orders.noCompleted')}
           subtitle={t('orders.noCompletedHint')}
@@ -311,7 +352,13 @@ const OrdersScreen = ({navigation, route}: Props) => {
     }
     return (
       <EmptyState
-        icon={<PackageX size={32} color={colors.$statusCancelled} strokeWidth={1.5} />}
+        icon={
+          <PackageX
+            size={32}
+            color={colors.$statusCancelled}
+            strokeWidth={1.5}
+          />
+        }
         iconBgColor={colors.$statusCancelledBg}
         title={t('orders.noCancelled')}
         subtitle={t('orders.noCancelledHint')}
@@ -342,7 +389,8 @@ const OrdersScreen = ({navigation, route}: Props) => {
 
         <Tabs.Content value={activeTab} style={{flex: 1}}>
           {isLoading ? (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <ActivityIndicator color={colors.$textSecondary} />
             </View>
           ) : currentOrders.length === 0 ? (

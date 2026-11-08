@@ -42,8 +42,7 @@ const StatisticsScreen = ({route, navigation}: Props) => {
   const [period, setPeriod] = useState<Period>('week');
 
   const effectiveMemberId =
-    route.params?.memberId ??
-    reminderStore.getState().activeMemberId;
+    route.params?.memberId ?? reminderStore.getState().activeMemberId;
 
   const {intakeLogs, medications, schedules, mealTimes} = reminderStore(
     useShallow(state => ({
@@ -61,19 +60,14 @@ const StatisticsScreen = ({route, navigation}: Props) => {
 
   const memberMedications = useMemo(
     () =>
-      medications.filter(
-        m => m.memberId === effectiveMemberId && m.isActive,
-      ),
+      medications.filter(m => m.memberId === effectiveMemberId && m.isActive),
     [medications, effectiveMemberId],
   );
 
-  const memberSchedules = useMemo(
-    () => {
-      const medIds = new Set(memberMedications.map(m => m.id));
-      return schedules.filter(s => medIds.has(s.medicationId));
-    },
-    [schedules, memberMedications],
-  );
+  const memberSchedules = useMemo(() => {
+    const medIds = new Set(memberMedications.map(m => m.id));
+    return schedules.filter(s => medIds.has(s.medicationId));
+  }, [schedules, memberMedications]);
 
   const periodDays = getPeriodDays(period);
   const adherence = useMemo(
@@ -81,11 +75,23 @@ const StatisticsScreen = ({route, navigation}: Props) => {
     [memberLogs, periodDays],
   );
   const currentStreak = useMemo(
-    () => computeCurrentStreak(memberLogs, memberSchedules, memberMedications, mealTimes),
+    () =>
+      computeCurrentStreak(
+        memberLogs,
+        memberSchedules,
+        memberMedications,
+        mealTimes,
+      ),
     [memberLogs, memberSchedules, memberMedications, mealTimes],
   );
   const bestStreak = useMemo(
-    () => computeBestStreak(memberLogs, memberSchedules, memberMedications, mealTimes),
+    () =>
+      computeBestStreak(
+        memberLogs,
+        memberSchedules,
+        memberMedications,
+        mealTimes,
+      ),
     [memberLogs, memberSchedules, memberMedications, mealTimes],
   );
 
@@ -93,7 +99,12 @@ const StatisticsScreen = ({route, navigation}: Props) => {
   const barData = useMemo(() => {
     const days = period === 'week' ? 7 : period === 'month' ? 30 : periodDays;
     const displayDays = Math.min(days, 90);
-    const result: {date: string; label: string; taken: number; total: number}[] = [];
+    const result: {
+      date: string;
+      label: string;
+      taken: number;
+      total: number;
+    }[] = [];
     const today = dayjs();
 
     for (let i = displayDays - 1; i >= 0; i--) {
@@ -123,8 +134,7 @@ const StatisticsScreen = ({route, navigation}: Props) => {
     return memberMedications.map(med => {
       const medLogs = memberLogs.filter(
         l =>
-          l.medicationId === med.id &&
-          dayjs(l.scheduledTime).isAfter(cutoff),
+          l.medicationId === med.id && dayjs(l.scheduledTime).isAfter(cutoff),
       );
       const taken = medLogs.filter(l => l.status === 'taken').length;
       const total = medLogs.length;
@@ -203,7 +213,9 @@ const StatisticsScreen = ({route, navigation}: Props) => {
             }}>
             {currentStreak}
           </Text>
-          <Text style={{fontSize: 12, color: colors.$textPrimary}}>{t('statistics.day')}</Text>
+          <Text style={{fontSize: 12, color: colors.$textPrimary}}>
+            {t('statistics.day')}
+          </Text>
           <Text style={{fontSize: 12, color: colors.$textSecondary}}>
             {t('statistics.currentStreak')}
           </Text>
@@ -226,7 +238,9 @@ const StatisticsScreen = ({route, navigation}: Props) => {
             }}>
             {bestStreak}
           </Text>
-          <Text style={{fontSize: 12, color: colors.$textPrimary}}>{t('statistics.day')}</Text>
+          <Text style={{fontSize: 12, color: colors.$textPrimary}}>
+            {t('statistics.day')}
+          </Text>
           <Text style={{fontSize: 12, color: colors.$textSecondary}}>
             {t('statistics.bestStreak')}
           </Text>
@@ -250,8 +264,7 @@ const StatisticsScreen = ({route, navigation}: Props) => {
           }}>
           {barData.map(bar => {
             const totalHeight = bar.total > 0 ? (bar.total / maxDoses) * 80 : 0;
-            const takenHeight =
-              bar.total > 0 ? (bar.taken / maxDoses) * 80 : 0;
+            const takenHeight = bar.total > 0 ? (bar.taken / maxDoses) * 80 : 0;
             const missedHeight = totalHeight - takenHeight;
 
             return (

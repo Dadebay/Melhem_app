@@ -28,10 +28,7 @@ import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 import cartStore from '../../lib/store/cartStore';
 import {formatAddress} from '../../lib/store/addressStore';
-import {
-  DeliveryMethod,
-  PaymentMethod,
-} from '../../lib/store/orderStore';
+import {DeliveryMethod, PaymentMethod} from '../../lib/store/orderStore';
 import addressApi from '../../lib/api/addressApi';
 import orderApi from '../../lib/api/orderApi';
 import getImageUrl from '../../lib/getImageUrl';
@@ -358,7 +355,11 @@ const CheckoutScreen = ({navigation, route}: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <MapPin size={16} color={colors.$brandActiveText} strokeWidth={1.5} />
+                  <MapPin
+                    size={16}
+                    color={colors.$brandActiveText}
+                    strokeWidth={1.5}
+                  />
                 </View>
                 <View style={{flex: 1}}>
                   <Text
@@ -376,7 +377,10 @@ const CheckoutScreen = ({navigation, route}: Props) => {
                       marginTop: 2,
                     }}
                     numberOfLines={2}>
-                    {formatAddress(selectedAddress, t('address.apartmentShort'))}
+                    {formatAddress(
+                      selectedAddress,
+                      t('address.apartmentShort'),
+                    )}
                   </Text>
                 </View>
                 <Text
@@ -399,11 +403,7 @@ const CheckoutScreen = ({navigation, route}: Props) => {
             exiting={FadeOut.duration(150)}
             style={{gap: 10}}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <Phone
-                size={16}
-                color={colors.$textPrimary}
-                strokeWidth={1.5}
-              />
+              <Phone size={16} color={colors.$textPrimary} strokeWidth={1.5} />
               <Text
                 style={{
                   fontSize: 16,
@@ -531,7 +531,11 @@ const CheckoutScreen = ({navigation, route}: Props) => {
           <TextInput
             value={comment}
             onChangeText={setComment}
-            placeholder={t(deliveryMethod === 'pickup' ? 'checkout.commentPlaceholderPickup' : 'checkout.commentPlaceholder')}
+            placeholder={t(
+              deliveryMethod === 'pickup'
+                ? 'checkout.commentPlaceholderPickup'
+                : 'checkout.commentPlaceholder',
+            )}
             placeholderTextColor={colors.$textSecondary}
             multiline
             numberOfLines={3}
@@ -712,7 +716,9 @@ const CheckoutScreen = ({navigation, route}: Props) => {
             }}>
             {createOrder.isPending
               ? t('checkout.placingOrder')
-              : `${t('checkout.placeOrder')} · ${total.toFixed(2)} ${t('cart.currency')}`}
+              : `${t('checkout.placeOrder')} · ${total.toFixed(2)} ${t(
+                  'cart.currency',
+                )}`}
           </Text>
         </Pressable>
       </View>

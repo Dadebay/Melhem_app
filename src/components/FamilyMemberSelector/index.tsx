@@ -45,10 +45,7 @@ const FamilyMemberSelector = ({
                 },
               ]}>
               <View
-                style={[
-                  styles.avatar,
-                  {backgroundColor: member.avatarColor},
-                ]}>
+                style={[styles.avatar, {backgroundColor: member.avatarColor}]}>
                 <Text style={styles.initial}>{initial}</Text>
               </View>
             </View>
@@ -56,9 +53,7 @@ const FamilyMemberSelector = ({
               style={[
                 styles.name,
                 {
-                  color: isActive
-                    ? colors.$textPrimary
-                    : colors.$textSecondary,
+                  color: isActive ? colors.$textPrimary : colors.$textSecondary,
                 },
               ]}
               numberOfLines={1}>

@@ -43,9 +43,21 @@ const OnboardingLanguageScreen = ({navigation}: Props) => {
       <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
         <Defs>
           <RadialGradient id="welcomeGlow" cx="50%" cy="50%" r="50%">
-            <Stop offset="0%" stopColor={colors.$brandActive} stopOpacity={0.2} />
-            <Stop offset="70%" stopColor={colors.$brandActive} stopOpacity={0.07} />
-            <Stop offset="100%" stopColor={colors.$brandActive} stopOpacity={0} />
+            <Stop
+              offset="0%"
+              stopColor={colors.$brandActive}
+              stopOpacity={0.2}
+            />
+            <Stop
+              offset="70%"
+              stopColor={colors.$brandActive}
+              stopOpacity={0.07}
+            />
+            <Stop
+              offset="100%"
+              stopColor={colors.$brandActive}
+              stopOpacity={0}
+            />
           </RadialGradient>
         </Defs>
         <Circle cx="18%" cy="9%" r="35%" fill="url(#welcomeGlow)" />
@@ -106,7 +118,9 @@ const OnboardingLanguageScreen = ({navigation}: Props) => {
                 borderRadius: 14,
                 borderWidth: 1.5,
                 borderColor: isSelected ? colors.$brandActive : colors.$border,
-                backgroundColor: isSelected ? colors.$surface : colors.$background,
+                backgroundColor: isSelected
+                  ? colors.$surface
+                  : colors.$background,
               }}>
               <Image
                 source={lang.flag}
@@ -122,7 +136,11 @@ const OnboardingLanguageScreen = ({navigation}: Props) => {
                 {lang.title}
               </Text>
               {isSelected && (
-                <Check size={22} color={colors.$brandActive} strokeWidth={2.5} />
+                <Check
+                  size={22}
+                  color={colors.$brandActive}
+                  strokeWidth={2.5}
+                />
               )}
             </Pressable>
           );

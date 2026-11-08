@@ -34,7 +34,13 @@ const clamp = (v: number, min: number, max: number) =>
  * the map never fights the vertical scroll of the list it lives in. A small
  * button opens the device's maps app for directions.
  */
-const PharmacyMap = ({center, colors, label, height = 200, zoom = 15}: Props) => {
+const PharmacyMap = ({
+  center,
+  colors,
+  label,
+  height = 200,
+  zoom = 15,
+}: Props) => {
   const cameraRef = useRef<CameraRef>(null);
   // Tracked via the viewport-change event so pinch/double-tap keep the +/-
   // buttons in sync. Kept in a ref (not state) so changing it never re-renders

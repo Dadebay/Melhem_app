@@ -1,7 +1,18 @@
-import {ActivityIndicator, Alert, FlatList, Pressable, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import {AxiosError} from 'axios';
 import {Check, MapPin, Pencil, Plus, Star, Trash2} from 'lucide-react-native';
-import Animated, {FadeIn, FadeOut, LinearTransition} from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
 import {formatAddress, SavedAddress} from '../../lib/store/addressStore';
@@ -43,22 +54,26 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
   const handleDelete = useCallback(
     (id: string, label: string) => {
       if (removeAddress.isPending) return;
-      Alert.alert(t('address.deleteTitle'), t('address.deleteConfirm', {label}), [
-        {text: t('address.deleteCancel'), style: 'cancel'},
-        {
-          text: t('address.deleteAction'),
-          style: 'destructive',
-          onPress: () =>
-            removeAddress.mutate(id, {
-              onError: e => {
-                const message =
-                  (e as AxiosError<ApiErrorResponse>)?.response?.data?.message ||
-                  t('address.deleteError');
-                Alert.alert(t('checkout.orderErrorTitle'), String(message));
-              },
-            }),
-        },
-      ]);
+      Alert.alert(
+        t('address.deleteTitle'),
+        t('address.deleteConfirm', {label}),
+        [
+          {text: t('address.deleteCancel'), style: 'cancel'},
+          {
+            text: t('address.deleteAction'),
+            style: 'destructive',
+            onPress: () =>
+              removeAddress.mutate(id, {
+                onError: e => {
+                  const message =
+                    (e as AxiosError<ApiErrorResponse>)?.response?.data
+                      ?.message || t('address.deleteError');
+                  Alert.alert(t('checkout.orderErrorTitle'), String(message));
+                },
+              }),
+          },
+        ],
+      );
     },
     [removeAddress, t],
   );
@@ -90,13 +105,17 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
                 width: 40,
                 height: 40,
                 borderRadius: 20,
-                backgroundColor: isSelected ? colors.$brandActive : colors.$surface,
+                backgroundColor: isSelected
+                  ? colors.$brandActive
+                  : colors.$surface,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <MapPin
                 size={18}
-                color={isSelected ? colors.$brandActiveText : colors.$textSecondary}
+                color={
+                  isSelected ? colors.$brandActiveText : colors.$textSecondary
+                }
                 strokeWidth={1.5}
               />
             </View>
@@ -134,7 +153,11 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
                       strokeWidth={0}
                     />
                     <Text
-                      style={{fontSize: 9, fontWeight: '600', color: colors.$warning}}>
+                      style={{
+                        fontSize: 9,
+                        fontWeight: '600',
+                        color: colors.$warning,
+                      }}>
                       {t('address.default')}
                     </Text>
                   </View>
@@ -217,7 +240,11 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
             {/* Right side: check in pick mode, edit icon in pick mode for non-selected */}
             {mode === 'pick' &&
               (isSelected ? (
-                <Check size={20} color={colors.$brandActive} strokeWidth={2.5} />
+                <Check
+                  size={20}
+                  color={colors.$brandActive}
+                  strokeWidth={2.5}
+                />
               ) : (
                 <Pressable
                   onPress={() =>
@@ -276,11 +303,7 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
             alignItems: 'center',
             marginBottom: 14,
           }}>
-          <MapPin
-            size={24}
-            color={colors.$textSecondary}
-            strokeWidth={1.5}
-          />
+          <MapPin size={24} color={colors.$textSecondary} strokeWidth={1.5} />
         </View>
         <Text
           style={{
@@ -347,7 +370,12 @@ const AddressPickerScreen = ({navigation, route}: Props) => {
             gap: 6,
           }}>
           <Plus size={18} color={colors.$brandActiveText} strokeWidth={2} />
-          <Text style={{color: colors.$brandActiveText, fontSize: 15, fontWeight: '600'}}>
+          <Text
+            style={{
+              color: colors.$brandActiveText,
+              fontSize: 15,
+              fontWeight: '600',
+            }}>
             {t('address.addNew')}
           </Text>
         </Pressable>

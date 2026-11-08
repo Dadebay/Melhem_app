@@ -23,4 +23,4 @@ const getImageUrl = (
 ) => resolveImageUrl(imageKey);
 
 export default getImageUrl;
-export { resolveImageUrl };
+export {resolveImageUrl};

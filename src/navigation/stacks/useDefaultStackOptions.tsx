@@ -13,9 +13,7 @@ const useDefaultStackOptions = () => {
         fontSize: 17,
         fontWeight: '600',
         fontFamily:
-          t('key') === 'ru'
-            ? 'InclusiveSans-SemiBold'
-            : 'IBMPlexSans-SemiBold',
+          t('key') === 'ru' ? 'InclusiveSans-SemiBold' : 'IBMPlexSans-SemiBold',
       },
       headerBackButtonDisplayMode: 'minimal',
       headerShadowVisible: false,

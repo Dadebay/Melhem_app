@@ -101,11 +101,7 @@ const SpecRow = ({
         </Text>
       </View>
       {onPress && (
-        <ChevronRight
-          size={14}
-          color={colors.$textSecondary}
-          strokeWidth={2}
-        />
+        <ChevronRight size={14} color={colors.$textSecondary} strokeWidth={2} />
       )}
     </Wrapper>
   );
@@ -172,7 +168,11 @@ const PharmacyPriceRow = ({
                 }}>
                 <Award size={10} color={colors.$warning} strokeWidth={2} />
                 <Text
-                  style={{fontSize: 10, color: colors.$warning, fontWeight: '600'}}>
+                  style={{
+                    fontSize: 10,
+                    color: colors.$warning,
+                    fontWeight: '600',
+                  }}>
                   {t('drug.bestPrice')}
                 </Text>
               </View>
@@ -207,7 +207,11 @@ const PharmacyPriceRow = ({
             alignItems: 'center',
           }}>
           {isSelected ? (
-            <Check size={18} color={colors.$brandActiveText} strokeWidth={2.5} />
+            <Check
+              size={18}
+              color={colors.$brandActiveText}
+              strokeWidth={2.5}
+            />
           ) : (
             <Plus size={18} color={colors.$textPrimary} strokeWidth={2} />
           )}
@@ -438,12 +442,11 @@ const DrugScreen = ({navigation, route}: Props) => {
   const minPrice = drug.min_price;
   const hasMultiplePrices =
     drug.min_price != null && drug.min_price !== drug.max_price;
-  const priceLabel =
-    route.params.price
-      ? `${route.params.price.toFixed(2)} TMT`
-      : minPrice != null
-        ? `${minPrice.toFixed(2)} TMT`
-        : null;
+  const priceLabel = route.params.price
+    ? `${route.params.price.toFixed(2)} TMT`
+    : minPrice != null
+    ? `${minPrice.toFixed(2)} TMT`
+    : null;
 
   const isRange = !route.params.price && hasMultiplePrices;
 
@@ -484,7 +487,9 @@ const DrugScreen = ({navigation, route}: Props) => {
           </Text>
           <Text style={{fontSize: 15, color: colors.$textSecondary}}>
             {prettyFormulation}
-            {drug.count ? ` · ${t('drug.countValue', {count: drug.count})}` : ''}
+            {drug.count
+              ? ` · ${t('drug.countValue', {count: drug.count})}`
+              : ''}
           </Text>
 
           {/* Price inline */}
@@ -558,7 +563,10 @@ const DrugScreen = ({navigation, route}: Props) => {
               <Pressable
                 onPress={() =>
                   drug.category &&
-                  handleCategoryPress(drug.category.id, drug.category.name ?? '')
+                  handleCategoryPress(
+                    drug.category.id,
+                    drug.category.name ?? '',
+                  )
                 }
                 style={{
                   backgroundColor: colors.$surface,
@@ -671,9 +679,7 @@ const DrugScreen = ({navigation, route}: Props) => {
               />
             }
             label={t('drug.count')}
-            value={
-              drug.count ? t('drug.countValue', {count: drug.count}) : ''
-            }
+            value={drug.count ? t('drug.countValue', {count: drug.count}) : ''}
             colors={colors}
           />
         </View>
@@ -928,10 +934,19 @@ const DrugScreen = ({navigation, route}: Props) => {
                       fontWeight: '700',
                       color: colors.$textPrimary,
                     }}>
-                    {cartStore.getState().items.find(i => i.drugId === route.params.id)?.pharmacyName}
+                    {
+                      cartStore
+                        .getState()
+                        .items.find(i => i.drugId === route.params.id)
+                        ?.pharmacyName
+                    }
                   </Text>
                   <Text style={{fontSize: 12, color: colors.$textSecondary}}>
-                    {cartStore.getState().items.find(i => i.drugId === route.params.id)?.price.toFixed(2)} TMT
+                    {cartStore
+                      .getState()
+                      .items.find(i => i.drugId === route.params.id)
+                      ?.price.toFixed(2)}{' '}
+                    TMT
                   </Text>
                 </View>
                 <Pressable
@@ -980,7 +995,11 @@ const DrugScreen = ({navigation, route}: Props) => {
                     paddingVertical: 10,
                     borderRadius: 10,
                   }}>
-                  <Check size={16} color={colors.$brandActiveText} strokeWidth={2.5} />
+                  <Check
+                    size={16}
+                    color={colors.$brandActiveText}
+                    strokeWidth={2.5}
+                  />
                   <Text
                     style={{
                       fontSize: 13,
@@ -1003,7 +1022,11 @@ const DrugScreen = ({navigation, route}: Props) => {
                   alignItems: 'center',
                   gap: 8,
                 }}>
-                <ShoppingCart size={18} color={colors.$brandActiveText} strokeWidth={2} />
+                <ShoppingCart
+                  size={18}
+                  color={colors.$brandActiveText}
+                  strokeWidth={2}
+                />
                 <Text
                   style={{
                     fontSize: 15,

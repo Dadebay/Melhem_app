@@ -174,7 +174,9 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
               width: 56,
               height: 56,
               borderRadius: 28,
-              backgroundColor: isCancelled ? colors.$errorBg : colors.$successBg,
+              backgroundColor: isCancelled
+                ? colors.$errorBg
+                : colors.$successBg,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
@@ -220,7 +222,9 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
             }}>
             {order.pharmacyLogo ? (
               <Image
-                source={{uri: getImageUrl('pharmacies', order.pharmacyLogo, 256)}}
+                source={{
+                  uri: getImageUrl('pharmacies', order.pharmacyLogo, 256),
+                }}
                 style={{
                   width: 36,
                   height: 36,
@@ -255,7 +259,11 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
           </View>
 
           <View
-            style={{height: 1, backgroundColor: colors.$border, marginBottom: 12}}
+            style={{
+              height: 1,
+              backgroundColor: colors.$border,
+              marginBottom: 12,
+            }}
           />
 
           {/* Delivery Method */}
@@ -328,7 +336,9 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
           {/* Discount */}
           {order.discount > 0 && (
             <InfoRow
-              label={`${t('orderDetail.discount')}${order.promoCode ? ` (${order.promoCode})` : ''}`}
+              label={`${t('orderDetail.discount')}${
+                order.promoCode ? ` (${order.promoCode})` : ''
+              }`}
               value={`−${order.discount.toFixed(2)} ${t('cart.currency')}`}
               labelColor={colors.$discount}
               valueColor={colors.$discount}
@@ -336,7 +346,13 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
             />
           )}
 
-          <View style={{height: 1, backgroundColor: colors.$border, marginVertical: 4}} />
+          <View
+            style={{
+              height: 1,
+              backgroundColor: colors.$border,
+              marginVertical: 4,
+            }}
+          />
 
           {/* Total */}
           <View
@@ -345,10 +361,20 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
               justifyContent: 'space-between',
               marginTop: 4,
             }}>
-            <Text style={{fontSize: 15, fontWeight: '600', color: colors.$textPrimary}}>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: '600',
+                color: colors.$textPrimary,
+              }}>
               {t('orderDetail.total')}
             </Text>
-            <Text style={{fontSize: 16, fontWeight: '700', color: colors.$textPrimary}}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '700',
+                color: colors.$textPrimary,
+              }}>
               {order.total.toFixed(2)} {t('cart.currency')}
             </Text>
           </View>
@@ -429,7 +455,11 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
                         justifyContent: 'center',
                       }}>
                       {step.completed && (
-                        <Check size={10} color={colors.$brandActiveText} strokeWidth={3} />
+                        <Check
+                          size={10}
+                          color={colors.$brandActiveText}
+                          strokeWidth={3}
+                        />
                       )}
                     </View>
                     {!isLast && (
@@ -562,7 +592,8 @@ const OrderDetailScreen = ({route, navigation}: Props) => {
               paddingVertical: 14,
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 15, fontWeight: '600', color: colors.$error}}>
+            <Text
+              style={{fontSize: 15, fontWeight: '600', color: colors.$error}}>
               {cancelOrder.isPending
                 ? t('orderDetail.cancelling')
                 : t('orderDetail.cancelAction')}
@@ -621,7 +652,12 @@ const InfoRow = ({
       justifyContent: 'space-between',
       marginBottom: 8,
     }}>
-    <Text style={{fontSize: 13, color: labelColor ?? colors.$textSecondary, flex: 1}}>
+    <Text
+      style={{
+        fontSize: 13,
+        color: labelColor ?? colors.$textSecondary,
+        flex: 1,
+      }}>
       {label}
     </Text>
     <Text

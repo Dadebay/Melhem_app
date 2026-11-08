@@ -27,7 +27,10 @@ export type AddressInput = Omit<SavedAddress, 'id' | 'createdAt'>;
  * (e.g. t('address.apartmentShort')) to localize the abbreviation.
  */
 export const formatAddress = (
-  addr: Pick<SavedAddress, 'city' | 'district' | 'street' | 'house' | 'apartment'>,
+  addr: Pick<
+    SavedAddress,
+    'city' | 'district' | 'street' | 'house' | 'apartment'
+  >,
   apartmentLabel = 'kw.',
 ): string => {
   const parts = [addr.city, addr.district, addr.street, addr.house].filter(

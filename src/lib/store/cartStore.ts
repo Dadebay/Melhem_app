@@ -23,7 +23,11 @@ interface CartStoreState {
   items: CartItem[];
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (drugId: string, pharmacyId: string) => void;
-  updateQuantity: (drugId: string, pharmacyId: string, quantity: number) => void;
+  updateQuantity: (
+    drugId: string,
+    pharmacyId: string,
+    quantity: number,
+  ) => void;
   getItem: (drugId: string, pharmacyId: string) => CartItem | undefined;
   getItemsByPharmacy: () => Map<string, CartItem[]>;
   isInCart: (drugId: string) => boolean;

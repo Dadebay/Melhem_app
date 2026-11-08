@@ -77,11 +77,7 @@ const HomeScreen = ({navigation}: Props) => {
             alignItems: 'center',
             paddingHorizontal: 16,
           }}>
-          <Search
-            size={18}
-            color={colors.$textPlaceholder}
-            strokeWidth={2}
-          />
+          <Search size={18} color={colors.$textPlaceholder} strokeWidth={2} />
           <Text
             style={{
               fontSize: 14,
@@ -107,46 +103,59 @@ const HomeScreen = ({navigation}: Props) => {
         }
         style={{backgroundColor: colors.$background}}>
         <View style={{gap: 28, marginTop: 20}}>
-        <Carousel data={slidersQuery.data?.sliders || []} />
+          <Carousel data={slidersQuery.data?.sliders || []} />
 
-        <View style={{gap: 14}}>
-          <SectionHeader>{t('home.categories')}</SectionHeader>
-          {categoriesQuery.isLoading ? (
-            <View style={{height: 80, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator color={colors.$textSecondary} />
-            </View>
-          ) : (
-            <CategoriesList
-              data={(categoriesQuery.data || []).slice(0, 8)}
-            />
-          )}
-        </View>
+          <View style={{gap: 14}}>
+            <SectionHeader>{t('home.categories')}</SectionHeader>
+            {categoriesQuery.isLoading ? (
+              <View
+                style={{
+                  height: 80,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator color={colors.$textSecondary} />
+              </View>
+            ) : (
+              <CategoriesList data={(categoriesQuery.data || []).slice(0, 8)} />
+            )}
+          </View>
 
-        <View style={{gap: 14}}>
-          <SectionHeader onPress={() => navigation.navigate('Pharmacies')}>
-            {t('home.pharmacies')}
-          </SectionHeader>
-          {pharmaciesQuery.isLoading ? (
-            <View style={{height: 120, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator color={colors.$textSecondary} />
-            </View>
-          ) : (
-            <PharmaciesHorizontalList
-              data={pharmaciesQuery.data?.pharmacies || []}
-            />
-          )}
-        </View>
+          <View style={{gap: 14}}>
+            <SectionHeader onPress={() => navigation.navigate('Pharmacies')}>
+              {t('home.pharmacies')}
+            </SectionHeader>
+            {pharmaciesQuery.isLoading ? (
+              <View
+                style={{
+                  height: 120,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator color={colors.$textSecondary} />
+              </View>
+            ) : (
+              <PharmaciesHorizontalList
+                data={pharmaciesQuery.data?.pharmacies || []}
+              />
+            )}
+          </View>
 
-        <View style={{gap: 14}}>
-          <SectionHeader>{t('home.popularDrugs')}</SectionHeader>
-          {popularDrugsQuery.isLoading ? (
-            <View style={{height: 200, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator color={colors.$textSecondary} />
-            </View>
-          ) : popularDrugsQuery.data?.drugs ? (
-            <PopularProductsList data={popularDrugsQuery.data.drugs} />
-          ) : null}
-        </View>
+          <View style={{gap: 14}}>
+            <SectionHeader>{t('home.popularDrugs')}</SectionHeader>
+            {popularDrugsQuery.isLoading ? (
+              <View
+                style={{
+                  height: 200,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator color={colors.$textSecondary} />
+              </View>
+            ) : popularDrugsQuery.data?.drugs ? (
+              <PopularProductsList data={popularDrugsQuery.data.drugs} />
+            ) : null}
+          </View>
         </View>
       </ScrollView>
     </View>

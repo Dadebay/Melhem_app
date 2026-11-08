@@ -8,7 +8,11 @@ export function detectMissedDoses(): void {
   const cutoff = dayjs().subtract(GRACE_WINDOW_MINUTES, 'minute');
 
   for (const log of intakeLogs) {
-    if (log.status === 'taken' || log.status === 'skipped' || log.status === 'missed') {
+    if (
+      log.status === 'taken' ||
+      log.status === 'skipped' ||
+      log.status === 'missed'
+    ) {
       continue;
     }
     if (dayjs(log.scheduledTime).isBefore(cutoff)) {

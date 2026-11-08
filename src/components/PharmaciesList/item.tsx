@@ -41,7 +41,8 @@ const PharmaciesListItem = ({data, onPress}: Props) => {
           }}
         />
       </View>
-      <Text style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>
+      <Text
+        style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>
         {data.name}
       </Text>
       <View style={{height: 1, backgroundColor: colors.$border}} />

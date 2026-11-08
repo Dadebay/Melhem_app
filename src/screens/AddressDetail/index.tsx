@@ -14,13 +14,7 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Animated, {FadeIn} from 'react-native-reanimated';
-import {
-  Briefcase,
-  Home,
-  MapPinOff,
-  Navigation,
-  Pin,
-} from 'lucide-react-native';
+import {Briefcase, Home, MapPinOff, Navigation, Pin} from 'lucide-react-native';
 import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
@@ -195,9 +189,23 @@ const AddressDetailScreen = ({route, navigation}: Props) => {
       Alert.alert(t('checkout.orderErrorTitle'), String(message));
     }
   }, [
-    isValid, isSaving, label, city, district, street, house, apartment,
-    latitude, longitude, isDefault, isEditMode, addressId,
-    updateMutation, createAddress, navigation, t,
+    isValid,
+    isSaving,
+    label,
+    city,
+    district,
+    street,
+    house,
+    apartment,
+    latitude,
+    longitude,
+    isDefault,
+    isEditMode,
+    addressId,
+    updateMutation,
+    createAddress,
+    navigation,
+    t,
   ]);
 
   useEffect(() => {
@@ -230,7 +238,6 @@ const AddressDetailScreen = ({route, navigation}: Props) => {
         }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-
         {/* OSM map — pan to drop the pin on the delivery point. */}
         <Animated.View entering={FadeIn.duration(300)}>
           <View
@@ -288,8 +295,7 @@ const AddressDetailScreen = ({route, navigation}: Props) => {
               color={colors.$textSecondary}
               strokeWidth={1.5}
             />
-            <Text
-              style={{fontSize: 13, color: colors.$textSecondary, flex: 1}}>
+            <Text style={{fontSize: 13, color: colors.$textSecondary, flex: 1}}>
               {t('address.geoUnavailable')}
             </Text>
           </View>
@@ -316,20 +322,28 @@ const AddressDetailScreen = ({route, navigation}: Props) => {
                     flex: 1,
                     paddingVertical: 12,
                     borderRadius: 10,
-                    backgroundColor: isSelected ? colors.$brandActive : colors.$surface,
+                    backgroundColor: isSelected
+                      ? colors.$brandActive
+                      : colors.$surface,
                     alignItems: 'center',
                     gap: 4,
                   }}>
                   <preset.Icon
                     size={20}
-                    color={isSelected ? colors.$brandActiveText : colors.$textSecondary}
+                    color={
+                      isSelected
+                        ? colors.$brandActiveText
+                        : colors.$textSecondary
+                    }
                     strokeWidth={1.5}
                   />
                   <Text
                     style={{
                       fontSize: 13,
                       fontWeight: '600',
-                      color: isSelected ? colors.$brandActiveText : colors.$textPrimary,
+                      color: isSelected
+                        ? colors.$brandActiveText
+                        : colors.$textPrimary,
                     }}>
                     {preset.value}
                   </Text>
@@ -493,8 +507,8 @@ const AddressDetailScreen = ({route, navigation}: Props) => {
             {isSaving
               ? t('address.saving')
               : isEditMode
-                ? t('address.edit')
-                : t('address.save')}
+              ? t('address.edit')
+              : t('address.save')}
           </Text>
         </Pressable>
       </View>

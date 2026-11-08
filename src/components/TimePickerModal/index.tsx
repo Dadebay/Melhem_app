@@ -17,7 +17,12 @@ type Props = {
   onCancel: () => void;
 };
 
-const TimePickerModal = ({visible, initialTime, onConfirm, onCancel}: Props) => {
+const TimePickerModal = ({
+  visible,
+  initialTime,
+  onConfirm,
+  onCancel,
+}: Props) => {
   const colors = useColors();
   const {t} = useTranslation();
   const [hours, setHours] = useState('');
@@ -52,7 +57,10 @@ const TimePickerModal = ({visible, initialTime, onConfirm, onCancel}: Props) => 
             <TextInput
               style={[
                 s.input,
-                {color: colors.$textPrimary, backgroundColor: colors.$background},
+                {
+                  color: colors.$textPrimary,
+                  backgroundColor: colors.$background,
+                },
               ]}
               value={hours}
               onChangeText={text => {
@@ -73,7 +81,10 @@ const TimePickerModal = ({visible, initialTime, onConfirm, onCancel}: Props) => 
               ref={minutesRef}
               style={[
                 s.input,
-                {color: colors.$textPrimary, backgroundColor: colors.$background},
+                {
+                  color: colors.$textPrimary,
+                  backgroundColor: colors.$background,
+                },
               ]}
               value={minutes}
               onChangeText={text =>

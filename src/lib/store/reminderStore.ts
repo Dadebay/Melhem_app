@@ -232,13 +232,14 @@ const reminderStore = create<ReminderStoreState>()(
         const id = generateId();
         const newLog: Reminder.IntakeLog = {...log, id};
         set(state => {
-          const updatedMeds = log.status === 'taken'
-            ? state.medications.map(m =>
-                m.id === log.medicationId && m.remainingPills !== undefined
-                  ? {...m, remainingPills: Math.max(0, m.remainingPills - 1)}
-                  : m,
-              )
-            : state.medications;
+          const updatedMeds =
+            log.status === 'taken'
+              ? state.medications.map(m =>
+                  m.id === log.medicationId && m.remainingPills !== undefined
+                    ? {...m, remainingPills: Math.max(0, m.remainingPills - 1)}
+                    : m,
+                )
+              : state.medications;
           return {
             intakeLogs: [...state.intakeLogs, newLog],
             medications: updatedMeds,

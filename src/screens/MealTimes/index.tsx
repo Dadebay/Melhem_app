@@ -10,8 +10,16 @@ import TimePickerModal from '../../components/TimePickerModal';
 type Props = NativeStackScreenProps<Nav.Reminder, 'MealTimes'>;
 
 const MEALS = [
-  {key: 'breakfast' as Reminder.MealSlot, icon: Coffee, labelKey: 'settings.breakfast'},
-  {key: 'lunch' as Reminder.MealSlot, icon: UtensilsCrossed, labelKey: 'settings.lunch'},
+  {
+    key: 'breakfast' as Reminder.MealSlot,
+    icon: Coffee,
+    labelKey: 'settings.breakfast',
+  },
+  {
+    key: 'lunch' as Reminder.MealSlot,
+    icon: UtensilsCrossed,
+    labelKey: 'settings.lunch',
+  },
   {key: 'dinner' as Reminder.MealSlot, icon: Moon, labelKey: 'settings.dinner'},
 ];
 
@@ -21,14 +29,17 @@ const MealTimesScreen = (_: Props) => {
 
   const mealTimes = reminderStore(s => s.mealTimes);
   const setMealTime = reminderStore(s => s.setMealTime);
-  const [editingMeal, setEditingMeal] = useState<Reminder.MealSlot | null>(null);
+  const [editingMeal, setEditingMeal] = useState<Reminder.MealSlot | null>(
+    null,
+  );
 
   return (
     <ScrollView
       style={{flex: 1, backgroundColor: colors.$background}}
       contentContainerStyle={{padding: 16, gap: 16}}
       showsVerticalScrollIndicator={false}>
-      <Text style={{fontSize: 14, color: colors.$textSecondary, lineHeight: 20}}>
+      <Text
+        style={{fontSize: 14, color: colors.$textSecondary, lineHeight: 20}}>
         {t('mealTimes.intro')}
       </Text>
 
@@ -53,7 +64,11 @@ const MealTimesScreen = (_: Props) => {
                   alignItems: 'center',
                   paddingVertical: 6,
                 }}>
-                <MealIcon size={18} color={colors.$textSecondary} strokeWidth={1.5} />
+                <MealIcon
+                  size={18}
+                  color={colors.$textSecondary}
+                  strokeWidth={1.5}
+                />
                 <Text
                   style={{
                     flex: 1,
@@ -78,7 +93,8 @@ const MealTimesScreen = (_: Props) => {
         })}
       </View>
 
-      <Text style={{fontSize: 12, color: colors.$textSecondary, lineHeight: 18}}>
+      <Text
+        style={{fontSize: 12, color: colors.$textSecondary, lineHeight: 18}}>
         {t('settings.mealTimesHint')}
       </Text>
 

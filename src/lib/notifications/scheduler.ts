@@ -31,9 +31,9 @@ export function computeUpcomingDoses(
     course.kind === 'date_range'
       ? dayjs(course.endDate).endOf('day')
       : course.kind === 'n_days'
-        ? // startDate counts as day 1 → last active day is start + (days - 1)
-          rangeStart.add(course.days - 1, 'day').endOf('day')
-        : dayjs(horizon);
+      ? // startDate counts as day 1 → last active day is start + (days - 1)
+        rangeStart.add(course.days - 1, 'day').endOf('day')
+      : dayjs(horizon);
 
   const effectiveEnd = dayjs.min(dayjs(horizon), rangeEnd)!;
 
@@ -63,8 +63,8 @@ export function computeUpcomingDoses(
         relation === 'before_meal'
           ? -offsetMinutes
           : relation === 'after_meal'
-            ? offsetMinutes
-            : 0;
+          ? offsetMinutes
+          : 0;
       const total = mh * 60 + mmn + offset;
       const hh = String(Math.floor(Math.max(0, total) / 60)).padStart(2, '0');
       const mm = String(Math.max(0, total) % 60).padStart(2, '0');

@@ -111,7 +111,11 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Check size={32} color={colors.$brandActiveText} strokeWidth={2.5} />
+            <Check
+              size={32}
+              color={colors.$brandActiveText}
+              strokeWidth={2.5}
+            />
           </View>
         </View>
 
@@ -153,7 +157,9 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
             }}>
             {order.pharmacyLogo ? (
               <Image
-                source={{uri: getImageUrl('pharmacies', order.pharmacyLogo, 256)}}
+                source={{
+                  uri: getImageUrl('pharmacies', order.pharmacyLogo, 256),
+                }}
                 style={{
                   width: 36,
                   height: 36,
@@ -300,7 +306,10 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
                 style={{
                   fontSize: 14,
                   fontWeight: '500',
-                  color: order.deliveryFee > 0 ? colors.$textPrimary : colors.$discount,
+                  color:
+                    order.deliveryFee > 0
+                      ? colors.$textPrimary
+                      : colors.$discount,
                 }}>
                 {order.deliveryFee > 0
                   ? `${order.deliveryFee.toFixed(2)} ${t('cart.currency')}`
@@ -318,9 +327,15 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
                 marginBottom: 8,
               }}>
               <Text style={{fontSize: 14, color: colors.$discount}}>
-                {t('orderDetail.discount')} {order.promoCode && `(${order.promoCode})`}
+                {t('orderDetail.discount')}{' '}
+                {order.promoCode && `(${order.promoCode})`}
               </Text>
-              <Text style={{fontSize: 14, fontWeight: '500', color: colors.$discount}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '500',
+                  color: colors.$discount,
+                }}>
                 −{order.discount.toFixed(2)} {t('cart.currency')}
               </Text>
             </View>
@@ -406,7 +421,11 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
                       justifyContent: 'center',
                     }}>
                     {step.completed && (
-                      <Check size={10} color={colors.$brandActiveText} strokeWidth={3} />
+                      <Check
+                        size={10}
+                        color={colors.$brandActiveText}
+                        strokeWidth={3}
+                      />
                     )}
                   </View>
                   {!isLast && (
@@ -532,7 +551,12 @@ const OrderCreatedScreen = ({navigation, route}: Props) => {
             paddingVertical: 16,
             alignItems: 'center',
           }}>
-          <Text style={{color: colors.$brandActiveText, fontSize: 16, fontWeight: '600'}}>
+          <Text
+            style={{
+              color: colors.$brandActiveText,
+              fontSize: 16,
+              fontWeight: '600',
+            }}>
             {t('orderDetail.goHome')}
           </Text>
         </Pressable>

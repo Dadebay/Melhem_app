@@ -30,7 +30,10 @@ const Carousel = ({data}: Props) => {
   const handlePress = useCallback(
     (url: string) => {
       openLink(url, (screen, params) =>
-        (navigation.navigate as (s: string, p?: object) => void)(screen, params),
+        (navigation.navigate as (s: string, p?: object) => void)(
+          screen,
+          params,
+        ),
       );
     },
     [navigation],
@@ -65,7 +68,9 @@ const Carousel = ({data}: Props) => {
       <Pressable onPress={() => handlePress(item.url)}>
         <Image
           source={
-            item.image ? {uri: getImageUrl('sliders', item.image, 1024)} : Placeholder
+            item.image
+              ? {uri: getImageUrl('sliders', item.image, 1024)}
+              : Placeholder
           }
           style={{
             width: windowWidth - 40,
@@ -101,9 +106,7 @@ const Carousel = ({data}: Props) => {
               height: 6,
               borderRadius: 3,
               backgroundColor:
-                index === selectedSlider
-                  ? colors.$textPrimary
-                  : colors.$border,
+                index === selectedSlider ? colors.$textPrimary : colors.$border,
             }}
           />
         ))}

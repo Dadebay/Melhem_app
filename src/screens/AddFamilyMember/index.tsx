@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {Alert, Pressable, ScrollView, Text, TextInput, View} from 'react-native';
 import {
-  Users,
-  Baby,
-  UserCheck,
-  Heart,
-  User,
-} from 'lucide-react-native';
+  Alert,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import {Users, Baby, UserCheck, Heart, User} from 'lucide-react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
 import useColors from '../../lib/hooks/useColors';
@@ -46,8 +47,16 @@ const AddFamilyMemberScreen = ({route, navigation}: Props) => {
   const ALL_RELATIONSHIPS: RelationshipOption[] = [
     {value: 'self', label: t('family.self'), icon: RELATIONSHIP_ICONS.self},
     {value: 'child', label: t('family.child'), icon: RELATIONSHIP_ICONS.child},
-    {value: 'parent', label: t('family.parent'), icon: RELATIONSHIP_ICONS.parent},
-    {value: 'spouse', label: t('family.spouse'), icon: RELATIONSHIP_ICONS.spouse},
+    {
+      value: 'parent',
+      label: t('family.parent'),
+      icon: RELATIONSHIP_ICONS.parent,
+    },
+    {
+      value: 'spouse',
+      label: t('family.spouse'),
+      icon: RELATIONSHIP_ICONS.spouse,
+    },
     {value: 'other', label: t('family.other'), icon: RELATIONSHIP_ICONS.other},
   ];
 
@@ -97,23 +106,19 @@ const AddFamilyMemberScreen = ({route, navigation}: Props) => {
   };
 
   const handleDelete = () => {
-    Alert.alert(
-      t('family.removeMember'),
-      t('family.removeConfirm'),
-      [
-        {text: t('common.no'), style: 'cancel'},
-        {
-          text: t('common.yes'),
-          style: 'destructive',
-          onPress: () => {
-            if (memberId) {
-              removeFamilyMember(memberId);
-            }
-            navigation.goBack();
-          },
+    Alert.alert(t('family.removeMember'), t('family.removeConfirm'), [
+      {text: t('common.no'), style: 'cancel'},
+      {
+        text: t('common.yes'),
+        style: 'destructive',
+        onPress: () => {
+          if (memberId) {
+            removeFamilyMember(memberId);
+          }
+          navigation.goBack();
         },
-      ],
-    );
+      },
+    ]);
   };
 
   const initial = name.trim() ? name.trim().charAt(0).toUpperCase() : '?';

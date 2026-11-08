@@ -34,12 +34,18 @@ const ReminderStack = () => {
       <Stack.Screen
         name="AddMedication"
         component={AddMedicationScreen}
-        options={{title: t('navigation.addMedication'), headerShadowVisible: false}}
+        options={{
+          title: t('navigation.addMedication'),
+          headerShadowVisible: false,
+        }}
       />
       <Stack.Screen
         name="EditMedication"
         component={EditMedicationScreen}
-        options={{title: t('navigation.editMedication'), headerShadowVisible: false}}
+        options={{
+          title: t('navigation.editMedication'),
+          headerShadowVisible: false,
+        }}
       />
       <Stack.Screen
         name="MedicationDetail"

@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Animated, {FadeIn, SlideInRight, SlideOutLeft} from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  SlideInRight,
+  SlideOutLeft,
+} from 'react-native-reanimated';
 import {InputOTP, type InputOTPRef} from 'heroui-native';
 import {useTranslation} from 'react-i18next';
 import {AxiosError} from 'axios';
@@ -29,7 +33,9 @@ const OTP_LENGTH = 4;
 const formatPhoneDisplay = (digits: string): string => {
   if (digits.length <= 2) return digits;
   if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
-  return `${digits.slice(0, 2)} ${digits.slice(2, 5)}${digits.length > 5 ? digits.slice(5) : ''}`;
+  return `${digits.slice(0, 2)} ${digits.slice(2, 5)}${
+    digits.length > 5 ? digits.slice(5) : ''
+  }`;
 };
 
 const getErrorMessage = (error: AxiosError<ApiErrorResponse>) => {
@@ -188,7 +194,11 @@ const AuthScreen = ({navigation, route}: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <ArrowLeft size={20} color={colors.$textPrimary} strokeWidth={1.5} />
+            <ArrowLeft
+              size={20}
+              color={colors.$textPrimary}
+              strokeWidth={1.5}
+            />
           </Pressable>
 
           {onboarding && (
@@ -242,7 +252,11 @@ const AuthScreen = ({navigation, route}: Props) => {
                 paddingVertical: 14,
                 gap: 10,
               }}>
-              <Phone size={18} color={colors.$textSecondary} strokeWidth={1.5} />
+              <Phone
+                size={18}
+                color={colors.$textSecondary}
+                strokeWidth={1.5}
+              />
               <Text
                 style={{
                   fontSize: 17,
@@ -348,7 +362,9 @@ const AuthScreen = ({navigation, route}: Props) => {
                   color: colors.$textSecondary,
                   lineHeight: 22,
                 }}>
-                {t('auth.otpSentTo', {phone: `${PHONE_PREFIX} ${formatPhoneDisplay(phoneDigits)}`})}
+                {t('auth.otpSentTo', {
+                  phone: `${PHONE_PREFIX} ${formatPhoneDisplay(phoneDigits)}`,
+                })}
               </Text>
             </View>
 

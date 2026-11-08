@@ -34,10 +34,13 @@ const CountriesListItem = ({data, width, currentLanguage, onPress}: Props) => {
           borderRadius: 8,
         }}
       />
-      <Text style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>
+      <Text
+        style={{fontSize: 14, fontWeight: '500', color: colors.$textPrimary}}>
         {data.translations[currentLanguage].name}
       </Text>
-      <Text style={{fontSize: 10, color: colors.$textPrimary}}>Drugs: {data.drugCount}</Text>
+      <Text style={{fontSize: 10, color: colors.$textPrimary}}>
+        Drugs: {data.drugCount}
+      </Text>
     </Pressable>
   );
 };

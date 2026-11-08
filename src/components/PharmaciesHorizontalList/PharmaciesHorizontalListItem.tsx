@@ -31,7 +31,9 @@ const PharmaciesHorizontalListItem = ({
       }}>
       <Image
         source={
-          data.image ? {uri: getImageUrl('pharmacies', data.image)} : Placeholder
+          data.image
+            ? {uri: getImageUrl('pharmacies', data.image)}
+            : Placeholder
         }
         style={{
           width: cardWidth,

@@ -46,11 +46,15 @@ const Toast = () => {
 
     const timer = setTimeout(() => {
       opacity.value = withTiming(0, {duration: FADE_OUT_MS});
-      translateY.value = withTiming(-OFFSET, {duration: FADE_OUT_MS}, finished => {
-        if (finished) {
-          runOnJS(hide)();
-        }
-      });
+      translateY.value = withTiming(
+        -OFFSET,
+        {duration: FADE_OUT_MS},
+        finished => {
+          if (finished) {
+            runOnJS(hide)();
+          }
+        },
+      );
     }, VISIBLE_MS);
 
     return () => clearTimeout(timer);
@@ -78,7 +82,9 @@ const Toast = () => {
           animatedStyle,
         ]}>
         <Check size={16} color={colors.$background} strokeWidth={2.5} />
-        <Text style={[styles.text, {color: colors.$background}]} numberOfLines={1}>
+        <Text
+          style={[styles.text, {color: colors.$background}]}
+          numberOfLines={1}>
           {rendered}
         </Text>
       </Animated.View>

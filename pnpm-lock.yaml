@@ -92,7 +92,7 @@ importers:
         specifier: ^15.12.0
         version: 15.15.4(react-native@0.84.1(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@5.8.3))(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)
       react-native-turbo-image:
-        specifier: ^1.22.3
+        specifier: 1.24.1
         version: 1.24.1(patch_hash=451908c15ca5963e94318450cad55892e8d328cfc17e6fc8ef18928c62894099)(react-native@0.84.1(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@5.8.3))(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)
       react-native-worklets:
         specifier: ~0.8.1

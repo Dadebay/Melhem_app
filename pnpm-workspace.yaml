@@ -1,0 +1,2 @@
+patchedDependencies:
+  react-native-turbo-image@1.24.1: patches/react-native-turbo-image@1.24.1.patch

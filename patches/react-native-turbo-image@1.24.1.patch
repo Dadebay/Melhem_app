@@ -1,0 +1,20 @@
+diff --git a/ios/TurboImageView.swift b/ios/TurboImageView.swift
+index 731c0f0d9d0f006323471f9eeb8dbc708c412469..30141d8a0b1b10e5264088da69f10e125d198831 100644
+--- a/ios/TurboImageView.swift
++++ b/ios/TurboImageView.swift
+@@ -453,9 +453,12 @@ fileprivate extension TurboImageView {
+     liveTextTask = Task { [weak self] in
+       guard let self else { return }
+       let analyzer = ImageAnalyzer()
+-      let configuration = ImageAnalyzer.Configuration([
+-        .text,.machineReadableCode,.visualLookUp
+-      ])
++      let configuration: ImageAnalyzer.Configuration
++      if #available(iOS 17.0, *) {
++        configuration = ImageAnalyzer.Configuration([.text, .machineReadableCode, .visualLookUp])
++      } else {
++        configuration = ImageAnalyzer.Configuration([.text, .machineReadableCode])
++      }
+       let analysis = try? await analyzer.analyze(image, configuration: configuration)
+       if let analysis {
+         // Ensure imageView is still alive

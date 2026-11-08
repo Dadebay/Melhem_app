@@ -1,17 +1,22 @@
-import notifee from '@notifee/react-native';
+import notifee, {type EventDetail} from '@notifee/react-native';
 import {scheduleSnooze} from './snooze';
 import {rescheduleAllNotifications} from './reschedule';
 import reminderStore from '../store/reminderStore';
 
 const MAX_SNOOZES = 3;
 
-export async function handleNotificationAction(detail: {
-  notification?: {id?: string; data?: Record<string, string>};
-  pressAction?: {id: string};
-}): Promise<void> {
+export async function handleNotificationAction(
+  detail: EventDetail,
+): Promise<void> {
   const actionId = detail.pressAction?.id;
-  const data = detail.notification?.data;
-  if (!data || !actionId) return;
+  const rawData = detail.notification?.data;
+  if (!rawData || !actionId) return;
+  const data = Object.fromEntries(
+    Object.entries(rawData).filter(
+      (entry): entry is [string, string] => typeof entry[1] === 'string',
+    ),
+  );
+  if (!data.medicationId || !data.scheduledAt) return;
 
   const {medicationId, scheduledTime, scheduledAt, memberId} = data;
   const time = scheduledTime || scheduledAt;
@@ -20,7 +25,9 @@ export async function handleNotificationAction(detail: {
   const snoozeDelay = store.snoozeDelayMinutes;
 
   // Find or create intake log
-  const schedules = store.schedules.filter(s => s.medicationId === medicationId);
+  const schedules = store.schedules.filter(
+    s => s.medicationId === medicationId,
+  );
   const scheduleId = schedules[0]?.id ?? '';
 
   switch (actionId) {
@@ -29,7 +36,11 @@ export async function handleNotificationAction(detail: {
         l => l.medicationId === medicationId && l.scheduledTime === time,
       );
       if (existing) {
-        store.updateIntakeStatus(existing.id, 'taken', new Date().toISOString());
+        store.updateIntakeStatus(
+          existing.id,
+          'taken',
+          new Date().toISOString(),
+        );
       } else {
         store.logIntake({
           medicationId,
@@ -48,7 +59,11 @@ export async function handleNotificationAction(detail: {
         l => l.medicationId === medicationId && l.scheduledTime === time,
       );
       if (existing) {
-        store.updateIntakeStatus(existing.id, 'skipped', new Date().toISOString());
+        store.updateIntakeStatus(
+          existing.id,
+          'skipped',
+          new Date().toISOString(),
+        );
       } else {
         store.logIntake({
           medicationId,

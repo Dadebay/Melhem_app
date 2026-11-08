@@ -1,11 +1,5 @@
-import React, {useCallback, useMemo} from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import React, {useCallback} from 'react';
+import {View, Text, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import TurboImage from 'react-native-turbo-image';
@@ -35,10 +29,7 @@ const CartScreen = ({navigation}: Props) => {
   const updateQuantity = cartStore(state => state.updateQuantity);
   const getItemsByPharmacy = cartStore(state => state.getItemsByPharmacy);
 
-  const pharmacyGroups = useMemo(() => {
-    const map = getItemsByPharmacy();
-    return Array.from(map.entries());
-  }, [items, getItemsByPharmacy]);
+  const pharmacyGroups = Array.from(getItemsByPharmacy().entries());
 
   const getSubtotal = useCallback((groupItems: CartItem[]) => {
     return groupItems.reduce(
@@ -86,10 +77,7 @@ const CartScreen = ({navigation}: Props) => {
   if (items.length === 0) {
     return (
       <View
-        style={[
-          styles.emptyContainer,
-          {backgroundColor: colors.$background},
-        ]}>
+        style={[styles.emptyContainer, {backgroundColor: colors.$background}]}>
         <ShoppingCart size={48} color={colors.$textSecondary} strokeWidth={1} />
         <Text
           style={[
@@ -216,10 +204,7 @@ const CartScreen = ({navigation}: Props) => {
 
                   <View style={styles.itemRight}>
                     <Text
-                      style={[
-                        styles.itemPrice,
-                        {color: colors.$textPrimary},
-                      ]}>
+                      style={[styles.itemPrice, {color: colors.$textPrimary}]}>
                       {(item.price * item.quantity).toFixed(2)}{' '}
                       <Text
                         style={[
@@ -260,10 +245,7 @@ const CartScreen = ({navigation}: Props) => {
                       </Pressable>
 
                       <Text
-                        style={[
-                          styles.qtyText,
-                          {color: colors.$textPrimary},
-                        ]}>
+                        style={[styles.qtyText, {color: colors.$textPrimary}]}>
                         {item.quantity}
                       </Text>
 

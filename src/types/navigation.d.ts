@@ -28,6 +28,7 @@ declare namespace Nav {
     };
     Search: undefined;
     Cart: undefined;
+    AddressPicker: {mode?: 'pick' | 'manage'; currentAddressId?: string};
     Auth: {
       redirectTo?: 'Checkout';
       pharmacyId?: string;
@@ -59,7 +60,8 @@ declare namespace Nav {
     Settings: undefined;
     Bookmark: undefined;
     Languages: undefined;
-    Addresses: undefined;
+    Addresses: {mode?: 'pick' | 'manage'} | undefined;
+    Auth: Home['Auth'];
     AddressDetail: {
       addressId?: string; // undefined = create new
     };
@@ -98,5 +100,6 @@ declare namespace Nav {
       memberId?: string;
     };
     MealTimes: undefined;
+    Auth: Home['Auth'];
   };
 }

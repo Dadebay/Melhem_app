@@ -283,6 +283,7 @@ const SettingsScreen = ({navigation}: Props) => {
               <Select
                 value={langValue}
                 onValueChange={(v) => {
+                  if (!v) return;
                   setLangValue(v);
                   i18n.changeLanguage(v.value);
                 }}>

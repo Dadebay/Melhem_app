@@ -10,7 +10,7 @@ import DrugsScreen from '../../screens/Drugs';
 import useDefaultStackOptions from './useDefaultStackOptions';
 import {useTranslation} from 'react-i18next';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<Nav.Home & Nav.Settings>();
 
 const CartStack = () => {
   const screenOptions = useDefaultStackOptions();

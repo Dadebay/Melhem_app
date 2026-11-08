@@ -30,7 +30,7 @@ const ManufacturersHorizontalList = ({data}: Props) => {
         }
       />
     ),
-    [],
+    [navigation],
   );
 
   return (

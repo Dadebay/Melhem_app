@@ -167,7 +167,11 @@ const ProductCard = ({
               alignItems: 'center',
             }}>
             {isInCart ? (
-              <Check size={16} color={colors.$brandActiveText} strokeWidth={2.5} />
+              <Check
+                size={16}
+                color={colors.$brandActiveText}
+                strokeWidth={2.5}
+              />
             ) : (
               <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
             )}
@@ -190,7 +194,9 @@ const PharmacyScreen = ({navigation, route}: Props) => {
   const inputRef = useRef<TextInput>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<number | 'all'>(
+    'all',
+  );
   const [showSchedule, setShowSchedule] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
 
@@ -244,7 +250,10 @@ const PharmacyScreen = ({navigation, route}: Props) => {
   // Debounce the search box so we don't refetch on every keystroke.
   const [debouncedSearch, setDebouncedSearch] = useState('');
   useEffect(() => {
-    const handle = setTimeout(() => setDebouncedSearch(searchQuery.trim()), 350);
+    const handle = setTimeout(
+      () => setDebouncedSearch(searchQuery.trim()),
+      350,
+    );
     return () => clearTimeout(handle);
   }, [searchQuery]);
 
@@ -350,7 +359,10 @@ const PharmacyScreen = ({navigation, route}: Props) => {
     [colors, handleProductPress, handleCartPress, cartItems, pharmacy],
   );
 
-  const keyExtractor = useCallback((item: Drug.ListItem) => String(item.id), []);
+  const keyExtractor = useCallback(
+    (item: Drug.ListItem) => String(item.id),
+    [],
+  );
 
   // --- Header ---
   const ListHeader = useMemo(() => {
@@ -417,7 +429,9 @@ const PharmacyScreen = ({navigation, route}: Props) => {
               flexDirection: 'row',
               alignItems: 'center',
               gap: 6,
-              backgroundColor: isOpen ? colors.$serviceOpenBg : colors.$serviceClosedBg,
+              backgroundColor: isOpen
+                ? colors.$serviceOpenBg
+                : colors.$serviceClosedBg,
               paddingHorizontal: 12,
               paddingVertical: 5,
               borderRadius: 20,
@@ -427,7 +441,9 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                 width: 6,
                 height: 6,
                 borderRadius: 3,
-                backgroundColor: isOpen ? colors.$serviceOpen : colors.$serviceClosed,
+                backgroundColor: isOpen
+                  ? colors.$serviceOpen
+                  : colors.$serviceClosed,
               }}
             />
             <Text
@@ -471,9 +487,17 @@ const PharmacyScreen = ({navigation, route}: Props) => {
                 borderRadius: 14,
                 backgroundColor: colors.$brandActive,
               }}>
-              <Phone size={17} color={colors.$brandActiveText} strokeWidth={2} />
+              <Phone
+                size={17}
+                color={colors.$brandActiveText}
+                strokeWidth={2}
+              />
               <Text
-                style={{fontSize: 14, fontWeight: '600', color: colors.$brandActiveText}}>
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: colors.$brandActiveText,
+                }}>
                 {t('pharmacy.call')}
               </Text>
             </Pressable>
@@ -644,9 +668,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
             <Search
               size={18}
               color={
-                searchQuery
-                  ? colors.$textPrimary
-                  : colors.$textPlaceholder
+                searchQuery ? colors.$textPrimary : colors.$textPlaceholder
               }
               strokeWidth={2}
             />
@@ -667,11 +689,7 @@ const PharmacyScreen = ({navigation, route}: Props) => {
             />
             {searchQuery.length > 0 && (
               <Pressable onPress={handleClearSearch} hitSlop={8}>
-                <X
-                  size={16}
-                  color={colors.$textSecondary}
-                  strokeWidth={2}
-                />
+                <X size={16} color={colors.$textSecondary} strokeWidth={2} />
               </Pressable>
             )}
           </View>
@@ -762,6 +780,8 @@ const PharmacyScreen = ({navigation, route}: Props) => {
     todayDayName,
     headerHeight,
     handleClearSearch,
+    logoFailed,
+    nameThreshold,
   ]);
 
   // --- Loading ---
@@ -796,14 +816,16 @@ const PharmacyScreen = ({navigation, route}: Props) => {
   }
 
   const EmptyProducts = () => (
-    <View style={{alignItems: 'center', paddingTop: 40, paddingBottom: 40, gap: 12}}>
+    <View
+      style={{
+        alignItems: 'center',
+        paddingTop: 40,
+        paddingBottom: 40,
+        gap: 12,
+      }}>
       {searchQuery.length >= 2 ? (
         <>
-          <Search
-            size={36}
-            color={colors.$textPlaceholder}
-            strokeWidth={1.2}
-          />
+          <Search size={36} color={colors.$textPlaceholder} strokeWidth={1.2} />
           <Text
             style={{
               fontSize: 14,
@@ -811,17 +833,12 @@ const PharmacyScreen = ({navigation, route}: Props) => {
               color: colors.$textSecondary,
               textAlign: 'center',
             }}>
-            "{searchQuery}"{' '}
-            {t('pharmacy.noResults')}
+            "{searchQuery}" {t('pharmacy.noResults')}
           </Text>
         </>
       ) : (
         <>
-          <Pill
-            size={36}
-            color={colors.$textPlaceholder}
-            strokeWidth={1.2}
-          />
+          <Pill size={36} color={colors.$textPlaceholder} strokeWidth={1.2} />
           <Text
             style={{
               fontSize: 14,

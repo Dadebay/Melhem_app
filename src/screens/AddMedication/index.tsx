@@ -105,7 +105,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
   const activeMemberId = reminderStore(s => s.activeMemberId);
   const mealTimes = reminderStore(s => s.mealTimes);
 
-  const stepLabels = t('addMedication.steps', {returnObjects: true}) as string[];
+  const stepLabels = t('addMedication.steps', {
+    returnObjects: true,
+  }) as string[];
 
   const dayLabels: {label: string; value: Reminder.DayOfWeek}[] = [
     {label: t('addMedication.dayMon'), value: 1},
@@ -139,9 +141,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
   const [mealsPerDay, setMealsPerDay] = useState(3);
   const [hasCourse, setHasCourse] = useState(false);
   const [courseDays, setCourseDays] = useState(14);
-  const [courseStartDate] = useState(
-    new Date().toISOString().split('T')[0],
-  );
+  const [courseStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedDays, setSelectedDays] = useState<
     Reminder.DayOfWeek[] | undefined
   >(undefined);
@@ -152,7 +152,10 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
   const memberId = route.params?.memberId ?? activeMemberId;
 
   const handleTimesPerDayChange = useCallback((count: number) => {
-    const next = Math.min(MAX_TIMES_PER_DAY, Math.max(MIN_TIMES_PER_DAY, count));
+    const next = Math.min(
+      MAX_TIMES_PER_DAY,
+      Math.max(MIN_TIMES_PER_DAY, count),
+    );
     setTimesPerDay(next);
     setFixedTimes(prev => {
       if (next <= prev.length) {
@@ -170,18 +173,27 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
 
   const buildScheduleDescription = useMemo(() => {
     if (scheduleType === 'fixed_times') {
-      return t('addMedication.fixedTimesDesc2', {count: timesPerDay, times: fixedTimes.join(', ')});
+      return t('addMedication.fixedTimesDesc2', {
+        count: timesPerDay,
+        times: fixedTimes.join(', '),
+      });
     }
     if (scheduleType === 'interval') {
-      return t('addMedication.intervalDesc', {hours: intervalHours, start: intervalStart});
+      return t('addMedication.intervalDesc', {
+        hours: intervalHours,
+        start: intervalStart,
+      });
     }
     const relationText =
       mealRelation === 'before_meal'
         ? t('addMedication.mealBeforeDesc', {minutes: mealOffset})
         : mealRelation === 'after_meal'
-          ? t('addMedication.mealAfterDesc', {minutes: mealOffset})
-          : t('addMedication.duringMeal');
-    return t('addMedication.mealScheduleDesc', {relation: relationText, count: mealsPerDay});
+        ? t('addMedication.mealAfterDesc', {minutes: mealOffset})
+        : t('addMedication.duringMeal');
+    return t('addMedication.mealScheduleDesc', {
+      relation: relationText,
+      count: mealsPerDay,
+    });
   }, [
     t,
     scheduleType,
@@ -196,7 +208,10 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
 
   const handleSave = useCallback(() => {
     if (!name.trim()) {
-      Alert.alert(t('addMedication.alertTitle'), t('addMedication.alertEnterName'));
+      Alert.alert(
+        t('addMedication.alertTitle'),
+        t('addMedication.alertEnterName'),
+      );
       return;
     }
 
@@ -275,20 +290,18 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
     addMedication,
     addSchedule,
     navigation,
+    t,
   ]);
 
-  const toggleDay = useCallback(
-    (day: Reminder.DayOfWeek) => {
-      setSelectedDays(prev => {
-        const current = prev ?? [];
-        if (current.includes(day)) {
-          return current.filter(d => d !== day);
-        }
-        return [...current, day];
-      });
-    },
-    [],
-  );
+  const toggleDay = useCallback((day: Reminder.DayOfWeek) => {
+    setSelectedDays(prev => {
+      const current = prev ?? [];
+      if (current.includes(day)) {
+        return current.filter(d => d !== day);
+      }
+      return [...current, day];
+    });
+  }, []);
 
   const renderStep0 = () => (
     <View style={{gap: 20}}>
@@ -297,8 +310,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         <Text style={[s.label, {color: colors.$textSecondary}]}>
           {t('addMedication.drugName')}
         </Text>
-        <View
-          style={[s.inputContainer, {backgroundColor: colors.$surface}]}>
+        <View style={[s.inputContainer, {backgroundColor: colors.$surface}]}>
           <TextInput
             style={[s.input, {color: colors.$textPrimary}]}
             value={name}
@@ -373,8 +385,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         <Text style={[s.label, {color: colors.$textSecondary}]}>
           {t('addMedication.notes')}
         </Text>
-        <View
-          style={[s.inputContainer, {backgroundColor: colors.$surface}]}>
+        <View style={[s.inputContainer, {backgroundColor: colors.$surface}]}>
           <TextInput
             style={[s.input, {color: colors.$textPrimary, minHeight: 60}]}
             value={notes}
@@ -404,9 +415,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         style={[
           s.scheduleCard,
           {
-            backgroundColor: isSelected
-              ? colors.$infoBg
-              : colors.$surface,
+            backgroundColor: isSelected ? colors.$infoBg : colors.$surface,
             borderWidth: isSelected ? 1 : 0,
             borderColor: isSelected ? colors.$info : 'transparent',
           },
@@ -455,11 +464,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         )}
         {renderScheduleTypeCard(
           'meal_relative',
-          <UtensilsCrossed
-            size={20}
-            color={colors.$info}
-            strokeWidth={1.5}
-          />,
+          <UtensilsCrossed size={20} color={colors.$info} strokeWidth={1.5} />,
           t('addMedication.withMeals'),
           t('addMedication.withMealsDesc'),
         )}
@@ -520,10 +525,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
               <Pressable
                 key={i}
                 onPress={() => handleFixedTimeEdit(i)}
-                style={[
-                  s.timeRow,
-                  {backgroundColor: colors.$surface},
-                ]}>
+                style={[s.timeRow, {backgroundColor: colors.$surface}]}>
                 <Clock
                   size={16}
                   color={colors.$textSecondary}
@@ -556,15 +558,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           </Text>
           <View style={s.stepperRow}>
             <Pressable
-              onPress={() =>
-                setIntervalHours(h => Math.max(1, h - 1))
-              }
+              onPress={() => setIntervalHours(h => Math.max(1, h - 1))}
               style={[s.stepperBtn, {backgroundColor: colors.$surface}]}>
-              <Minus
-                size={16}
-                color={colors.$textPrimary}
-                strokeWidth={2}
-              />
+              <Minus size={16} color={colors.$textPrimary} strokeWidth={2} />
             </Pressable>
             <Text
               style={{
@@ -577,15 +573,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
               {intervalHours}
             </Text>
             <Pressable
-              onPress={() =>
-                setIntervalHours(h => Math.min(24, h + 1))
-              }
+              onPress={() => setIntervalHours(h => Math.min(24, h + 1))}
               style={[s.stepperBtn, {backgroundColor: colors.$surface}]}>
-              <Plus
-                size={16}
-                color={colors.$textPrimary}
-                strokeWidth={2}
-              />
+              <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
             </Pressable>
             <Text
               style={{
@@ -602,11 +592,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           <Pressable
             onPress={() => setEditingIntervalStart(true)}
             style={[s.timeRow, {backgroundColor: colors.$surface}]}>
-            <Clock
-              size={16}
-              color={colors.$textSecondary}
-              strokeWidth={1.5}
-            />
+            <Clock size={16} color={colors.$textSecondary} strokeWidth={1.5} />
             <Text
               style={{
                 fontSize: 15,
@@ -616,11 +602,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
               }}>
               {intervalStart}
             </Text>
-            <Edit3
-              size={14}
-              color={colors.$textSecondary}
-              strokeWidth={1.5}
-            />
+            <Edit3 size={14} color={colors.$textSecondary} strokeWidth={1.5} />
           </Pressable>
         </View>
       )}
@@ -641,9 +623,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
                 s.scheduleCard,
                 {
                   backgroundColor:
-                    mealRelation === rel
-                      ? colors.$infoBg
-                      : colors.$surface,
+                    mealRelation === rel ? colors.$infoBg : colors.$surface,
                   borderWidth: mealRelation === rel ? 1 : 0,
                   borderColor:
                     mealRelation === rel ? colors.$info : 'transparent',
@@ -733,7 +713,11 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           </View>
 
           {/* Derived reminder times — surfaced from the meal schedule */}
-          <View style={[s.sectionCard, {backgroundColor: colors.$surface, gap: 10}]}>
+          <View
+            style={[
+              s.sectionCard,
+              {backgroundColor: colors.$surface, gap: 10},
+            ]}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Clock size={16} color={colors.$info} strokeWidth={1.75} />
               <Text
@@ -750,7 +734,11 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
                 onPress={() => navigation.navigate('MealTimes')}
                 hitSlop={8}>
                 <Text
-                  style={{fontSize: 13, fontWeight: '600', color: colors.$info}}>
+                  style={{
+                    fontSize: 13,
+                    fontWeight: '600',
+                    color: colors.$info,
+                  }}>
                   {t('mealTimes.edit')}
                 </Text>
               </Pressable>
@@ -761,8 +749,8 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
                 mealRelation === 'before_meal'
                   ? base - mealOffset
                   : mealRelation === 'after_meal'
-                    ? base + mealOffset
-                    : base;
+                  ? base + mealOffset
+                  : base;
               return (
                 <View
                   key={slot}
@@ -792,8 +780,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
       )}
 
       {/* Course */}
-      <View
-        style={[s.sectionCard, {backgroundColor: colors.$surface}]}>
+      <View style={[s.sectionCard, {backgroundColor: colors.$surface}]}>
         <View style={s.switchRow}>
           <View style={{flex: 1}}>
             <Text
@@ -814,18 +801,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           <View style={{marginTop: 12, gap: 8}}>
             <View style={s.stepperRow}>
               <Pressable
-                onPress={() =>
-                  setCourseDays(d => Math.max(1, d - 1))
-                }
-                style={[
-                  s.stepperBtn,
-                  {backgroundColor: colors.$background},
-                ]}>
-                <Minus
-                  size={16}
-                  color={colors.$textPrimary}
-                  strokeWidth={2}
-                />
+                onPress={() => setCourseDays(d => Math.max(1, d - 1))}
+                style={[s.stepperBtn, {backgroundColor: colors.$background}]}>
+                <Minus size={16} color={colors.$textPrimary} strokeWidth={2} />
               </Pressable>
               <Text
                 style={{
@@ -838,18 +816,9 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
                 {courseDays}
               </Text>
               <Pressable
-                onPress={() =>
-                  setCourseDays(d => Math.min(365, d + 1))
-                }
-                style={[
-                  s.stepperBtn,
-                  {backgroundColor: colors.$background},
-                ]}>
-                <Plus
-                  size={16}
-                  color={colors.$textPrimary}
-                  strokeWidth={2}
-                />
+                onPress={() => setCourseDays(d => Math.min(365, d + 1))}
+                style={[s.stepperBtn, {backgroundColor: colors.$background}]}>
+                <Plus size={16} color={colors.$textPrimary} strokeWidth={2} />
               </Pressable>
               <Text
                 style={{
@@ -865,8 +834,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
       </View>
 
       {/* Days of week */}
-      <View
-        style={[s.sectionCard, {backgroundColor: colors.$surface}]}>
+      <View style={[s.sectionCard, {backgroundColor: colors.$surface}]}>
         <View style={s.switchRow}>
           <View style={{flex: 1}}>
             <Text
@@ -926,8 +894,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
   );
 
   const renderStep2 = () => (
-    <View
-      style={[s.summaryCard, {backgroundColor: colors.$surface}]}>
+    <View style={[s.summaryCard, {backgroundColor: colors.$surface}]}>
       {/* Medication info */}
       <View style={{gap: 4}}>
         <View
@@ -1002,15 +969,15 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
           {t('addMedication.duration')}
         </Text>
         <Text style={{fontSize: 14, color: colors.$textSecondary}}>
-          {hasCourse ? `${courseDays} ${t('reminders.days')}` : t('addMedication.indefinite')}
+          {hasCourse
+            ? `${courseDays} ${t('reminders.days')}`
+            : t('addMedication.indefinite')}
         </Text>
       </View>
 
       {!everyDay && selectedDays && selectedDays.length > 0 && (
         <>
-          <View
-            style={[s.divider, {backgroundColor: colors.$border}]}
-          />
+          <View style={[s.divider, {backgroundColor: colors.$border}]} />
           <View style={{gap: 4}}>
             <Text
               style={{
@@ -1021,7 +988,8 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
               {t('addMedication.daysLabel')}
             </Text>
             <Text style={{fontSize: 14, color: colors.$textSecondary}}>
-              {dayLabels.filter(d => selectedDays.includes(d.value))
+              {dayLabels
+                .filter(d => selectedDays.includes(d.value))
                 .map(d => d.label)
                 .join(', ')}
             </Text>
@@ -1031,9 +999,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
 
       {notes ? (
         <>
-          <View
-            style={[s.divider, {backgroundColor: colors.$border}]}
-          />
+          <View style={[s.divider, {backgroundColor: colors.$border}]} />
           <View style={{gap: 4}}>
             <Text
               style={{
@@ -1052,8 +1018,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
     </View>
   );
 
-  const canProceed =
-    step === 0 ? name.trim().length > 0 : true;
+  const canProceed = step === 0 ? name.trim().length > 0 : true;
 
   return (
     <View style={{flex: 1, backgroundColor: colors.$background}}>
@@ -1130,10 +1095,7 @@ const AddMedicationScreen = ({navigation, route}: Props) => {
         ) : (
           <Pressable
             onPress={handleSave}
-            style={[
-              s.primaryBtn,
-              {backgroundColor: colors.$brandActive},
-            ]}>
+            style={[s.primaryBtn, {backgroundColor: colors.$brandActive}]}>
             <Text
               style={{
                 fontSize: 15,

@@ -31,7 +31,7 @@ const ManufacturersList = ({data}: Props) => {
         }
       />
     ),
-    [windowWidth],
+    [navigation],
   );
 
   const itemSeparator = useCallback(() => <View style={{height: 12}} />, []);

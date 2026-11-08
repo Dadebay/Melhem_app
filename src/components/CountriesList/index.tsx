@@ -33,7 +33,7 @@ const CountriesList = ({data, currentLanguage}: Props) => {
         }
       />
     ),
-    [currentLanguage],
+    [currentLanguage, navigation],
   );
 
   const itemSeparator = useCallback(() => <View style={{height: 12}} />, []);

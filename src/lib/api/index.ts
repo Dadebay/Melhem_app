@@ -7,19 +7,13 @@ const queryClient = new QueryClient();
 const toBackendLanguage = (): 'tk' | 'ru' =>
   i18n.language === 'ru' ? 'ru' : 'tk';
 
-
 const req = axios.create({
   baseURL: 'https://cms.melhem.app/api',
-  // baseURL: 'http://10.30.135.169:4000',
-  // baseURL: 'https://cms.melhem.app/api',
-  // baseURL: 'http://192.168.1.121:4000',
-  headers: {
-    'Content-Language': toBackendLanguage(),
-  },
 });
 
 // Attach the bearer token (set after OTP login) to every request.
 req.interceptors.request.use(config => {
+  config.headers['Content-Language'] = toBackendLanguage();
   const token = authStore.getState().accessToken;
   const location = authStore.getState().location;
   if (location) {

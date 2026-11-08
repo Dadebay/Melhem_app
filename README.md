@@ -41,6 +41,9 @@ For an iOS simulator build, install pods and build the `melhem` scheme in Xcode.
 
 Production signing files and credentials are not part of this repository. Never distribute a debug APK. See [release readiness](docs/release-readiness.md) for verification, release, and operations steps.
 
-## Distribution status
+## Download and distribution status
 
-No current GitHub Release or store listing has been verified for these application IDs. Store and download links will be added after a signed build and device testing are complete.
+- [Melhem on the App Store](https://apps.apple.com/tm/app/melhem/id6749857973) (iPhone, bundle ID `app.melhem`).
+- No Google Play listing or current GitHub Release has been verified for this repository. Android direct-download links will be added after a signed release build and device testing are complete.
+
+The App Store currently lists version 3 while this checkout's iOS project declares version 2.0.0. The store listing does not establish that this source commit produced the published build.

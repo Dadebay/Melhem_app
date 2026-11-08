@@ -8,7 +8,7 @@ This document applies the project completion checklist to Melhem as of 2026-11-0
 - Dependencies install from `pnpm-lock.yaml`. Type checking, ESLint error checking, Prettier, and the Jest tests pass locally.
 - The notification action payload is checked before scheduling a response; navigation type errors and stale request language headers were fixed.
 - A pull-request CI workflow now checks source quality and attempts Android and iOS simulator builds. Its result must be checked on the pull request.
-- Android uses `tm.com.umytgroup.sanlymelhem`, version 1.0.5 (105); iOS uses `app.melhem`, version 2.0.0 (2). Version alignment and the intended next release numbers need owner confirmation.
+- Android uses `tm.com.umytgroup.sanlymelhem`, version 1.0.5 (105); iOS uses `app.melhem`, version 2.0.0 (2). The [Melhem App Store listing](https://apps.apple.com/tm/app/melhem/id6749857973) has the same iOS bundle ID and currently lists version 3. Version alignment, build provenance, and the intended next release numbers need owner confirmation.
 
 ## Open release blockers
 
@@ -16,7 +16,7 @@ This document applies the project completion checklist to Melhem as of 2026-11-0
 2. **Backend and legal links:** Verify production API health, order contract, image storage, and both `https://melhem.app/docs/terms` and `https://melhem.app/docs/privacy` from a release device. The public site could not be verified in this session.
 3. **Device coverage:** Smoke-test onboarding, session restore and offline behavior, sign-out, search, pharmacy map, cart/order flows, reminders, deep links, background resume, empty/error states, accessibility, large text, and both translations on real Android and iOS devices. Check OS permission timing and live domain association files where applicable.
 4. **Security and privacy:** Review persisted access-token storage, API error logging, SDK permissions, and store privacy declarations. Confirm that notification and location access match the user-facing explanation.
-5. **Distribution:** Locate release signing materials in secure storage, validate certificate identity and the upgrade path, install and test a signed release APK on a real device, and confirm the iOS provisioning and store channel. No signed artifact or store listing was available here. A debug build is not a releasable APK.
+5. **Distribution:** Locate release signing materials in secure storage, validate certificate identity and the upgrade path, install and test a signed release APK on a real device, and confirm iOS provisioning and the published build's source. The iOS App Store listing is verified; no signed artifact or Android store listing was available here. A debug build is not a releasable APK.
 6. **CI and review:** Require green PR checks and review before merging. Confirm the merged commit on `main` and rerun/check CI there.
 
 ## Release procedure
